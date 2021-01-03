@@ -37,6 +37,8 @@ app.post('/test/endpoint/**', async (req, res) => {
         // TODO: Check test open time, make sure they did not start early.
         try {
             await testsTable.update(recordId, {"Start Time": Date.now()});
+
+            // TODO: Send test questions
             res.status(200).send("Success");
         } catch(e) {
             res.status(500).send(e);
@@ -48,7 +50,11 @@ app.post('/test/endpoint/**', async (req, res) => {
     } else {
         res.status(400).send("Huh");
     }
-})
+});
+
+app.get('/done**', (req, res) => {
+    res.send("Congrats!");
+});
 
 const server = app.listen(8080, () => {
     const host = server.address().address;
