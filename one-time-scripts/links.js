@@ -9,10 +9,10 @@ const testsTable = new AirtablePlus({ tableName: "Tests" }),
     schoolsTable = new AirtablePlus({ tableName: "Schools" }),
     competitionsTable = new AirtablePlus({ tableName: "Competitions" });
 
-async function generateJoinLinks() {
+const generateJoinLinks = async () => {
     try {
         const students = await studentsTable.read();
-        let table = [];
+
         let studentLinks;
         students.forEach(async s => {
             studentLinks = s.fields["Links to Join"];
@@ -31,4 +31,4 @@ async function generateJoinLinks() {
     }
 }
 
-generateJoinLinks()
+generateJoinLinks();
