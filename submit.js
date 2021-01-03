@@ -8,7 +8,7 @@ const airtable = new AirtablePlus({
     tableName: "Tests",
 });
 
-const result = {
+const sampleResult = {
   "recordId": "reciWTsrkj3xzZPVJ",
   "answers": [
     {"Q1": "10"},
@@ -24,11 +24,11 @@ const result = {
   ]
 };
 
-(async () => {
+async function onTestSubmission(result) {
     try {
         const id = result.recordId;
 
-        const time = await airtable.update(id, {"Submission Time": Date.now()})
+        const time = await airtable.update(id, {"Submission Time": Date.now()});
         for(const val in result.answers) {
             const res = await airtable.update(id, result.answers[val]);
         }
@@ -36,4 +36,6 @@ const result = {
     catch(e) {
         console.error(e);
     }
-})();
+}
+
+onTestSubmission(sampleResult);
