@@ -26,7 +26,7 @@ app.get('/test/**', async (req, res) => {
         res.status(200).send(`${students.map(s => s.fields.Name).join(", ")} — ${school.fields.Name} <br> ${competition.fields.Name} <br> ${JSON.stringify(record, null, 2)}`);
     } catch (e) {
         console.log(e);
-        res.status(500).send(e);
+        res.status(500).send("Invalid link. Contact Us.");
     }
 });
 
