@@ -5,7 +5,7 @@ const DotEnv = require('dotenv').config();
 const airtable = new AirtablePlus({
     apiKey: process.env.AIRTABLE_API_KEY,
     baseID: process.env.AIRTABLE_BASE_ID,
-    tableName: process.env.AIRTABLE_TABLE_NAME,
+    tableName: "Tests",
 });
 
 const result = {
