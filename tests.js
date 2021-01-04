@@ -1,4 +1,5 @@
 const AirtablePlus = require('airtable-plus');
+const { find } = require('async');
 const DotEnv = require('dotenv').config();
 
 const competitionsTable = new AirtablePlus({ tableName: "Competitions" });
@@ -41,6 +42,14 @@ const getOrderedQuestions = async (record, competitionCode, competitionId) => {
             index: i,
         }
     }).filter(o => o.questionNumber); //filters for all those that have a question number
+    
+    if (ordered.length < unordered.length) {
+        let missingQuestions = unordered.filter(q => {
+            return ordered.find(o => o.questionCode != q.questionCode)
+        })
+        ordered = [...ordered, missingQuestions]
+        console.log("Questions are missing from the ordered questions with recordId "+record.id);    
+    }
     return ordered;
 }
 
