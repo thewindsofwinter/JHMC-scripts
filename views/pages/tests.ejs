@@ -30,7 +30,14 @@
                     <h1>
                         <%= competition %> Test
                     </h1>
-                    <p>You have <%= duration %> to complete this test</p>
+                    <p>You have <%= durationText %> to complete this test</p>
+                    <p>
+                        You will see only one question at a time. Once continuing, you will not be able to go back to an old question. Calculators are allowed.
+                    </p>
+                    <div id="infoDiv" style="display: none;">
+                        <hr>
+                        <h2 id='infoTitle'>Test Completed</h2>
+                    </div>
                     <button type="button" id="beginTestButton" class="btn btn-dark btn-lg">
                         <%= beginButtonText %>
                     </button>
@@ -61,8 +68,8 @@
                     </div>
                 </div>
                 <div class="progress">
-                    <div class="progress-bar w-75" role="progressbar" aria-valuenow="75" aria-valuemin="0"
-                        aria-valuemax="100"></div>
+                    <div id="question-progress-bar" style="width: 0%" class="progress-bar" role="progressbar"
+                        aria-valuenow="1" aria-valuemin="0" aria-valuemax="10"></div>
                 </div>
                 <br>
             </div>
@@ -83,8 +90,24 @@
         var recordId = '<%- recordId %>';
         var competitionId = '<%- competitionId %>';
         var competitionCode = '<%- competitionCode %>';
+        var numberOfQuestions = '<%- numberOfQuestions %>';
+        var questionOnOpen = '<%- currentQuestion %>';
+        var available = '<%- available %>';
 
         $(document).ready(() => {
+            $("#question-progress-bar").attr("aria-valuemax", numberOfQuestions);
+            $("#question-progress-bar").css("width", 100 * parseInt(questionOnOpen) / numberOfQuestions + "%");
+
+            if (available !== "true") {
+                loading(false);
+                $("#questionDiv").hide();
+                $("#infoDiv").show();
+                $('#infoTitle').text(available);
+                $("#beginTestButton").attr("disabled", "true");
+            } else if (questionOnOpen === numberOfQuestions) {
+                finished();
+            }
+
             $("#beginTestButton").click(() => {
                 $("#beginTestButton").hide();
 
@@ -122,8 +145,8 @@
                             answer: $("#answer").val()
                         }),
                     contentType: 'application/json; charset=utf-8',
-                    success: function (data) { 
-                        displayQuestion(data)
+                    success: function (data) {
+                        displayQuestion(data);
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
                         alert(thrownError);
@@ -135,6 +158,12 @@
         });
 
         var displayQuestion = obj => {
+            if (obj == "FINISHED") {
+                finished();
+                return;
+            } else if (obj == "TIMEOUT") {
+                location.reload();
+            }
             console.log(obj);
             $("#answer").val("");
             $("#questionTitle").text("Question " + parseInt(obj.index + 1));
@@ -146,7 +175,8 @@
                 $("#questionDiv").show();
                 loading(false);
             });
-            console.log(obj.text);
+            $("#question-progress-bar").css("width", 100 * parseInt(obj.index) / numberOfQuestions + "%");
+            $("#question-progress-bar").attr("aria-valuenow", parseInt(obj.index));
         }
 
         var loading = (go) => {
@@ -155,6 +185,15 @@
             } else {
                 $("#loadingSpinner").show();
             }
+        }
+
+        var finished = () => {
+            loading(false);
+            $("#beginTestButton").hide();
+            $("#questionDiv").hide();
+            $("#infoDiv").show();
+            $("#question-progress-bar").css("width", "100%");
+            $("#question-progress-bar").attr("aria-valuenow", numberOfQuestions);
         }
 
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))

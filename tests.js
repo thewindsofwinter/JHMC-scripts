@@ -18,7 +18,12 @@ const getQuestions = async (competitionCode) => {
             if (question === undefined) {
                 moreQuestions = false;
             } else {
-                questions.push({ ["Q" + questionNumber]: question, questionNumber: parseInt(questionNumber), text: question, questionCode: "Q" + questionNumber });
+                questions.push({ 
+                    ["Q" + questionNumber]: question, 
+                    questionNumber: parseInt(questionNumber), 
+                    text: question, 
+                    questionCode: "Q" + questionNumber
+                });
                 questionNumber++;
                 // console.log(questionNumber, activeCompetition.fields["Q"+questionNumber])
             }
@@ -53,8 +58,22 @@ const getOrderedQuestions = async (record, competitionCode, competitionId) => {
     return ordered;
 }
 
+const validateTime = (competition) => {
+    let openTime = new Date(competition.fields.Opens),
+        closeTime = new Date(competition.fields.Closes);
+    
+    let currentTime = new Date();
+    if (openTime > currentTime) {
+        return "Test not open yet"
+    } else if (closeTime < currentTime) {
+        return "Test closed"
+    }
+    return "true";
+}
+
 module.exports = {
     getQuestions,
-    getOrderedQuestions
+    getOrderedQuestions,
+    validateTime
 }
 console.log(getQuestions("A-7I"));
