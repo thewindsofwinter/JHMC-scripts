@@ -3,6 +3,18 @@
 
 <head>
     <%- include('../partials/head'); %>
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script>
+            MathJax = {
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']]
+                },
+                svg: {
+                    fontCache: 'global'
+                }
+            };
+        </script>
 </head>
 
 <body class="container">
@@ -19,7 +31,9 @@
                         <%= competition %> Test
                     </h1>
                     <p>You have <%= duration %> to complete this test</p>
-                    <button type="button" id="beginTestButton" class="btn btn-dark btn-lg">Begin Test</button>
+                    <button type="button" id="beginTestButton" class="btn btn-dark btn-lg">
+                        <%= beginButtonText %>
+                    </button>
                     <div id="loadingSpinner" class="spinner-border" style="width: 2rem; height: 2rem;display: none;"
                         role="status">
                         <span class="sr-only">Loading...</span>
@@ -28,14 +42,21 @@
                         <hr>
                         <form>
                             <h2 id='questionTitle'>Question 1</h2>
-                            <h5 id='questionHelp'>Question Text LaTeX</h5>
+                            <p id='questionText'>
+                                When \(a \ne 0\), there are two solutions to \(ax^2 + bx + c = 0\) and they are
+                                \[x = {-b \pm \sqrt{b^2-4ac} \over 2a}.\]
+                            </p>
                             <div class="input-group mb-3">
-                                <input type="text" class="form-control" placeholder="Your Answer"
-                                    aria-label="Recipient's username" aria-describedby="button-addon2">
-                                <button class="btn btn-outline-dark" type="button" id="button-addon2">Next →</button>
+                                <input type="text" id="answer" class="form-control" placeholder="Your Answer"
+                                    aria-label="Recipient's username" aria-describedby="next-button">
+                                <button class="btn btn-outline-dark" type="button" id="next-button"
+                                    data-bs-toggle="tooltip" data-bs-placement="top"
+                                    title="Remember, you will not be able to come back to this question">
+                                    Next →</button>
                             </div>
-                            <div id="answerHelp" class="form-text" style="display:block;">Answer must be exact. Do not round.</div>
-                            
+                            <div id="answerHelp" class="form-text" style="display:block;">Answers must be exact. Do not
+                                round.</div>
+
                         </form>
                     </div>
                 </div>
@@ -66,25 +87,79 @@
         $(document).ready(() => {
             $("#beginTestButton").click(() => {
                 $("#beginTestButton").hide();
+
                 loading();
-                // $("#beginTestButton").html('<div class="spinner-border spinner-border-sm" role="status"><span class="sr-only">Loading...</span></div>')
-                $.post("/test/endpoint/" + recordId + "?action=begin&competitionCode=" + competitionCode, (data) => {
-                    console.log(data);
-                    loading(false);
-                    $("#questionDiv").show();
+                $.ajax({
+                    type: 'POST',
+                    url: "/test/endpoint/" + recordId,
+                    async: true,
+                    data:
+                        JSON.stringify({
+                            action: "begin",
+                            competitionCode: competitionCode,
+                        }),
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) { displayQuestion(data) },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert(thrownError);
+                    }
                 });
 
-                //TODO: Toast with 5 minutes remaining
+
             });
 
-            var loading = (go) => {
-                if (go === false) {
-                    $("#loadingSpinner").hide();
-                } else {
-                    $("#loadingSpinner").show();
-                }
-            }
+            $("#next-button").click(() => {
+                $("#questionDiv").hide();
+                loading();
+                $.ajax({
+                    type: 'POST',
+                    url: "/test/endpoint/" + recordId,
+                    async: true,
+                    data:
+                        JSON.stringify({
+                            action: "nextQuestion",
+                            competitionCode: competitionCode,
+                            answer: $("#answer").val()
+                        }),
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) { 
+                        displayQuestion(data)
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert(thrownError);
+                    }
+                });
+            })
 
+            //TODO: Toast with 5 minutes remaining
+        });
+
+        var displayQuestion = obj => {
+            console.log(obj);
+            $("#answer").val("");
+            $("#questionTitle").text("Question " + parseInt(obj.index + 1));
+            let node = $("#questionText")[0];
+            MathJax.typesetClear([node]);
+            node.innerHTML = obj.text;
+            MathJax.typesetPromise([node]).then(() => {
+                // the new content is has been typeset
+                $("#questionDiv").show();
+                loading(false);
+            });
+            console.log(obj.text);
+        }
+
+        var loading = (go) => {
+            if (go === false) {
+                $("#loadingSpinner").hide();
+            } else {
+                $("#loadingSpinner").show();
+            }
+        }
+
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
         })
     </script>
 </body>
