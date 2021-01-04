@@ -13,24 +13,39 @@ const getQuestions = async (competitionCode) => {
 
     while (moreQuestions) {
         try {
-            let question = activeCompetition.fields["Q"+questionNumber];
+            let question = activeCompetition.fields["Q" + questionNumber];
             if (question === undefined) {
                 moreQuestions = false;
             } else {
-                questions.push({["Q"+questionNumber]:question, n: parseInt(questionNumber)});
-                questionNumber ++;
+                questions.push({ ["Q" + questionNumber]: question, questionNumber: parseInt(questionNumber), text: question, questionCode: "Q" + questionNumber });
+                questionNumber++;
                 // console.log(questionNumber, activeCompetition.fields["Q"+questionNumber])
             }
         } catch {
             moreQuestions = false;
         }
     }
-
     // console.log(questions);
     return questions;
 }
 
+const getOrderedQuestions = async (record, competitionCode, competitionId) => {
+    // TODO: Add robustness so this can't break with incorrect indexing etc.
+
+    let unordered = await getQuestions(competitionCode);
+    let order = record.fields["Question Order"].split(",");
+    order = order.map(o => o - 1); //Adjusts for indexing starting at 0
+    let ordered = order.map((o, i) => {
+        return {
+            ...unordered[o],
+            index: i,
+        }
+    }).filter(o => o.questionNumber); //filters for all those that have a question number
+    return ordered;
+}
+
 module.exports = {
-    getQuestions
+    getQuestions,
+    getOrderedQuestions
 }
 console.log(getQuestions("A-7I"));

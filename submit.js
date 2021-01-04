@@ -28,7 +28,7 @@ async function onTestSubmission(result) {
     try {
         const id = result.recordId;
 
-        const time = await airtable.update(id, {"Submission Time": Date.now()});
+        
         for(const val in result.answers) {
             const res = await airtable.update(id, result.answers[val]);
         }
