@@ -32,7 +32,8 @@
                     </h1>
                     <p>You have <%= durationText %> to complete this test</p>
                     <p>
-                        You will see only one question at a time. Once continuing, you will not be able to go back to an old question. Calculators are allowed.
+                        You will see only one question at a time. You will not be able to go back to an old question.
+                        Calculators are allowed.
                     </p>
                     <div id="infoDiv" style="display: none;">
                         <hr>
@@ -47,24 +48,22 @@
                     </div>
                     <div id="questionDiv" style="display:none;">
                         <hr>
-                        <form>
-                            <h2 id='questionTitle'>Question 1</h2>
-                            <p id='questionText'>
-                                When \(a \ne 0\), there are two solutions to \(ax^2 + bx + c = 0\) and they are
-                                \[x = {-b \pm \sqrt{b^2-4ac} \over 2a}.\]
-                            </p>
-                            <div class="input-group mb-3">
-                                <input type="text" id="answer" class="form-control" placeholder="Your Answer"
-                                    aria-label="Recipient's username" aria-describedby="next-button">
-                                <button class="btn btn-outline-dark" type="button" id="next-button"
-                                    data-bs-toggle="tooltip" data-bs-placement="top"
-                                    title="Remember, you will not be able to come back to this question">
-                                    Next →</button>
-                            </div>
-                            <div id="answerHelp" class="form-text" style="display:block;">Answers must be exact. Do not
-                                round.</div>
 
-                        </form>
+                        <h2 id='questionTitle'>Question 1</h2>
+                        <p id='questionText'>
+                            When \(a \ne 0\), there are two solutions to \(ax^2 + bx + c = 0\) and they are
+                            \[x = {-b \pm \sqrt{b^2-4ac} \over 2a}.\]
+                        </p>
+                        <div class="input-group mb-3">
+                            <input type="text" id="answer" class="form-control" placeholder="Your Answer"
+                                aria-label="Recipient's username" aria-describedby="next-button">
+                            <button class="btn btn-outline-dark" type="button" id="next-button" data-bs-toggle="tooltip"
+                                data-bs-placement="top"
+                                title="Remember, you will not be able to come back to this question">
+                                Next →</button>
+                        </div>
+                        <div id="answerHelp" class="form-text" style="display:block;">Answers must be exact. Do not
+                            round.</div>
                     </div>
                 </div>
                 <div class="progress">

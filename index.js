@@ -29,10 +29,11 @@ app.get('/test/**', async (req, res) => {
 
     try {
         let record = await testsTable.find(recordId);
-        let beginButtonText = "Begin Test";
+        let testBegun = false;
+
         if (record.fields["Start Time"] || record.fields["Submission Time"]) {
-            beginButtonText = "Resume Test"
-        }
+            testBegun = true;
+        } 
 
         let studentsPromise = record.fields.Students.map(studentId => studentsTable.find(studentId)),
             schoolPromise = schoolsTable.find(record.fields.School[0]),
@@ -41,7 +42,13 @@ app.get('/test/**', async (req, res) => {
         let [competition, school, ...students] = await Promise.all([competitionPromise, schoolPromise, ...studentsPromise]);
 
         let questions = await tests.getOrderedQuestions(record, competition.fields.Code);
-        let available = tests.validateTime(competition);
+        let available = tests.validateTime(competition, record),
+            currentQuestion = record.fields["Current Question Index"];
+
+        if (!testBegun && currentQuestion && currentQuestion != 0) {
+            currentQuestion = 0;
+            testsTable.update(record.id, {"Current Question Index": 0});
+        }
 
         // res.status(200).send(`${students.map(s => s.fields.Name).join(", ")} — ${school.fields.Name} <br> ${competition.fields.Name} <br> ${JSON.stringify(record, null, 2)}`);
         res.render('pages/tests', {
@@ -53,9 +60,9 @@ app.get('/test/**', async (req, res) => {
             competitionId: competition.id,
             competitionCode: competition.fields.Code,
             recordId,
-            beginButtonText,
+            beginButtonText: testBegun ? "Resume Test" : "Begin Test",
             numberOfQuestions: questions.length,
-            currentQuestion: record.fields["Current Question Index"],
+            currentQuestion,
             available
         })
     } catch (e) {
@@ -71,10 +78,10 @@ app.post('/test/endpoint/**', async (req, res) => {
         competition = await competitionsTable.find(record.fields.Competition[0]);
     const questionsPromise = tests.getOrderedQuestions(record, req.body.competitionCode);
     
-    if (tests.validateTime(competition) !== "true") {
+    if (tests.validateTime(competition, record) !== "true") {
         res.send("TIMEOUT");
         return;
-    } 
+    } // TODO: Allow submission of last question even if time is out
 
     if (req.body.action == "begin") {
         try {
@@ -111,7 +118,7 @@ app.post('/test/endpoint/**', async (req, res) => {
         testsTable.update(recordId, { [answeredQuestion.questionCode]: req.body.answer });
 
         if (newNumberOfQuestionsCompleted === questions.length) {
-            const time = await airtable.update(id, { "Submission Time": Date.now() });
+            const time = await testsTable.update(id, { "Submission Time": Date.now() });
             res.send("FINISHED");
         } else {
             res.send(questions[newNumberOfQuestionsCompleted]);

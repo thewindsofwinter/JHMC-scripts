@@ -1,5 +1,4 @@
 const AirtablePlus = require('airtable-plus');
-const { find } = require('async');
 const DotEnv = require('dotenv').config();
 
 const competitionsTable = new AirtablePlus({ tableName: "Competitions" });
@@ -25,13 +24,12 @@ const getQuestions = async (competitionCode) => {
                     questionCode: "Q" + questionNumber
                 });
                 questionNumber++;
-                // console.log(questionNumber, activeCompetition.fields["Q"+questionNumber])
             }
         } catch {
             moreQuestions = false;
         }
     }
-    // console.log(questions);
+
     return questions;
 }
 
@@ -58,15 +56,20 @@ const getOrderedQuestions = async (record, competitionCode, competitionId) => {
     return ordered;
 }
 
-const validateTime = (competition) => {
+const validateTime = (competition, record) => {
     let openTime = new Date(competition.fields.Opens),
-        closeTime = new Date(competition.fields.Closes);
+        closeTime = new Date(competition.fields.Closes),
+        startTime = new Date(record.fields["Start Time"]),
+        duration = competition.fields["Max Duration"] * 1000,
+        expireTime = new Date(startTime.getTime() + duration);
     
     let currentTime = new Date();
     if (openTime > currentTime) {
         return "Test not open yet"
     } else if (closeTime < currentTime) {
         return "Test closed"
+    } else if (startTime && (expireTime < currentTime)) {
+        return "Time limit reached"
     }
     return "true";
 }
@@ -76,4 +79,3 @@ module.exports = {
     getOrderedQuestions,
     validateTime
 }
-console.log(getQuestions("A-7I"));
