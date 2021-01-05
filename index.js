@@ -64,7 +64,6 @@ app.get('/test/**', async (req, res) => {
             testBegun = false;
         }
 
-        // res.status(200).send(`${students.map(s => s.fields.Name).join(", ")} — ${school.fields.Name} <br> ${competition.fields.Name} <br> ${JSON.stringify(record, null, 2)}`);
         res.render('pages/tests', {
             name: students.map(s => s.fields.Name).join(", "),
             competition: competition.fields["Friendly Name"],
@@ -103,17 +102,21 @@ app.post('/test/endpoint/**', async (req, res) => {
         try {
             let questions = await questionsPromise;
 
-            if (record.fields["Start Time"] || record.fields["Submission Time"]) {
+            if (record.id === process.env.SAMPLE_TEST_ID) {
+
+            } else if (record.fields["Start Time"]) {
                 let numberQuestionsCompleted = record.fields["Current Question Index"];
                 if (numberQuestionsCompleted === questions.length) {
                     res.send("FINISHED");
                 } else {
+                    let time = Date.now();
                     res.status(200).send({...questions[numberQuestionsCompleted], closingTime: tests.getEndTime(competition, record).toString(),});
                 }
                 return;
             }
-
-            const startTimePromise = testsTable.update(recordId, { "Start Time": Date.now() });
+            const time = Date.now();
+            record.fields["Start Time"] = time; // Could reaquire record, but that would take a lot of time — this is easier & faster
+            const startTimePromise = testsTable.update(recordId, { "Start Time": time });
             const currentQuestionIndexPromise = testsTable.update(recordId, { "Current Question Index": 0 });
 
             let [other] = await Promise.all([startTimePromise, currentQuestionIndexPromise]);

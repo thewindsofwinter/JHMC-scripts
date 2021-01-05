@@ -11,7 +11,7 @@
                     inlineMath: [['$', '$'], ['\\(', '\\)']]
                 },
                 svg: {
-                    fontCache: 'global'
+                    // fontCache: 'global'
                 }
             };
         </script>
@@ -36,7 +36,7 @@
                         Calculators are allowed.
                     </p>
                     <p>
-                        If you encounter any technical difficulties, private message your proctor on zoom.
+                        If you encounter any technical difficulties, private message your proctor on Zoom.
                     </p>
                     <div id="infoDiv" style="display: none;">
                         <hr>
@@ -211,6 +211,7 @@
         });
 
         var countdown = (date_future) => {
+            console.log(date_future);
             // get total seconds between the times
             setCounterTime(date_future);
             counterInterval = setInterval(() => {
@@ -222,7 +223,7 @@
             var date_now = new Date();
             var delta = Math.abs(date_future - date_now) / 1000;
 
-            var minutes = Math.floor(delta / 60) % 60;
+            var minutes = Math.floor(delta / 60);
             delta -= minutes * 60;
 
             var seconds = Math.round(delta % 60);  // in theory the modulus is not required
