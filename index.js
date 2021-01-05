@@ -20,20 +20,28 @@ app.use(bodyParser.urlencoded({
 
 app.use(bodyParser.json());
 
+app.use(express.static(__dirname + '/public'));
+
 app.get('/', (req, res) => {
-    res.send("Welcome to the home page!");
+    res.render('pages/home.ejs');
+    // res.send("Welcome to the home page!");
 });
 
 app.get('/test/**', async (req, res) => {
     const recordId = req.url.split("/")[2];
+    if (recordId == "sample") {
+        res.redirect("/test/"+process.env.SAMPLE_TEST_ID);
+        return;
+    }
 
     try {
         let record = await testsTable.find(recordId);
+
         let testBegun = false;
 
         if (record.fields["Start Time"] || record.fields["Submission Time"]) {
             testBegun = true;
-        } 
+        }
 
         let studentsPromise = record.fields.Students.map(studentId => studentsTable.find(studentId)),
             schoolPromise = schoolsTable.find(record.fields.School[0]),
@@ -47,7 +55,13 @@ app.get('/test/**', async (req, res) => {
 
         if (!testBegun && currentQuestion && currentQuestion != 0) {
             currentQuestion = 0;
-            testsTable.update(record.id, {"Current Question Index": 0});
+            testsTable.update(record.id, { "Current Question Index": 0 });
+        }
+
+        if (record.id == process.env.SAMPLE_TEST_ID) {
+            await testsTable.update(record.id, {"Current Question Index": 0});
+            currentQuestion = 0;
+            testBegun = false;
         }
 
         // res.status(200).send(`${students.map(s => s.fields.Name).join(", ")} — ${school.fields.Name} <br> ${competition.fields.Name} <br> ${JSON.stringify(record, null, 2)}`);
@@ -67,7 +81,9 @@ app.get('/test/**', async (req, res) => {
         })
     } catch (e) {
         console.log(e);
-        res.status(500).send("Invalid link. Contact Us.");
+        res.status(500).render('pages/error.ejs', {
+            errorText: e.toString()
+        })
     }
 });
 
@@ -77,7 +93,7 @@ app.post('/test/endpoint/**', async (req, res) => {
     let record = await testsTable.find(recordId),
         competition = await competitionsTable.find(record.fields.Competition[0]);
     const questionsPromise = tests.getOrderedQuestions(record, req.body.competitionCode);
-    
+
     if (tests.validateTime(competition, record) !== "true") {
         res.send("TIMEOUT");
         return;
@@ -118,7 +134,7 @@ app.post('/test/endpoint/**', async (req, res) => {
         testsTable.update(recordId, { [answeredQuestion.questionCode]: req.body.answer });
 
         if (newNumberOfQuestionsCompleted === questions.length) {
-            const time = await testsTable.update(id, { "Submission Time": Date.now() });
+            const time = await testsTable.update(record.id, { "Submission Time": Date.now() });
             res.send("FINISHED");
         } else {
             res.send(questions[newNumberOfQuestionsCompleted]);
@@ -130,6 +146,10 @@ app.post('/test/endpoint/**', async (req, res) => {
 
 app.get('/done**', (req, res) => {
     res.send("Congrats!");
+});
+
+app.get('*', function (req, res) {
+    res.status(404).render('pages/404.ejs');
 });
 
 const server = app.listen(8080, () => {
