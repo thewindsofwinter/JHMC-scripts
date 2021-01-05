@@ -35,6 +35,9 @@
                         You will see only one question at a time. You will not be able to go back to an old question.
                         Calculators are allowed.
                     </p>
+                    <p>
+                        If you encounter any technical difficulties, private message your proctor on zoom.
+                    </p>
                     <div id="infoDiv" style="display: none;">
                         <hr>
                         <h2 id='infoTitle'>Test Completed</h2>
@@ -49,7 +52,8 @@
                     <div id="questionDiv" style="display:none;">
                         <hr>
 
-                        <h2 id='questionTitle'>Question 1</h2>
+                        <h2><span id='questionTitle'>Question </span><span id="remainingTime"></span></h2>
+
                         <p id='questionText'>
                             When \(a \ne 0\), there are two solutions to \(ax^2 + bx + c = 0\) and they are
                             \[x = {-b \pm \sqrt{b^2-4ac} \over 2a}.\]
@@ -62,7 +66,8 @@
                                 title="Remember, you will not be able to come back to this question">
                                 Next →</button>
                         </div>
-                        <div id="answerHelp" class="form-text" style="display:block;">Answers must be exact. Do not round.</div>
+                        <div id="answerHelp" class="form-text" style="display:block;">Answers must be exact. Do not
+                            round.</div>
                     </div>
                 </div>
                 <div class="progress">
@@ -91,6 +96,7 @@
         var numberOfQuestions = '<%- numberOfQuestions %>';
         var questionOnOpen = '<%- currentQuestion %>';
         var available = '<%- available %>';
+        var counterInterval;
 
         $(document).ready(() => {
             $("#question-progress-bar").attr("aria-valuemax", numberOfQuestions);
@@ -164,7 +170,10 @@
             } else if (obj == "TIMEOUT") {
                 location.reload();
             }
+
             console.log(obj);
+            clearInterval(counterInterval);
+            countdown(new Date(obj.closingTime));
             $("#answer").val("");
             $("#questionTitle").text("Question " + parseInt(obj.index + 1));
             let node = $("#questionText")[0];
@@ -199,7 +208,32 @@
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
         var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
             return new bootstrap.Tooltip(tooltipTriggerEl)
-        })
+        });
+
+        var countdown = (date_future) => {
+            // get total seconds between the times
+            setCounterTime(date_future);
+            counterInterval = setInterval(() => {
+                setCounterTime(date_future);
+            }, 1000)
+        }
+
+        var setCounterTime = (date_future) => {
+            var date_now = new Date();
+            var delta = Math.abs(date_future - date_now) / 1000;
+
+            var minutes = Math.floor(delta / 60) % 60;
+            delta -= minutes * 60;
+
+            var seconds = Math.round(delta % 60);  // in theory the modulus is not required
+            var secondsText = seconds.toString();
+            if (secondsText.length == 1) {
+                secondsText = "0" + secondsText;
+            }
+
+            $("#remainingTime").text(" - " + minutes + ":" + secondsText + " Remaining");
+        }
+
     </script>
 </body>
 

@@ -30,7 +30,7 @@ app.get('/', (req, res) => {
 app.get('/test/**', async (req, res) => {
     const recordId = req.url.split("/")[2];
     if (recordId == "sample") {
-        res.redirect("/test/"+process.env.SAMPLE_TEST_ID);
+        res.redirect("/test/" + process.env.SAMPLE_TEST_ID);
         return;
     }
 
@@ -59,7 +59,7 @@ app.get('/test/**', async (req, res) => {
         }
 
         if (record.id == process.env.SAMPLE_TEST_ID) {
-            await testsTable.update(record.id, {"Current Question Index": 0});
+            await testsTable.update(record.id, { "Current Question Index": 0 });
             currentQuestion = 0;
             testBegun = false;
         }
@@ -108,7 +108,7 @@ app.post('/test/endpoint/**', async (req, res) => {
                 if (numberQuestionsCompleted === questions.length) {
                     res.send("FINISHED");
                 } else {
-                    res.status(200).send(questions[numberQuestionsCompleted]);
+                    res.status(200).send({...questions[numberQuestionsCompleted], closingTime: tests.getEndTime(competition, record).toString(),});
                 }
                 return;
             }
@@ -117,7 +117,7 @@ app.post('/test/endpoint/**', async (req, res) => {
             const currentQuestionIndexPromise = testsTable.update(recordId, { "Current Question Index": 0 });
 
             let [other] = await Promise.all([startTimePromise, currentQuestionIndexPromise]);
-            res.status(200).json(questions[0]);
+            res.status(200).json({ ...questions[0], closingTime: tests.getEndTime(competition, record).toString() });
         } catch (e) {
             console.log(e);
             res.status(500).send(e);
@@ -137,7 +137,7 @@ app.post('/test/endpoint/**', async (req, res) => {
             const time = await testsTable.update(record.id, { "Submission Time": Date.now() });
             res.send("FINISHED");
         } else {
-            res.send(questions[newNumberOfQuestionsCompleted]);
+            res.status(200).json({ ...questions[newNumberOfQuestionsCompleted], closingTime: tests.getEndTime(competition, record).toString() });
         }
     } else {
         res.status(400).send("Unkown Request");

@@ -57,12 +57,12 @@ const getOrderedQuestions = async (record, competitionCode, competitionId) => {
 }
 
 const validateTime = (competition, record) => {
-    if (process.env.SAMPLE_TEST_ID) {
+    if (record.id === process.env.SAMPLE_TEST_ID) {
         return "true";
     }
 
-    let openTime = new Date(competition.fields.Opens),
-        closeTime = new Date(competition.fields.Closes),
+    let openTime = new Date(competition.fields.Opens) || new Date(0),
+        closeTime = new Date(competition.fields.Closes) || new Date(8640000000000000), //Max date; I'll find a better way to do this
         startTime = new Date(record.fields["Start Time"]),
         duration = competition.fields["Max Duration"] * 1000,
         expireTime = new Date(startTime.getTime() + duration);
@@ -78,8 +78,20 @@ const validateTime = (competition, record) => {
     return "true";
 }
 
+const getEndTime = (competition, record) => {
+    let closeTime = new Date(competition.fields.Closes),
+        startTime = new Date(record.fields["Start Time"]),
+        duration = competition.fields["Max Duration"] * 1000,
+        expireTime = new Date(startTime.getTime() + duration);
+
+    // console.log(closeTime, startTime, expireTime);
+    
+    return closeTime > expireTime ? expireTime : closeTime
+}
+
 module.exports = {
     getQuestions,
     getOrderedQuestions,
-    validateTime
+    validateTime,
+    getEndTime
 }
