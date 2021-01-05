@@ -80,6 +80,7 @@ app.get('/test/**', async (req, res) => {
         })
     } catch (e) {
         console.log(e);
+        console.log("83");
         res.status(500).render('pages/error.ejs', {
             errorText: e.toString()
         })
@@ -123,6 +124,7 @@ app.post('/test/endpoint/**', async (req, res) => {
             res.status(200).json({ ...questions[0], closingTime: tests.getEndTime(competition, record).toString() });
         } catch (e) {
             console.log(e);
+            console.log("126")
             res.status(500).send(e);
         }
 

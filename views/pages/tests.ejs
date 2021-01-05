@@ -3,19 +3,20 @@
 
 <head>
     <%- include('../partials/head'); %>
-    <%- include('../partials/meta'); %>
-        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-        <script>
-            MathJax = {
-                tex: {
-                    inlineMath: [['$', '$'], ['\\(', '\\)']]
-                },
-                svg: {
-                    // fontCache: 'global'
-                }
-            };
-        </script>
+        <%- include('../partials/meta'); %>
+            <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+            <script id="MathJax-script" async
+                src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+            <script>
+                MathJax = {
+                    tex: {
+                        inlineMath: [['$', '$'], ['\\(', '\\)']]
+                    },
+                    svg: {
+                        // fontCache: 'global'
+                    }
+                };
+            </script>
 </head>
 
 <body class="container">
@@ -67,8 +68,8 @@
                                 title="Remember, you will not be able to come back to this question">
                                 Next →</button>
                         </div>
-                        <div id="answerHelp" class="form-text" style="display:block;">Answers must be exact. Do not
-                            round.</div>
+                        <div id="answerHelp" class="form-text" style="display:block;"><small>Answers must be exact. Do not
+                            round.</small></div>
                     </div>
                 </div>
                 <div class="progress">
@@ -90,6 +91,19 @@
     <footer>
         <%- include('../partials/footer'); %>
     </footer>
+    <div style="position: absolute; right: 10px; bottom: 10px;">
+        <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <!-- <img src="..." class="rounded me-2" alt="..."> -->
+                <strong class="me-auto">5 Minutes Remaining</strong>
+                <small></small>
+                <!-- <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button> -->
+            </div>
+            <div class="toast-body">
+                You have 5 minutes to submit your test.
+            </div>
+        </div>
+    </div>
     <script>
         var recordId = '<%- recordId %>';
         var competitionId = '<%- competitionId %>';
@@ -162,6 +176,7 @@
             // TODO: Toast with 5 minutes remaining
             // TODO: Certify you are the person taking the test w/ modal before beginning
             // TODO: Close window button when completed or view contest schedule
+            // TODO: Actually submit the test when the timer runs out
         });
 
         var displayQuestion = obj => {
@@ -211,6 +226,11 @@
             return new bootstrap.Tooltip(tooltipTriggerEl)
         });
 
+        var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+        var fiveMinutesToast = toastElList.map(function (toastEl) {
+            return new bootstrap.Toast(toastEl, {delay: 5000})
+        })[0];
+
         var countdown = (date_future) => {
             console.log(date_future);
             // get total seconds between the times
@@ -234,6 +254,10 @@
             }
 
             $("#remainingTime").text(" - " + minutes + ":" + secondsText + " Remaining");
+
+            if (minutes == 5 && seconds == 0) {
+                fiveMinutesToast.show();
+            }
         }
 
     </script>
