@@ -3,6 +3,7 @@
 
 <head>
     <%- include('../partials/head'); %>
+    <%- include('../partials/meta'); %>
         <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
         <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
         <script>
@@ -160,7 +161,7 @@
 
             // TODO: Toast with 5 minutes remaining
             // TODO: Certify you are the person taking the test w/ modal before beginning
-            // TODO: Close window button when completed
+            // TODO: Close window button when completed or view contest schedule
         });
 
         var displayQuestion = obj => {

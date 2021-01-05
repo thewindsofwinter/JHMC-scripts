@@ -5,8 +5,7 @@
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
+  <%- include('../partials/meta'); %>
 
   <title>JHMC 2021</title>
 
@@ -101,7 +100,7 @@
             <div class="card-body">
               <h5 class="card-title">Invitation Letter</h5>
               <p class="card-text">Updated for the 31st annual JHMC, with online information.</p>
-              <a href="https://docs.google.com/document/d/1PmOsXgYPulR-7sNUtCnurs7BvbxD-SlAkgg2YBQD7KU/edit?usp=sharing" class="btn btn-outline-dark">View Letter</a>
+              <a href="https://docs.google.com/viewer?url=https://docs.google.com/document/d/1PmOsXgYPulR-7sNUtCnurs7BvbxD-SlAkgg2YBQD7KU/export?format=pdf" class="btn btn-outline-dark">View Letter</a>
             </div>
           </div>
         </div>
@@ -177,6 +176,13 @@
   <!-- Bootstrap core JavaScript -->
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script>
+    $(window).scroll(() => {
+      var yoff = window.pageYOffset;
+      $(".bg-circle").css('transform', 'translateY('+0.6*yoff+'px)')
+    });
+
+  </script>
 
 </body>
 
