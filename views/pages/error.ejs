@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/empty-head'); %>
+</head>
+
+<body class="container">
+
+    <header>
+        <%- include('../partials/empty-header'); %>
+    </header>
+
+    <main>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="jumbotron">
+                    <h1>
+                        Something Went Wrong
+                        <!-- Test -->
+                    </h1>
+                    <!-- <p>You have to complete this test</p> -->
+                    <p>
+                        <%= errorText %>
+                    </p>
+                    <div id="infoDiv" style="display: none;">
+                        <hr>
+                        <h2 id='infoTitle'>Test Completed</h2>
+                    </div>
+                    <button type="button" id="beginTestButton" class="btn btn-dark btn-lg" onclick="javascript:window.history.back();">
+                        Go Back
+                    </button>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <%- include('../partials/footer'); %>
+    </footer>
+</body>
+
+</html>
