@@ -111,7 +111,7 @@ app.post('/test/endpoint/**', async (req, res) => {
                     res.send("FINISHED");
                 } else {
                     let time = Date.now();
-                    res.status(200).send({...questions[numberQuestionsCompleted], closingTime: tests.getEndTime(competition, record).toString(),});
+                    res.status(200).send({ ...questions[numberQuestionsCompleted], closingTime: tests.getEndTime(competition, record).toString(), });
                 }
                 return;
             }
