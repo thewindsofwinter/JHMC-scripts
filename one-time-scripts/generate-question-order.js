@@ -28,10 +28,9 @@ const testsTable = new AirtablePlus({ tableName: "Tests" }),
         const questionOrder = shuffle([...Array(numQuestions).keys()].map(x => ++x)).join(","); // Pretty proud of this line ngl
 
         testsTable.update(test.id, {"Question Order": questionOrder})
-        
-        console.log(questionOrder);
-        console.log(test.id, comp.fields.Name, numQuestions);
     });
+
+    console.log("Question Order Generated!");
 })()
 
 // Pulled this from StackOverFlow
