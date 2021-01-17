@@ -22,12 +22,34 @@ const csvFilePath='./../sampleRoster.csv';
     const registration = await CSV().fromFile(csvFilePath);
 
     for (var index in registration) {
+        // Get current entry
         const entry = registration[index];
 
         // A record is created for each school under “Schools” with
         // Coach name, email, division, etc.
-        const schoolData = {};
+        var schoolData = {};
         schoolData['Name'] = entry[schoolHeader];
+
+        // Students
+        var studentData = {};
+
+        for(var name in entry) {
+            if(schoolAttributes.includes(name)) {
+                schoolData[tableValues[attr]] = entry[schoolAttributes[attr]];
+            }
+            else if(schoolHeader === name) {
+                schoolData['Name'] = entry[schoolHeader];
+            }
+            else {
+                // If it doesn't refer to school, it must refer to student
+                if(name.includes("7th")) {
+
+                }
+                else if(name.includes("8th")) {
+                    
+                }
+            }
+        }
 
         for(var attr in schoolAttributes) {
             schoolData[tableValues[attr]] = entry[schoolAttributes[attr]];
@@ -35,7 +57,7 @@ const csvFilePath='./../sampleRoster.csv';
 
         try {
             // Update schools
-            await schoolsTable.create(schoolData);
+            // await schoolsTable.create(schoolData);
         }
         catch (e) {
             console.error(e);
