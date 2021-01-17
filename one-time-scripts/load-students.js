@@ -21,6 +21,10 @@ const csvFilePath='./../sampleRoster.csv';
 (async () => {
     const registration = await CSV().fromFile(csvFilePath);
 
+    // Show an example
+    var ex = await studentsTable.read();
+    console.log(ex[0]);
+
     for (var index in registration) {
         // Get current entry
         const entry = registration[index];
