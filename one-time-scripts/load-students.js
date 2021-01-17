@@ -46,6 +46,7 @@ const csvFilePath='./../sampleRoster.csv';
                 if(name.includes('7th')) {
                     if(studentData.hasOwnProperty(entry[name]) &&
                         entry[name] !== '') {
+                        // Update each time -- that way at the end if someone is in 7th they will show up
                         studentData[entry[name]]['Competitions'].push(stripTitle(name))
                         studentData[entry[name]]['Grade'] = '7th';
                     }
@@ -58,10 +59,13 @@ const csvFilePath='./../sampleRoster.csv';
                 else if(name.includes('8th')) {
                     if(studentData.hasOwnProperty(entry[name]) &&
                         entry[name] !== '') {
-
+                        // Could be a 7th grader -- dont update the grade field
+                        studentData[entry[name]]['Competitions'].push(stripTitle(name));
                     }
                     else if(entry[name] != '') {
-
+                        studentData[entry[name]] = {};
+                        studentData[entry[name]]['Competitions'] = [stripTitle(name)];
+                        studentData[entry[name]]['Grade'] = '8th';
                     }
                 }
             }
