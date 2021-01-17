@@ -103,11 +103,15 @@ const csvFilePath='./../sampleRoster.csv';
 
                     // console.log(row);
                     finalJSON['Competitions'].push(row[0]['id']);
+
                 }
 
-                console.log(finalJSON);
+                // Create empty record for tests which can be filled later
+                finalJSON['Scores'] = [];
 
-                // await studentsTable.create(finalJSON);
+                // console.log(finalJSON);
+
+                await studentsTable.create(finalJSON);
             }
         }
         catch (e) {
