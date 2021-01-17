@@ -35,25 +35,40 @@ const csvFilePath='./../sampleRoster.csv';
 
         for(var name in entry) {
             if(schoolAttributes.includes(name)) {
-                schoolData[tableValues[attr]] = entry[schoolAttributes[attr]];
+                const position = schoolAttributes.indexOf(name);
+                schoolData[tableValues[position]] = entry[schoolAttributes[position]];
             }
             else if(schoolHeader === name) {
                 schoolData['Name'] = entry[schoolHeader];
             }
             else {
                 // If it doesn't refer to school, it must refer to student
-                if(name.includes("7th")) {
-
+                if(name.includes('7th')) {
+                    if(studentData.hasOwnProperty(entry[name]) &&
+                        entry[name] !== '') {
+                        studentData[entry[name]]['Competitions'].push(stripTitle(name))
+                        studentData[entry[name]]['Grade'] = '7th';
+                    }
+                    else if(entry[name] != '') {
+                        studentData[entry[name]] = {};
+                        studentData[entry[name]]['Competitions'] = [stripTitle(name)];
+                        studentData[entry[name]]['Grade'] = '7th';
+                    }
                 }
-                else if(name.includes("8th")) {
-                    
+                else if(name.includes('8th')) {
+                    if(studentData.hasOwnProperty(entry[name]) &&
+                        entry[name] !== '') {
+
+                    }
+                    else if(entry[name] != '') {
+
+                    }
                 }
             }
         }
 
-        for(var attr in schoolAttributes) {
-            schoolData[tableValues[attr]] = entry[schoolAttributes[attr]];
-        }
+        console.log(studentData);
+
 
         try {
             // Update schools
@@ -64,3 +79,11 @@ const csvFilePath='./../sampleRoster.csv';
         }
     }
 })()
+
+function stripTitle(eventName) {
+    // Go from 7th Grade Individual... stuff to just 7th grade individual
+    // Utilize regular expressions
+    const regex = /[7-8]th Grade (Individual)?(Team)?(Creative Thinking)?/g;
+
+    return eventName.match(regex)[0];
+}
