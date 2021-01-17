@@ -33,6 +33,9 @@ const csvFilePath='./../sampleRoster.csv';
         // Students
         var studentData = {};
 
+        // Teams
+        var teamData = {};
+
         for(var name in entry) {
             if(schoolAttributes.includes(name)) {
                 const position = schoolAttributes.indexOf(name);
@@ -71,12 +74,31 @@ const csvFilePath='./../sampleRoster.csv';
             }
         }
 
-        console.log(studentData);
+        // console.log(studentData);
 
 
         try {
             // Update schools
             // await schoolsTable.create(schoolData);
+
+            // Update students
+            for(var student in studentData) {
+                const finalJSON = {};
+
+                finalJSON['Name'] = student;
+                finalJSON['School'] = schoolData['Name'];
+                finalJSON['Division'] = schoolData['Division'];
+                finalJSON['Grade'] = studentData[student]['Grade'];
+
+                finalJSON['Competitions'] = {};
+                for(var competition in studentData[student]['Competitions']) {
+                    finalJSON['Competitions'] = competition + " " + finalJSON['Division'];
+                }
+
+                console.log(finalJSON);
+
+                // await studentsTable.create(finalJSON);
+            }
         }
         catch (e) {
             console.error(e);
