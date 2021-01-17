@@ -1,5 +1,5 @@
 const AirtablePlus = require('airtable-plus');
-const Csv = require('csvtojson');
+const CSV = require('csvtojson');
 const DotEnv = require('dotenv').config({ path: './../.env' });
 
 const testsTable = new AirtablePlus({ tableName: "Tests" }),
@@ -8,14 +8,22 @@ const testsTable = new AirtablePlus({ tableName: "Tests" }),
     competitionsTable = new AirtablePlus({ tableName: "Competitions" });
 
 // Change once we get actual rosters
-const csvFilePath='./../sampleRoster.csv'
+const csvFilePath='./../sampleRoster.csv';
 
-Csv().fromFile(csvFilePath).then((jsonObj)=>{
-        console.log(jsonObj);
-        /**
-         * [
-         * 	{a:"1", b:"2", c:"3"},
-         * 	{a:"4", b:"5". c:"6"}
-         * ]
-         */
-    })
+(async () => {
+
+    const registration = await CSV().fromFile(csvFilePath);
+
+    for (var index in registration) {
+        const entry = registration[index];
+
+        // A record is created for each school under “Schools” with
+        // Coach name, email, division, etc.
+        const schoolName = entry['School Name'];
+        const coachName = entry['Coach Name'];
+        const emailAddress = entry['Email Address'];
+        const division = entry['Division'];
+
+        console.log(schoolName);
+    }
+})()
