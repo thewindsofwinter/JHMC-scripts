@@ -102,7 +102,7 @@ const csvFilePath='./../sampleRoster.csv';
                     });
 
                     // console.log(row);
-                    finalJSON['Competitions'].push(row[0]['fields']['Code']);
+                    finalJSON['Competitions'].push(row[0]['id']);
                 }
 
                 console.log(finalJSON);
