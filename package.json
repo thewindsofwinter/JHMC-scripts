@@ -4,8 +4,9 @@
   "main": "index.js",
   "dependencies": {
     "airtable-plus": "^1.0.4",
-    "ejs": "^3.1.5",
+    "csvtojson": "^2.0.10",
     "dotenv": "^8.2.0",
+    "ejs": "^3.1.5",
     "express": "^4.17.1",
     "humanize-duration": "^3.25.0"
   },
