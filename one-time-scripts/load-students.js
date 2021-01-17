@@ -90,9 +90,19 @@ const csvFilePath='./../sampleRoster.csv';
                 finalJSON['Division'] = schoolData['Division'];
                 finalJSON['Grade'] = studentData[student]['Grade'];
 
-                finalJSON['Competitions'] = {};
-                for(var competition in studentData[student]['Competitions']) {
-                    finalJSON['Competitions'] = competition + " " + finalJSON['Division'];
+                finalJSON['Competitions'] = [];
+                for(var contest in studentData[student]['Competitions']) {
+                    const contestName = studentData[student]['Competitions'][contest]
+                        + " Division " + finalJSON['Division'];
+
+                    // console.log('Name = "' + contestName + '"');
+                    const row = await competitionsTable.read({
+                        filterByFormula: 'Name = "' + contestName + '"',
+                        maxRecords: 1
+                    });
+
+                    // console.log(row);
+                    finalJSON['Competitions'].push(row[0]['fields']['Code']);
                 }
 
                 console.log(finalJSON);
