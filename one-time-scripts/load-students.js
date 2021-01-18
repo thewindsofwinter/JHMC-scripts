@@ -85,7 +85,7 @@ const csvFilePath='./../sampleRoster.csv';
             // Update schools
             // await schoolsTable.create(schoolData);
 
-            // Update students
+            // Create student records
             for(var student in studentData) {
                 const finalJSON = {};
 
@@ -99,7 +99,14 @@ const csvFilePath='./../sampleRoster.csv';
                 finalJSON['School'] = [row[0]['id']];
                 finalJSON['Grade'] = studentData[student]['Grade'];
 
-                /* finalJSON['Competitions'] = [];
+                // console.log(finalJSON);
+
+                // await studentsTable.create(finalJSON);
+            }
+
+            // Update the competitions that they are in [TODO]
+            for(var student in studentData) {
+                var finalJSON = [];
                 for(var contest in studentData[student]['Competitions']) {
                     const contestName = studentData[student]['Competitions'][contest]
                         + " Division " + schoolData['Division'];
@@ -111,13 +118,8 @@ const csvFilePath='./../sampleRoster.csv';
                     });
 
                     // console.log(row);
-                    finalJSON['Competitions'].push(row[0]['id']);
-
-                } */
-
-                // console.log(finalJSON);
-
-                await studentsTable.create(finalJSON);
+                    finalJSON.push(row[0]['id']);
+                }
             }
         }
         catch (e) {
