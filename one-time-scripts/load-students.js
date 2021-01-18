@@ -21,9 +21,9 @@ const csvFilePath='./../sampleRoster.csv';
 (async () => {
     const registration = await CSV().fromFile(csvFilePath);
 
-    // Show an example
+    /* Show an example
     var ex = await studentsTable.read();
-    console.log(ex[0]);
+    console.log(ex[0]); */
 
     for (var index in registration) {
         // Get current entry
@@ -89,9 +89,14 @@ const csvFilePath='./../sampleRoster.csv';
             for(var student in studentData) {
                 const finalJSON = {};
 
+                const school = schoolData['Name'];
+                const row = await schoolsTable.read({
+                    filterByFormula: 'Name = "' + school + '"',
+                    maxRecords: 1
+                });
+
                 finalJSON['Name'] = student;
-                finalJSON['School'] = schoolData['Name'];
-                finalJSON['Division'] = schoolData['Division'];
+                finalJSON['School'] = [row[0]['id']];
                 finalJSON['Grade'] = studentData[student]['Grade'];
 
                 finalJSON['Competitions'] = [];
@@ -109,9 +114,6 @@ const csvFilePath='./../sampleRoster.csv';
                     finalJSON['Competitions'].push(row[0]['id']);
 
                 }
-
-                // Create empty record for tests which can be filled later
-                finalJSON['Scores'] = [];
 
                 // console.log(finalJSON);
 
