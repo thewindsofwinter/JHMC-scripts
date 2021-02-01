@@ -114,7 +114,6 @@ app.post('/test/endpoint/:recordId', async (req, res) => {
                 if (numberQuestionsCompleted === questions.length) {
                     res.send("FINISHED");
                 } else {
-                    let time = Date.now();
                     res.status(200).send({ ...questions[numberQuestionsCompleted], closingTime: tests.getEndTime(competition, record).toString(), });
                 }
                 return;
