@@ -4,7 +4,7 @@
             "name": "Opening Ceremony",
             "zoomLink": "https://zoom.us/opening",
             "openTime": "Sun Jan 31 2021 20:22:29 GMT-0600 (CST)",
-            "closeTime": "Sun Jan 31 2021 23:22:29 GMT-0600 (CST)",
+            "closeTime": "Mon Feb 1 2021 23:22:29 GMT-0600 (CST)",
             "password": "peaches",
             "id": "opening-ceremony"
         }, 
@@ -15,6 +15,13 @@
             "closeTime": "2021-01-08T01:27:40.000Z",
             "password": "asparagus",
             "id": "awards"
+        },
+        {
+            "name": "Speed Round",
+            "zoomLink": "https://zoom.us/speedround",
+            "openTime": "2021-01-08T01:27:00.000Z",
+            "closeTime": "2021-01-08T01:27:40.000Z",
+            "id": "speed-round"
         },
         {
             "name": "Techinical Help",

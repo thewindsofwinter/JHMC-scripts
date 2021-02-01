@@ -181,6 +181,9 @@ app.get('/student/:studentId', async (req, res) => {
 
         studentJoinInfo.unshift(otherRooms.find(room => room.id == "opening-ceremony"));
         studentJoinInfo.push(otherRooms.find(room => room.id == "awards"));
+        studentJoinInfo.push(otherRooms.find(room => room.id == "speed-round"));
+
+        studentJoinInfo.sort((a,b) => new Date(a.openTime) - new Date(b.openTime));
 
         let now = new Date();
         studentJoinInfo = studentJoinInfo.map(room => {

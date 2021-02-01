@@ -31,8 +31,8 @@
                 <th>Name</th>
                 <th>Zoom Link</th>
                 <th>Contest Link</th>
-                <th>Open Time</th>
-                <th>Close Time</th>
+                <th>Time</th>
+                <!-- <th>Close Time</th> -->
                 <!-- <th>Active</th> -->
             </tr>
 
@@ -54,10 +54,10 @@
                     </td>
                     <td>
                         <%= new Date(rooms[i].openTime).toLocaleTimeString('en-us') %>
-                    </td>
+                    <!-- </td>
                     <td>
                         <%= new Date(rooms[i].closeTime).toLocaleTimeString('en-us') %>
-                    </td>
+                    </td> -->
                     <!-- <td>
                         <%= rooms[i].active %>
                     </td> -->
@@ -68,7 +68,7 @@
             Having a problem? First try <a href="javascript:window.location.reload(true);">reloading this page</a>.
             If the problem persists, join the <a href="<%= helpLink %>">technical help room</a>.
         </p>
-        
+
     </div>
     <footer>
         <%- include('../partials/footer'); %>
