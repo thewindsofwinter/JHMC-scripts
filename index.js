@@ -195,7 +195,8 @@ app.get('/student/:studentId', async (req, res) => {
             name: student.fields.Name,
             primary: student.fields.Name,
             secondary: "JHMC 2021",
-            schoolName: school.fields.Name
+            schoolName: school.fields.Name,
+            helpLink: otherRooms.find(room => room.id == "help").zoomLink
         });
     } catch(e) {
         console.error(e);

@@ -9,12 +9,17 @@
             "id": "opening-ceremony"
         }, 
         {
-            "name": "Awards",
+            "name": "Awards Ceremony",
             "zoomLink": "https://zoom.us/awards",
             "openTime": "2021-01-08T01:27:00.000Z",
             "closeTime": "2021-01-08T01:27:40.000Z",
             "password": "asparagus",
             "id": "awards"
+        },
+        {
+            "name": "Techinical Help",
+            "zoomLink": "https://zoom.us/helpme",
+            "id": "help"
         }
     ]
 }

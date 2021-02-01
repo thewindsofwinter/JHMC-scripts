@@ -4,43 +4,75 @@
 <head>
     <%- include('../partials/head'); %>
         <%- include('../partials/meta'); %>
+            <style>
+                .active-row {
+                    /* background-color: red; */
+                    font-size: x-large;
+                }
+
+                tr:not(.active-row):not(.header-row) {
+                    opacity: 50%;
+                }
+
+                .header-row {
+                    background-color: #EEE;
+                }
+            </style>
 </head>
 
 <body>
-    <h1><%= name %> - <%= schoolName %></h1>
-    <table>
-        <tr>
-            <th>Name</th>
-            <th>Zoom Link</th>
-            <th>Test Link</th>
-            <th>Open Time</th>
-            <th>Close Time</th>
-            <th>Active</th>
-        </tr>
-
-        <% for (var i=0; i < rooms.length; i++) { %>
-            <tr>
-                <td>
-                    <%= rooms[i].name %> 
-                </td>
-                <td>
-                    <a href="<%= rooms[i].zoomLink %>"><%= rooms[i].zoomLink %></a>
-                </td>
-                <td>
-                    <a href="<%= rooms[i].testLink %>"><%= rooms[i].testLink %></a>
-                </td>
-                <td>
-                    <%= new Date(rooms[i].openTime).toLocaleTimeString('en-us') %>
-                </td>
-                <td>
-                    <%= new Date(rooms[i].closeTime).toLocaleTimeString('en-us') %>
-                </td>
-                <td>
-                    <%= rooms[i].active %>
-                </td>
+    <div class="container">
+        <h1>
+            <%= name %> - <%= schoolName %>
+        </h1>
+        <h4> 2021 Junior High Math Contest</h4>
+        <table class="table table-hover">
+            <tr class="header-row">
+                <th>Name</th>
+                <th>Zoom Link</th>
+                <th>Contest Link</th>
+                <th>Open Time</th>
+                <th>Close Time</th>
+                <!-- <th>Active</th> -->
             </tr>
-            <% } %>
-    </table>
+
+            <% for (var i=0; i < rooms.length; i++) { %>
+                <tr class="<%= rooms[i].active ? " active-row" : "" %>">
+                    <td>
+                        <%= rooms[i].name %>
+                    </td>
+                    <td>
+                        <!-- <a target="_blank" href="" class="btn "></a> -->
+                        <button class="btn btn-primary" onclick="window.open('<%= rooms[i].zoomLink %>','_blank')"
+                            <%=rooms[i].active ? "" : "disabled" %>>Join Zoom Meeting</button>
+                    </td>
+                    <td>
+                        <% if (rooms[i].testLink) { %>
+                            <button class="btn btn-dark" onclick=" window.open('<%= rooms[i].testLink %>','_blank')"
+                                <%=rooms[i].active ? "" : "disabled" %>>Join Contest</button>
+                            <% } %>
+                    </td>
+                    <td>
+                        <%= new Date(rooms[i].openTime).toLocaleTimeString('en-us') %>
+                    </td>
+                    <td>
+                        <%= new Date(rooms[i].closeTime).toLocaleTimeString('en-us') %>
+                    </td>
+                    <!-- <td>
+                        <%= rooms[i].active %>
+                    </td> -->
+                </tr>
+                <% } %>
+        </table>
+        <p>
+            Having a problem? First try <a href="javascript:window.location.reload(true);">reloading this page</a>.
+            If the problem persists, join the <a href="<%= helpLink %>">technical help room</a>.
+        </p>
+        
+    </div>
+    <footer>
+        <%- include('../partials/footer'); %>
+    </footer>
 </body>
 
 </html>
