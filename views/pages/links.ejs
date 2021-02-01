@@ -17,6 +17,11 @@
                 .header-row {
                     background-color: #EEE;
                 }
+
+                .supporting-text {
+                    color: gray;
+                    font-size: small;
+                }
             </style>
 </head>
 
@@ -25,7 +30,7 @@
         <h1>
             <%= name %> - <%= schoolName %>
         </h1>
-        <h4> 2021 Junior High Math Contest</h4>
+        <h4> 2021 Junior High Math Contest <%= divisionText %></h4>
         <table class="table table-hover">
             <tr class="header-row">
                 <th>Name</th>
@@ -39,7 +44,8 @@
             <% for (var i=0; i < rooms.length; i++) { %>
                 <tr class="<%= rooms[i].active ? " active-row" : "" %>">
                     <td>
-                        <%= rooms[i].name %>
+                        <%= rooms[i].name %> <br>
+                        <span class="supporting-text"><%= rooms[i].subtext %></span>
                     </td>
                     <td>
                         <!-- <a target="_blank" href="" class="btn "></a> -->
@@ -54,8 +60,8 @@
                     </td>
                     <td>
                         <%= new Date(rooms[i].openTime).toLocaleTimeString('en-us') %>
-                    <!-- </td>
-                    <td>
+                    </td>
+                    <!-- <td>
                         <%= new Date(rooms[i].closeTime).toLocaleTimeString('en-us') %>
                     </td> -->
                     <!-- <td>

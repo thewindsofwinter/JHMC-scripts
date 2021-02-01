@@ -95,6 +95,7 @@ app.post('/test/endpoint/:recordId', async (req, res) => {
 
     let record = await testsTable.find(recordId),
         competition = await competitionsTable.find(record.fields.Competition[0]);
+
     const questionsPromise = tests.getOrderedQuestions(record, req.body.competitionCode);
 
     if (tests.validateTime(competition, record) !== "true") {
@@ -123,11 +124,11 @@ app.post('/test/endpoint/:recordId', async (req, res) => {
             const startTimePromise = testsTable.update(recordId, { "Start Time": time });
             const currentQuestionIndexPromise = testsTable.update(recordId, { "Current Question Index": 0 });
 
-            let [other] = await Promise.all([startTimePromise, currentQuestionIndexPromise]);
+            // let [other] = await Promise.all([startTimePromise, currentQuestionIndexPromise]);
             res.status(200).json({ ...questions[0], closingTime: tests.getEndTime(competition, record).toString() });
         } catch (e) {
             console.log(e);
-            res.error("Something went wrong");
+            res.error("Something went wrong " + e.toString());
         }
 
     } else if (req.body.action == "nextQuestion") {
@@ -168,9 +169,12 @@ app.get('/student/:studentId', async (req, res) => {
                 zoomLink = school.fields["Creative Thinking Zoom Link"];
             }
 
+            let subtext = test.fields["Student Names"].length == 1 ? "" : test.fields["Student Names"].join(", ");
+
             return {
                 testLink: test.fields["Link To Join"],
                 zoomLink: zoomLink,
+                subtext,
                 name: test.fields["Competition Friendly Name"],
                 openTime: test.fields["Competition Start Time"],
                 closeTime: test.fields["Competition End Time"]
@@ -179,9 +183,11 @@ app.get('/student/:studentId', async (req, res) => {
 
         let otherRooms = JSON.parse(fs.readFileSync('rooms.json', 'utf8')).rooms;
 
-        studentJoinInfo.unshift(otherRooms.find(room => room.id == "opening-ceremony"));
-        studentJoinInfo.push(otherRooms.find(room => room.id == "awards"));
-        studentJoinInfo.push(otherRooms.find(room => room.id == "speed-round"));
+        let requiredRooms = ["opening-ceremony", "awards", "speed-round", "tour"]
+
+        requiredRooms.forEach(room => {
+            studentJoinInfo.push(otherRooms.find(r => r.id == room));
+        });
 
         studentJoinInfo.sort((a,b) => new Date(a.openTime) - new Date(b.openTime));
 
@@ -199,7 +205,8 @@ app.get('/student/:studentId', async (req, res) => {
             primary: student.fields.Name,
             secondary: "JHMC 2021",
             schoolName: school.fields.Name,
-            helpLink: otherRooms.find(room => room.id == "help").zoomLink
+            helpLink: otherRooms.find(room => room.id == "help").zoomLink,
+            divisionText: "Division " + school.fields.Division
         });
     } catch(e) {
         console.error(e);

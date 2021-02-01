@@ -17,6 +17,14 @@
             "id": "awards"
         },
         {
+            "name": "IMSA Virtual Tour",
+            "zoomLink": "https://zoom.us/tour",
+            "openTime": "2021-01-08T01:27:00.000Z",
+            "closeTime": "2021-02-08T01:27:40.000Z",
+            "password": "beans",
+            "id": "tour"
+        },
+        {
             "name": "Speed Round",
             "zoomLink": "https://zoom.us/speedround",
             "openTime": "2021-01-08T01:27:00.000Z",

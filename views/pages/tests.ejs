@@ -228,7 +228,7 @@
 
         var toastElList = [].slice.call(document.querySelectorAll('.toast'))
         var fiveMinutesToast = toastElList.map(function (toastEl) {
-            return new bootstrap.Toast(toastEl, {delay: 5000})
+            return new bootstrap.Toast(toastEl, {delay: 5000});
         })[0];
 
         var countdown = (date_future) => {
@@ -260,7 +260,9 @@
             }
 
             if (minutes == 0 && seconds == 0) {
-                alert("Time is Up!")
+                $("#next-button").click();
+                clearInterval(counterInterval);
+                alert("Time is Up! Your last question was automatically submitted.");
             }
         }
 

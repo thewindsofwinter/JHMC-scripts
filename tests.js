@@ -65,7 +65,7 @@ const validateTime = (competition, record) => {
         closeTime = new Date(competition.fields.Closes) || new Date(8640000000000000), //Max date; I'll find a better way to do this
         startTime = new Date(record.fields["Start Time"]),
         duration = competition.fields["Max Duration"] * 1000,
-        expireTime = new Date(startTime.getTime() + duration);
+        expireTime = new Date(startTime.getTime() + duration + 10000 * 5); // Add 5 seconds grace period to get last question in
     
     let currentTime = new Date();
     if (openTime > currentTime) {
