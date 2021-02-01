@@ -5,6 +5,7 @@ const AirtablePlus = require('airtable-plus');
 const DotEnv = require('dotenv').config();
 const humanizeDuration = require("humanize-duration");
 const tests = require('./tests');
+var fs = require('fs');
 
 // baseID, apiKey, and tableName can alternatively be set by environment variables
 const testsTable = new AirtablePlus({ tableName: "Tests" }),
@@ -27,8 +28,8 @@ app.get('/', (req, res) => {
     // res.send("Welcome to the home page!");
 });
 
-app.get('/test/**', async (req, res) => {
-    const recordId = req.url.split("/")[2];
+app.get('/test/:recordId', async (req, res) => {
+    const recordId = req.params.recordId;
     if (recordId == "sample") {
         res.redirect("/test/" + process.env.SAMPLE_TEST_ID);
         return;
@@ -64,9 +65,14 @@ app.get('/test/**', async (req, res) => {
             testBegun = false;
         }
 
+        let name = students.map(s => s.fields.Name).join(", "),
+            competitionName = competition.fields["Friendly Name"]
+
         res.render('pages/tests', {
-            name: students.map(s => s.fields.Name).join(", "),
-            competition: competition.fields["Friendly Name"],
+            name,
+            primary: name,
+            competition: competitionName,
+            secondary: competitionName + " Test",
             division: competition.fields.Division,
             durationText: humanizeDuration(competition.fields["Max Duration"] * 1000),
             duration: competition.fields["Max Duration"] * 1000,
@@ -80,15 +86,12 @@ app.get('/test/**', async (req, res) => {
         })
     } catch (e) {
         console.log(e);
-        console.log("83");
-        res.status(500).render('pages/error.ejs', {
-            errorText: e.toString()
-        })
+        error(res, "Error fetching");
     }
 });
 
-app.post('/test/endpoint/**', async (req, res) => {
-    const recordId = req.url.split("/")[3];
+app.post('/test/endpoint/:recordId', async (req, res) => {
+    const recordId = req.params.recordId;
 
     let record = await testsTable.find(recordId),
         competition = await competitionsTable.find(record.fields.Competition[0]);
@@ -124,8 +127,7 @@ app.post('/test/endpoint/**', async (req, res) => {
             res.status(200).json({ ...questions[0], closingTime: tests.getEndTime(competition, record).toString() });
         } catch (e) {
             console.log(e);
-            console.log("126")
-            res.status(500).send(e);
+            res.error("Something went wrong");
         }
 
     } else if (req.body.action == "nextQuestion") {
@@ -149,9 +151,62 @@ app.post('/test/endpoint/**', async (req, res) => {
     }
 });
 
-app.get('/done**', (req, res) => {
-    res.send("Congrats!");
-});
+app.get('/student/:studentId', async (req, res) => {
+    const studentId = req.params.studentId;
+    try {
+        let student = await studentsTable.find(studentId);
+        let testIds = student.fields.Tests;
+        let school = await schoolsTable.find(student.fields["School"]);
+        let studentJoinInfo = await Promise.all(testIds.map(async (testId) => {
+            let test = await testsTable.find(testId),
+                competitionName = test.fields["Competition Name"][0];
+
+            let zoomLink = school.fields["7th Grade Zoom Link"];
+            if (competitionName.includes("8th")) {
+                zoomLink = school.fields["8th Grade Zoom Link"];
+            } else if (competitionName.includes("Creative")) {
+                zoomLink = school.fields["Creative Thinking Zoom Link"];
+            }
+
+            return {
+                testLink: test.fields["Link To Join"],
+                zoomLink: zoomLink,
+                name: test.fields["Competition Friendly Name"],
+                openTime: test.fields["Competition Start Time"],
+                closeTime: test.fields["Competition End Time"]
+            };
+        }));
+
+        let otherRooms = JSON.parse(fs.readFileSync('rooms.json', 'utf8')).rooms;
+
+        studentJoinInfo.unshift(otherRooms.find(room => room.id == "opening-ceremony"));
+        studentJoinInfo.push(otherRooms.find(room => room.id == "awards"));
+
+        let now = new Date();
+        studentJoinInfo = studentJoinInfo.map(room => {
+            return {
+                ...room,
+                active: (new Date(room.openTime) < now && new Date(room.closeTime) > now)
+            }
+        })
+
+        res.status(200).render("pages/links.ejs", {
+            rooms: studentJoinInfo,
+            name: student.fields.Name,
+            primary: student.fields.Name,
+            secondary: "JHMC 2021",
+            schoolName: school.fields.Name
+        });
+    } catch(e) {
+        console.error(e);
+        error(res);
+    }
+})
+
+app.get('/error', (req, res) => {
+    // TODO: Add error page
+    error(res);
+})
 
 app.get('*', function (req, res) {
     res.status(404).render('pages/404.ejs');
@@ -161,5 +216,12 @@ const server = app.listen(8080, () => {
     const host = server.address().address;
     const port = server.address().port;
 
-    console.log(`App listening at http://${host}:${port}`);
+    console.log(`App listening at http://localhost:${port}`);
 });
+
+const error = (res, text) => {
+    console.log("ERROR!");
+    res.status(500).render('pages/error.ejs', {
+        errorText: text || "There was an unexpected error. Please contact your proctor."
+    });
+}

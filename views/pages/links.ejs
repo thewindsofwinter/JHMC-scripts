@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/head'); %>
+        <%- include('../partials/meta'); %>
+</head>
+
+<body>
+    <h1><%= name %> - <%= schoolName %></h1>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Zoom Link</th>
+            <th>Test Link</th>
+            <th>Open Time</th>
+            <th>Close Time</th>
+            <th>Active</th>
+        </tr>
+
+        <% for (var i=0; i < rooms.length; i++) { %>
+            <tr>
+                <td>
+                    <%= rooms[i].name %> 
+                </td>
+                <td>
+                    <a href="<%= rooms[i].zoomLink %>"><%= rooms[i].zoomLink %></a>
+                </td>
+                <td>
+                    <a href="<%= rooms[i].testLink %>"><%= rooms[i].testLink %></a>
+                </td>
+                <td>
+                    <%= new Date(rooms[i].openTime).toLocaleTimeString('en-us') %>
+                </td>
+                <td>
+                    <%= new Date(rooms[i].closeTime).toLocaleTimeString('en-us') %>
+                </td>
+                <td>
+                    <%= rooms[i].active %>
+                </td>
+            </tr>
+            <% } %>
+    </table>
+</body>
+
+</html>
