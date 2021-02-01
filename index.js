@@ -183,7 +183,7 @@ app.get('/student/:studentId', async (req, res) => {
 
         let otherRooms = JSON.parse(fs.readFileSync('rooms.json', 'utf8')).rooms;
 
-        let requiredRooms = ["opening-ceremony", "awards", "speed-round", "tour"]
+        let requiredRooms = ["opening-ceremony", "awards", "speed-round", "tour"];
 
         requiredRooms.forEach(room => {
             studentJoinInfo.push(otherRooms.find(r => r.id == room));
