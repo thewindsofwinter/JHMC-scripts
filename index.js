@@ -12,6 +12,7 @@ const testsTable = new AirtablePlus({ tableName: "Tests" }),
     studentsTable = new AirtablePlus({ tableName: "Students" }),
     schoolsTable = new AirtablePlus({ tableName: "Schools" }),
     competitionsTable = new AirtablePlus({ tableName: "Competitions" });
+    eventsTable = new AirtablePlus({ tableName: "Events" });
 
 app.set('view engine', 'ejs');
 
