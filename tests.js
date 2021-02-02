@@ -38,7 +38,7 @@ const getOrderedQuestions = async (record, competitionCode, competitionId) => {
     // Example: I had previously listed question 4 twice, which made it have 11 questions... this wouldn't happen if I did it automatically, but it's still an issue!
 
     let unordered = await getQuestions(competitionCode);
-    let order = record.fields["Question Order"].split(",");
+    let order = record.fields["Question Order"].split(","); //TODO: Account for if there is no question order
     order = order.map(o => o - 1); //Adjusts for indexing starting at 0
     let ordered = order.map((o, i) => {
         return {

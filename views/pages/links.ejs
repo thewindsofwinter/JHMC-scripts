@@ -6,7 +6,6 @@
         <%- include('../partials/meta'); %>
             <style>
                 .active-row {
-                    /* background-color: red; */
                     font-size: x-large;
                 }
 
@@ -27,18 +26,16 @@
 
 <body>
     <div class="container">
-        <h1>
+        <h4 class="display-4">
             <%= name %> - <%= schoolName %>
-        </h1>
-        <h4> 2021 Junior High Math Contest <%= divisionText %></h4>
+        </h4>
+        <h4 class="lead"> 2021 Junior High Math Contest <%= divisionText %></h4>
         <table class="table table-hover">
             <tr class="header-row">
                 <th>Name</th>
-                <th>Zoom Link</th>
-                <th>Contest Link</th>
+                <th>&nbsp;</th> <!-- Zoom Link -->
+                <th>&nbsp;</th> <!-- Contest Link -->
                 <th>Time</th>
-                <!-- <th>Close Time</th> -->
-                <!-- <th>Active</th> -->
             </tr>
 
             <% for (var i=0; i < rooms.length; i++) { %>
