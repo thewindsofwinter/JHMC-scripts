@@ -48,9 +48,10 @@
                         <span class="supporting-text"><%= rooms[i].subtext %></span>
                     </td>
                     <td>
-                        <!-- <a target="_blank" href="" class="btn "></a> -->
-                        <button class="btn btn-primary" onclick="window.open('<%= rooms[i].zoomLink %>','_blank')"
-                            <%=rooms[i].active ? "" : "disabled" %>>Join Zoom Meeting</button>
+                        <% if (rooms[i].zoomLink) { %>
+                            <button class="btn btn-primary" onclick="window.open('<%= rooms[i].zoomLink %>','_blank')"
+                                <%=rooms[i].active ? "" : "disabled" %>>Join Zoom Meeting</button>
+                            <% } %>
                     </td>
                     <td>
                         <% if (rooms[i].testLink) { %>
@@ -59,14 +60,8 @@
                             <% } %>
                     </td>
                     <td>
-                        <%= new Date(rooms[i].openTime).toLocaleTimeString('en-us') %>
+                        <%= new Date(rooms[i].openTime).toLocaleTimeString([],{timeStyle: 'short'}) %>
                     </td>
-                    <!-- <td>
-                        <%= new Date(rooms[i].closeTime).toLocaleTimeString('en-us') %>
-                    </td> -->
-                    <!-- <td>
-                        <%= rooms[i].active %>
-                    </td> -->
                 </tr>
                 <% } %>
         </table>

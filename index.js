@@ -158,7 +158,7 @@ app.get('/student/:studentId', async (req, res) => {
         let student = await studentsTable.find(studentId);
         let testIds = student.fields.Tests;
         let school = await schoolsTable.find(student.fields["School"]);
-        let studentJoinInfo = await Promise.all(testIds.map(async (testId) => {
+        let studentRooms = await Promise.all(testIds.map(async (testId) => {
             let test = await testsTable.find(testId),
                 competitionName = test.fields["Competition Name"][0];
 
@@ -182,17 +182,22 @@ app.get('/student/:studentId', async (req, res) => {
         }));
 
         let otherRooms = JSON.parse(fs.readFileSync('rooms.json', 'utf8')).rooms;
+        let nonTestingRooms = await eventsTable.read();
+        nonTestingRooms = nonTestingRooms.filter(room => room.fields.Group == "All" || room.fields.Group == school.fields.Division)
+            .forEach(room => {
+                studentRooms.push({
+                    zoomLink: room.fields["Zoom Link"],
+                    name: room.fields.Name,
+                    openTime: room.fields.Start,
+                    closeTime: room.fields.End
+                });
+            });
 
-        let requiredRooms = ["opening-ceremony", "awards", "speed-round", "tour"];
 
-        requiredRooms.forEach(room => {
-            studentJoinInfo.push(otherRooms.find(r => r.id == room));
-        });
-
-        studentJoinInfo.sort((a,b) => new Date(a.openTime) - new Date(b.openTime));
+        studentRooms.sort((a,b) => new Date(a.openTime) - new Date(b.openTime));
 
         let now = new Date();
-        studentJoinInfo = studentJoinInfo.map(room => {
+        studentRooms = studentRooms.map(room => {
             return {
                 ...room,
                 active: (new Date(room.openTime) < now && new Date(room.closeTime) > now)
@@ -200,7 +205,7 @@ app.get('/student/:studentId', async (req, res) => {
         })
 
         res.status(200).render("pages/links.ejs", {
-            rooms: studentJoinInfo,
+            rooms: studentRooms,
             name: student.fields.Name,
             primary: student.fields.Name,
             secondary: "JHMC 2021",
