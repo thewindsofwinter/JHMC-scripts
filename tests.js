@@ -6,7 +6,7 @@ const competitionsTable = new AirtablePlus({ tableName: "Competitions" });
 const getQuestions = async (competitionCode) => {
     competitionCode = competitionCode.toUpperCase();
     const allCompetitions = await competitionsTable.read();
-    let activeCompetition = allCompetitions.find(c => c.fields.Code == competitionCode ? true : false);
+    let activeCompetition = allCompetitions.find(c => c.fields.Code == competitionCode);
     let questions = [],
         moreQuestions = true,
         questionNumber = 1;
@@ -35,6 +35,7 @@ const getQuestions = async (competitionCode) => {
 
 const getOrderedQuestions = async (record, competitionCode, competitionId) => {
     // TODO: Add robustness so this can't break with incorrect indexing etc.
+    // Example: I had previously listed question 4 twice, which made it have 11 questions... this wouldn't happen if I did it automatically, but it's still an issue!
 
     let unordered = await getQuestions(competitionCode);
     let order = record.fields["Question Order"].split(",");

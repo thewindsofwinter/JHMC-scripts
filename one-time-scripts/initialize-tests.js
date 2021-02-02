@@ -1,3 +1,5 @@
+// Generates question order, assigns each test a grader
+
 const AirtablePlus = require('airtable-plus');
 const DotEnv = require('dotenv').config({ path: './../.env' });
 

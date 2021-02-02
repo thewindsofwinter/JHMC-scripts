@@ -11,7 +11,7 @@ var fs = require('fs');
 const testsTable = new AirtablePlus({ tableName: "Tests" }),
     studentsTable = new AirtablePlus({ tableName: "Students" }),
     schoolsTable = new AirtablePlus({ tableName: "Schools" }),
-    competitionsTable = new AirtablePlus({ tableName: "Competitions" });
+    competitionsTable = new AirtablePlus({ tableName: "Competitions" }),
     eventsTable = new AirtablePlus({ tableName: "Events" });
 
 app.set('view engine', 'ejs');
@@ -181,9 +181,8 @@ app.get('/student/:studentId', async (req, res) => {
             };
         }));
 
-        let otherRooms = JSON.parse(fs.readFileSync('rooms.json', 'utf8')).rooms;
         let nonTestingRooms = await eventsTable.read();
-        nonTestingRooms = nonTestingRooms.filter(room => room.fields.Group == "All" || room.fields.Group == school.fields.Division)
+        nonTestingRooms.filter(room => room.fields.Group == "All" || room.fields.Group == school.fields.Division)
             .forEach(room => {
                 studentRooms.push({
                     zoomLink: room.fields["Zoom Link"],
@@ -201,26 +200,32 @@ app.get('/student/:studentId', async (req, res) => {
             return {
                 ...room,
                 active: (new Date(room.openTime) < now && new Date(room.closeTime) > now)
-            }
-        })
+            };
+        });
 
         res.status(200).render("pages/links.ejs", {
             rooms: studentRooms,
             name: student.fields.Name,
             primary: student.fields.Name,
-            secondary: "JHMC 2021",
+            secondary: "JHMC 2021", // Goes in the <title>
             schoolName: school.fields.Name,
-            helpLink: otherRooms.find(room => room.id == "help").zoomLink,
+            helpLink: nonTestingRooms.find(room => room.fields.ID == "help").fields["Zoom Link"],
             divisionText: "Division " + school.fields.Division
         });
     } catch(e) {
         console.error(e);
         error(res);
     }
-})
+});
+
+app.get('/help', async (req, res) => {
+    let eventsTableData = await eventsTable.read();
+    console.log(eventsTableData);
+    let helpLink = eventsTableData.find(room => room.fields.ID == "help").fields["Zoom Link"]; 
+    res.redirect(helpLink)
+});
 
 app.get('/error', (req, res) => {
-    // TODO: Add error page
     error(res);
 })
 
