@@ -34,7 +34,7 @@ app.get('/', (req, res) => {
     events.forEach(event => {
         app.get(`${event.fields.ID}`, (req, res) => {
             res.redirect(event.fields.zoomLink);
-        })
+        });
     })
 })();
 
@@ -232,7 +232,7 @@ app.get('/help', async (req, res) => {
     let eventsTableData = await eventsTable.read();
     console.log(eventsTableData);
     let helpLink = eventsTableData.find(room => room.fields.ID == "help").fields["Zoom Link"]; 
-    res.redirect(helpLink)
+    res.redirect(helpLink);
 });
 
 app.get('/error', (req, res) => {

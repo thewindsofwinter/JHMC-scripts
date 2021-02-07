@@ -8,15 +8,19 @@ console.log(process.env.AIRTABLE_API_KEY);
 const testsTable = new AirtablePlus({ tableName: "Tests" }),
     studentsTable = new AirtablePlus({ tableName: "Students" }),
     schoolsTable = new AirtablePlus({ tableName: "Schools" }),
-    competitionsTable = new AirtablePlus({ tableName: "Competitions" });
+    competitionsTable = new AirtablePlus({ tableName: "Competitions" }),
+    volunteersTable = new AirtablePlus({ tableName: "Volunteers" });
 
 (async () => {
     const tests = await testsTable.read();
     const competitions = await competitionsTable.read();
+    const volunteers = await volunteersTable.read();
+
+    let graders = volunteers.filter(volunteer => volunteer.fields.Role == "Grader");
 
     // NOTE: this assumes no tests are added and no competitions are changed while this is running
 
-    tests.forEach(test => {
+    tests.forEach((test, testIndex) => {
         const competitionId = test.fields.Competition[0];
         const comp = competitions.find(c => c.id == competitionId);
 
@@ -29,7 +33,9 @@ const testsTable = new AirtablePlus({ tableName: "Tests" }),
         }
         const questionOrder = shuffle([...Array(numQuestions).keys()].map(x => ++x)).join(","); // Pretty proud of this line ngl
 
-        testsTable.update(test.id, {"Question Order": questionOrder})
+        let testGrader = [graders[testIndex % graders.length].id];
+        console.log(testGrader);
+        testsTable.update(test.id, { "Question Order": questionOrder, "Grader": testGrader});
     });
 
     console.log("Question Order Generated!");
