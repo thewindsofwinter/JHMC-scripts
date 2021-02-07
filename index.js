@@ -29,6 +29,16 @@ app.get('/', (req, res) => {
     // res.send("Welcome to the home page!");
 });
 
+(async () => {
+    let events = await eventsTable.read();
+    events.forEach(event => {
+        app.get(`${event.fields.ID}`, (req, res) => {
+            res.redirect(event.fields.zoomLink);
+        })
+    })
+})();
+
+
 app.get('/test/:recordId', async (req, res) => {
     const recordId = req.params.recordId;
     if (recordId == "sample") {
