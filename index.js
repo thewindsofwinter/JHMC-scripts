@@ -26,8 +26,11 @@ app.use(express.static(__dirname + '/public'));
 
 app.get('/', (req, res) => {
     res.render('pages/home.ejs');
-    // res.send("Welcome to the home page!");
 });
+
+app.get('/mock', (req, res) => {
+    res.redirect("https://forms.gle/eTbwE9xVsMoivrpD6");
+}) 
 
 (async () => {
     let events = await eventsTable.read();
