@@ -1,28 +1,30 @@
-<hr>
-
-<h2>
-    <%if (individualQuestions) { %>
-        <span class='questionTitle questionTitle-<%= questionIndex %>'></span>
-        <% } %>
-            <%if ((!individualQuestions && questionIndex==0) || individualQuestions) { %>
-                <span class="remainingTime"></span>
-                <% } %>
-</h2>
-
-<p id='questionText' class='questionText-<%= questionIndex %>'>
-
-</p>
-<div class="input-group mb-3">
-    <input type="text" class="answer answer-<%= questionIndex %>" id="answer" class="form-control"
-        placeholder="Your Answer" aria-label="Answer" aria-describedby="next-button-<%= questionIndex %>">
-    <% if (individualQuestions) { %>
-        <!-- TODO: FIX BAD Positioning of key & bootstrap error -->
-        <button class="btn btn-outline-dark next-button" type="button" data-bs-toggle="tooltip"
-            id="next-button-<%= questionIndex %>" data-bs-placement="top"
-            title="Remember, you will not be able to come back to this question">
-            Next →</button>
-        <% } %>
-
+<div>
+    <hr>
+    
+    <h2>
+        <%if (individualQuestions) { %>
+            <span class='questionTitle questionTitle-<%= questionIndex %>'></span>
+            <% } %>
+                <%if ((!individualQuestions && questionIndex==0) || individualQuestions) { %>
+                    <span class="remainingTime"></span>
+                    <% } %>
+    </h2>
+    
+    <p id='questionText' class='questionText-<%= questionIndex %>'>
+    
+    </p>
+    <div class="input-group mb-3">
+        <input type="text" class="answer answer-<%= questionIndex %>" id="answer-<%= questionIndex %>" class="form-control"
+            placeholder="Your Answer" aria-label="Answer" aria-describedby="next-button-<%= questionIndex %>" questioncode="<%= questionCode %>">
+        <% if (individualQuestions) { %>
+            <!-- TODO: FIX BAD Positioning of key & bootstrap error -->
+            <button class="btn btn-outline-dark next-button" type="button" data-bs-toggle="tooltip"
+                id="next-button-<%= questionIndex %>" data-bs-placement="top"
+                title="Remember, you will not be able to come back to this question">
+                Next →</button>
+            <% } %>
+    
+    </div>
+    <div id="answerHelp" class="form-text" style="display:block;"><small>Answers must be exact. Do not
+            round.</small></div>
 </div>
-<div id="answerHelp" class="form-text" style="display:block;"><small>Answers must be exact. Do not
-        round.</small></div>

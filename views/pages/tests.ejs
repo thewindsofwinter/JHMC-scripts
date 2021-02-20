@@ -17,6 +17,13 @@
                     }
                 };
             </script>
+            <style>
+                .text-nowrap {
+                    overflow: hidden;
+                    white-space: nowrap !important;
+                }
+                
+            </style>
 </head>
 
 <body class="container">
@@ -32,7 +39,7 @@
                     <h1>
                         <%= competition %> Test
                     </h1>
-                    <p>You have <%= durationText %> to complete this test</p>
+                    <p>You have <%= durationText %> to complete this test.</p>
                     <p>
                         <% if (individualQuestions) { %>
                             You will see only one question at a time. You will not be able to go back to an old
@@ -48,6 +55,9 @@
                     <div id="infoDiv" style="display: none;">
                         <hr>
                         <h2 id='infoTitle'>Test Completed</h2>
+                        <p>
+                            Please refer to your personal schedule page to find what is next.
+                        </p>
                     </div>
                     <button type="button" id="beginTestButton" class="btn btn-dark btn-lg">
                         <%= beginButtonText %>
@@ -57,7 +67,15 @@
                         <span class="sr-only">Loading...</span>
                     </div>
                     <div id="questionDiv" style="display:none;">
+                        <div id="questions">
 
+                        </div>
+                        <div style="display:<%= individualQuestions ? 'none' : 'block' %>">
+                            <hr>
+                            <button class="btn btn-dark next-button" type="button" data-bs-toggle="tooltip"
+                                id="next-button" data-bs-placement="top" title="Remember, all answers are final">
+                                Submit</button>
+                        </div>
                     </div>
                 </div>
                 <% if (individualQuestions) { %>
@@ -150,12 +168,12 @@
         var nextQuestion = () => {
             $("#questionDiv").hide();
             loading();
-            let answer;
-            if (individualQuestions) {
-                answer = $(".answer").val()
-            } else {
-
-            }
+            let answers = $('.answer').map((_, el) => {
+                return {
+                    text: el.value,
+                    questionCode: el.getAttribute("questioncode")
+                }
+            }).get();
 
             $.ajax({
                 type: 'POST',
@@ -165,7 +183,7 @@
                     JSON.stringify({
                         action: "next",
                         competitionCode: competitionCode,
-                        answer
+                        answers
                     }),
                 contentType: 'application/json; charset=utf-8',
                 success: function (data) {
@@ -189,11 +207,13 @@
             let questions = obj.questions;
             let mathjaxNodes = [];
 
-            let html;
+            let html = "";
             for (question of questions) {
-                html += ejs.compile(questionTemplate)({ questionIndex: question.index, individualQuestions });
+                // html += ejs.compile(questionTemplate)({ questionIndex: question.index, individualQuestions });
+                html += ejs.render(questionTemplate, { questionIndex: question.index, questionCode: question.questionCode, individualQuestions }).toString();
             }
-            $("#questionDiv").html(html);
+
+            $("#questions").html(html);
 
             for (question of questions) {
                 $(`.answer-${question.index}`).val("");

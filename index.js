@@ -62,7 +62,8 @@ app.get('/test/:recordId', async (req, res) => {
             schoolPromise = schoolsTable.find(record.fields.School[0]),
             competitionPromise = competitionsTable.find(record.fields.Competition[0]);
 
-        let [competition, school, ...students] = await Promise.all([competitionPromise, schoolPromise, ...studentsPromise]);
+        // let [competition, school, ...students] = await Promise.all([competitionPromise, schoolPromise, ...studentsPromise]);
+        let [competition, ...students] = await Promise.all([competitionPromise, ...studentsPromise]);
 
         let questions = await tests.getOrderedQuestions(record, competition.fields.Code);
         let available = tests.validateTime(competition, record),
@@ -101,7 +102,7 @@ app.get('/test/:recordId', async (req, res) => {
             available,
             competitionType,
             individualQuestions: competitionType == "One Question",
-            questionTemplate: fs.readFileSync('views/partials/question.ejs', 'utf8')
+            questionTemplate: fs.readFileSync('views/partials/question.ejs', 'utf8'),
         })
     } catch (e) {
         console.log(e);
@@ -114,7 +115,8 @@ app.post('/test/endpoint/:recordId', async (req, res) => {
 
     let record = await testsTable.find(recordId),
         competition = await competitionsTable.find(record.fields.Competition[0]),
-        competitionType = competition.fields["Test Type"];
+        competitionType = competition.fields["Test Type"],
+        individualQuestions = competitionType == "One Question";
 
     const questionsPromise = tests.getOrderedQuestions(record, req.body.competitionCode);
 
@@ -141,8 +143,7 @@ app.post('/test/endpoint/:recordId', async (req, res) => {
             }
 
             // let [other] = await Promise.all([startTimePromise, currentQuestionIndexPromise]);
-            console.log(questions[numberQuestionsCompleted]);
-            if (competitionType == "One Question") {
+            if (individualQuestions) {
                 res.status(200).json({ questions: [questions[numberQuestionsCompleted]], closingTime: tests.getEndTime(competition, record).toString() });
             } else {
                 res.status(200).json({ questions, closingTime: tests.getEndTime(competition, record).toString(), });
@@ -155,21 +156,36 @@ app.post('/test/endpoint/:recordId', async (req, res) => {
     } else if (req.body.action == "next") {
         try {
             let questions = await questionsPromise;
-            let numberQuestionsCompleted = record.fields["Current Question Index"];
-    
-            let newNumberOfQuestionsCompleted = parseInt(record.fields["Current Question Index"]) + 1;
-            testsTable.update(recordId, { "Current Question Index": newNumberOfQuestionsCompleted });
-    
-            let answeredQuestion = questions.find(q => q.index == numberQuestionsCompleted);
-            console.log(req.body.answer);
-            testsTable.update(recordId, { [answeredQuestion.questionCode]: req.body.answer });
-    
-            if (newNumberOfQuestionsCompleted === questions.length) {
-                const time = await testsTable.update(record.id, { "Submission Time": Date.now() });
-                res.send("FINISHED");
+            let answers = req.body.answers,
+                numberQuestionsCompleted,
+                newNumberOfQuestionsCompleted;
+
+            console.log(req.body.answers);
+            if (individualQuestions) {
+                // For individual questions, we have to withstand using the current question index, otherwise somebody could theoretically change the question code on submission
+                numberQuestionsCompleted = record.fields["Current Question Index"];
+                let answeredQuestion = questions.find(q => q.index == numberQuestionsCompleted);
+                testsTable.update(recordId, { [answeredQuestion.questionCode]: req.body.answers[0].text });
+
+                newNumberOfQuestionsCompleted = parseInt(record.fields["Current Question Index"]) + 1;
+
+                if (newNumberOfQuestionsCompleted === questions.length) {
+                    const time = await testsTable.update(record.id, { "Submission Time": Date.now() });
+                    res.send("FINISHED");
+                } else {
+                    res.status(200).json({ questions: [questions[newNumberOfQuestionsCompleted]], closingTime: tests.getEndTime(competition, record).toString() });
+                }
             } else {
-                res.status(200).json({ questions: [questions[newNumberOfQuestionsCompleted]], closingTime: tests.getEndTime(competition, record).toString() });
+                newNumberOfQuestionsCompleted = questions.length;
+                await Promise.all(answers.map(answer => {
+                    // returning a promise which is received and awaited by Promise.all
+                    return testsTable.update(recordId, { [answer.questionCode]: answer.text });
+                }));
+                res.status(200).send("FINISHED");
             }
+
+            testsTable.update(recordId, { "Current Question Index": newNumberOfQuestionsCompleted });
+
         } catch (e) {
             console.log(e);
         }
@@ -181,7 +197,7 @@ app.post('/test/endpoint/:recordId', async (req, res) => {
 process.on('unhandledRejection', (reason, p) => {
     console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
     // application specific logging, throwing an error, or other logic here
-  });
+});
 
 app.get('/student/:studentId', async (req, res) => {
     const studentId = req.params.studentId;
@@ -202,13 +218,15 @@ app.get('/student/:studentId', async (req, res) => {
 
             let subtext = test.fields["Student Names"].length == 1 ? "" : test.fields["Student Names"].join(", ");
 
+
             return {
                 testLink: test.fields["Link To Join"],
                 zoomLink: zoomLink,
                 subtext,
                 name: test.fields["Competition Friendly Name"],
                 openTime: test.fields["Competition Start Time"],
-                closeTime: test.fields["Competition End Time"]
+                closeTime: test.fields["Competition End Time"],
+                openTimeText: new Date(test.fields["Competition Start Time"]).toLocaleTimeString("CDT", { timeStyle: 'short', timeZone: "America/Chicago" })
             };
         }));
 
@@ -219,7 +237,8 @@ app.get('/student/:studentId', async (req, res) => {
                     zoomLink: room.fields["Zoom Link"],
                     name: room.fields.Name,
                     openTime: room.fields.Start,
-                    closeTime: room.fields.End
+                    closeTime: room.fields.End,
+                    openTimeText: new Date(room.fields.Start).toLocaleTimeString("CDT", { timeStyle: 'short', timeZone: "America/Chicago" })
                 });
             });
 

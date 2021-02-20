@@ -56,8 +56,8 @@
                                 <%=rooms[i].active ? "" : "disabled" %>>Join Contest</button>
                             <% } %>
                     </td>
-                    <td>
-                        <%= new Date(rooms[i].openTime).toLocaleTimeString([],{timeStyle: 'short'}) %>
+                    <td opentimetext="<%= rooms[i].openTimeText %>">
+                        <%= rooms[i].openTimeText %>
                     </td>
                 </tr>
                 <% } %>
