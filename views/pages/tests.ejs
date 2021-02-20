@@ -34,8 +34,13 @@
                     </h1>
                     <p>You have <%= durationText %> to complete this test</p>
                     <p>
-                        You will see only one question at a time. You will not be able to go back to an old question.
-                        Calculators are allowed.
+                        <% if (individualQuestions) { %>
+                            You will see only one question at a time. You will not be able to go back to an old
+                            question.
+                            <% } else { %>
+                                Because this is a team test, all questions will be available.
+                                <% } %>
+                                    Calculators are allowed.
                     </p>
                     <p>
                         If you encounter any technical difficulties, private message your proctor on Zoom.
@@ -52,31 +57,16 @@
                         <span class="sr-only">Loading...</span>
                     </div>
                     <div id="questionDiv" style="display:none;">
-                        <hr>
 
-                        <h2><span id='questionTitle'>Question </span><span id="remainingTime"></span></h2>
-
-                        <p id='questionText'>
-                            When \(a \ne 0\), there are two solutions to \(ax^2 + bx + c = 0\) and they are
-                            \[x = {-b \pm \sqrt{b^2-4ac} \over 2a}.\]
-                        </p>
-                        <div class="input-group mb-3">
-                            <input type="text" id="answer" class="form-control" placeholder="Your Answer"
-                                aria-label="Recipient's username" aria-describedby="next-button">
-                            <button class="btn btn-outline-dark" type="button" id="next-button" data-bs-toggle="tooltip"
-                                data-bs-placement="top"
-                                title="Remember, you will not be able to come back to this question">
-                                Next →</button>
-                        </div>
-                        <div id="answerHelp" class="form-text" style="display:block;"><small>Answers must be exact. Do not
-                            round.</small></div>
                     </div>
                 </div>
-                <div class="progress">
-                    <div id="question-progress-bar" style="width: 0%" class="progress-bar" role="progressbar"
-                        aria-valuenow="1" aria-valuemin="0" aria-valuemax="10"></div>
-                </div>
-                <br>
+                <% if (individualQuestions) { %>
+                    <div class="progress">
+                        <div id="question-progress-bar" style="width: 0%" class="progress-bar" role="progressbar"
+                            aria-valuenow="1" aria-valuemin="0" aria-valuemax="10"></div>
+                    </div>
+                    <% } %>
+                        <br>
             </div>
 
             <!-- <div class="col-sm-3">
@@ -112,6 +102,8 @@
         var questionOnOpen = '<%- currentQuestion %>';
         var available = '<%- available %>';
         var counterInterval;
+        var individualQuestions = <%= individualQuestions %>;
+        var questionTemplate = `<%- questionTemplate %>`;
 
         $(document).ready(() => {
             $("#question-progress-bar").attr("aria-valuemax", numberOfQuestions);
@@ -150,35 +142,40 @@
                         alert(thrownError);
                     }
                 });
-
-
             });
-
-            $("#next-button").click(() => {
-                $("#questionDiv").hide();
-                loading();
-                $.ajax({
-                    type: 'POST',
-                    url: "/test/endpoint/" + recordId,
-                    async: true,
-                    data:
-                        JSON.stringify({
-                            action: "nextQuestion",
-                            competitionCode: competitionCode,
-                            answer: $("#answer").val()
-                        }),
-                    contentType: 'application/json; charset=utf-8',
-                    success: function (data) {
-                        displayQuestion(data);
-                    },
-                    error: function (xhr, ajaxOptions, thrownError) {
-                        alert(thrownError);
-                    }
-                });
-            })
 
             // TODO: Close window button when completed or view contest schedule
         });
+
+        var nextQuestion = () => {
+            $("#questionDiv").hide();
+            loading();
+            let answer;
+            if (individualQuestions) {
+                answer = $(".answer").val()
+            } else {
+
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: "/test/endpoint/" + recordId,
+                async: true,
+                data:
+                    JSON.stringify({
+                        action: "next",
+                        competitionCode: competitionCode,
+                        answer
+                    }),
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    displayQuestion(data);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(thrownError);
+                }
+            });
+        }
 
         var displayQuestion = obj => {
             if (obj == "FINISHED") {
@@ -189,20 +186,35 @@
             }
 
             console.log(obj);
+            let questions = obj.questions;
+            let mathjaxNodes = [];
+
+            let html;
+            for (question of questions) {
+                html += ejs.compile(questionTemplate)({ questionIndex: question.index, individualQuestions });
+            }
+            $("#questionDiv").html(html);
+
+            for (question of questions) {
+                $(`.answer-${question.index}`).val("");
+                $(`.questionTitle-${question.index}`).text("Question " + parseInt(question.index + 1));
+                let node = $(`.questionText-${question.index}`)[0];
+                node.innerHTML = question.text;
+                mathjaxNodes.push(node);
+            }
             clearInterval(counterInterval);
             countdown(new Date(obj.closingTime));
-            $("#answer").val("");
-            $("#questionTitle").text("Question " + parseInt(obj.index + 1));
-            let node = $("#questionText")[0];
-            MathJax.typesetClear([node]);
-            node.innerHTML = obj.text;
-            MathJax.typesetPromise([node]).then(() => {
+            MathJax.typesetClear(mathjaxNodes);
+            MathJax.typesetPromise(mathjaxNodes).then(() => {
                 // the new content is has been typeset
                 $("#questionDiv").show();
                 loading(false);
             });
-            $("#question-progress-bar").css("width", 100 * parseInt(obj.index) / numberOfQuestions + "%");
-            $("#question-progress-bar").attr("aria-valuenow", parseInt(obj.index));
+            if (individualQuestions) {
+                $("#question-progress-bar").css("width", 100 * parseInt(obj.index) / numberOfQuestions + "%");
+                $("#question-progress-bar").attr("aria-valuenow", parseInt(obj.index));
+            }
+            $(".next-button").click(nextQuestion);
         }
 
         var loading = (go) => {
@@ -229,7 +241,7 @@
 
         var toastElList = [].slice.call(document.querySelectorAll('.toast'))
         var fiveMinutesToast = toastElList.map(function (toastEl) {
-            return new bootstrap.Toast(toastEl, {delay: 5000});
+            return new bootstrap.Toast(toastEl, { delay: 5000 });
         })[0];
 
         var countdown = (date_future) => {
@@ -238,7 +250,7 @@
             setCounterTime(date_future);
             counterInterval = setInterval(() => {
                 setCounterTime(date_future);
-            }, 1000)
+            }, 1000);
         }
 
         var setCounterTime = (date_future) => {
@@ -254,15 +266,17 @@
                 secondsText = "0" + secondsText;
             }
 
-            $("#remainingTime").text(" - " + minutes + ":" + secondsText + " Remaining");
+            $(".remainingTime").text((individualQuestions ? " - " : '') + minutes + ":" + secondsText + " Remaining");
 
             if (minutes == 5 && seconds == 0) {
                 fiveMinutesToast.show();
             }
 
             if (minutes == 0 && seconds == 0) {
-                $("#next-button").click();
+                // TODO: MAKE SURE THIS ACTUALLY SUBMIT
+                $(".next-button").click();
                 clearInterval(counterInterval);
+                // TODO: Add actual good looking alert
                 alert("Time is Up! Your last question was automatically submitted.");
             }
         }
