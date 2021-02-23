@@ -67,7 +67,7 @@ app.get('/test/:recordId', async (req, res) => {
         let [competition, ...students] = await Promise.all([competitionPromise, ...studentsPromise]);
 
         let questions = await tests.getOrderedQuestions(record, competition.fields.Code);
-        let available = tests.validateTime(competition, record),
+        let available = tests.validateTime(competition, record, false),
             currentQuestion = record.fields["Current Question Index"];
 
         if (!testBegun && currentQuestion && currentQuestion != 0) {
@@ -121,7 +121,7 @@ app.post('/test/endpoint/:recordId', async (req, res) => {
 
     const questionsPromise = tests.getOrderedQuestions(record, req.body.competitionCode);
 
-    if (tests.validateTime(competition, record) !== "true") {
+    if (tests.validateTime(competition, record, true) !== "true") {
         res.send("TIMEOUT");
         return;
     }

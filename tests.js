@@ -57,7 +57,7 @@ const getOrderedQuestions = async (record, competitionCode, competitionId) => {
     return ordered;
 }
 
-const validateTime = (competition, record) => {
+const validateTime = (competition, record, allowExtra=false) => {
     if (record.id === process.env.SAMPLE_TEST_ID) {
         return "true";
     }
@@ -66,7 +66,7 @@ const validateTime = (competition, record) => {
         closeTime = new Date(competition.fields.Closes) || new Date(8640000000000000), //Max date; I'll find a better way to do this
         startTime = new Date(record.fields["Start Time"]),
         duration = competition.fields["Max Duration"] * 1000,
-        expireTime = new Date(startTime.getTime() + duration + 10000 * 5); // Add 5 seconds grace period to get last question in
+        expireTime = new Date(startTime.getTime() + duration + (allowExtra ? (1000 * 5) : 0)); // Add 5 seconds grace period to get last question in
     
     let currentTime = new Date();
     if (openTime > currentTime) {
