@@ -55,10 +55,10 @@
                     </td>
                     <td>
                         <% if (rooms[i].testLink) { %>
-                            <button class="btn btn-dark" onclick=" window.open('<%= rooms[i].testLink %>','_blank')"
+                            <button class="btn btn-dark" style="display:block;margin:auto;" onclick=" window.open('<%= rooms[i].testLink %>','_blank')"
                                 <%=rooms[i].active ? "" : "disabled" %>>Join Contest</button>
                             <% } else if (rooms[i].teamTest == true) { %>
-                                <p class="supporting-text" style="width:200px !important; text-align: center; margin: auto;"><%= rooms[i].students[0] %> is your team captain, and can join the test.</p>
+                                <p class="supporting-text" style="min-width: 180px; max-width: 20%; text-align: center; margin: auto;"><%= rooms[i].students[0] %> is your team captain and can join the test.</p>
                             <% }%>
                     </td>
                 </tr>
