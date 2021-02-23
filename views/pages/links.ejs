@@ -32,14 +32,17 @@
         <h4 class="lead"> 2021 Junior High Math Contest <%= divisionText %></h4>
         <table class="table table-hover">
             <tr class="header-row">
+                <th>&nbsp;</th>
                 <th>Name</th>
                 <th>&nbsp;</th> <!-- Zoom Link -->
                 <th>&nbsp;</th> <!-- Contest Link -->
-                <th>Time</th>
             </tr>
 
             <% for (var i=0; i < rooms.length; i++) { %>
                 <tr class="<%= rooms[i].active ? "active-row" : "" %>">
+                    <td opentimetext="<%= rooms[i].openTimeText %>">
+                        <%= rooms[i].openTimeText %>
+                    </td>
                     <td>
                         <%= rooms[i].name %> <br>
                         <span class="supporting-text"><%= rooms[i].subtext %></span>
@@ -54,10 +57,9 @@
                         <% if (rooms[i].testLink) { %>
                             <button class="btn btn-dark" onclick=" window.open('<%= rooms[i].testLink %>','_blank')"
                                 <%=rooms[i].active ? "" : "disabled" %>>Join Contest</button>
-                            <% } %>
-                    </td>
-                    <td opentimetext="<%= rooms[i].openTimeText %>">
-                        <%= rooms[i].openTimeText %>
+                            <% } else if (rooms[i].teamTest == true) { %>
+                                <p class="supporting-text" style="width:200px !important; text-align: center; margin: auto;"><%= rooms[i].students[0] %> is your team captain, and can join the test.</p>
+                            <% }%>
                     </td>
                 </tr>
                 <% } %>

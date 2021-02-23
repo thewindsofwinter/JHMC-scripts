@@ -12,7 +12,8 @@ const testsTable = new AirtablePlus({ tableName: "Tests" }),
     studentsTable = new AirtablePlus({ tableName: "Students" }),
     schoolsTable = new AirtablePlus({ tableName: "Schools" }),
     competitionsTable = new AirtablePlus({ tableName: "Competitions" }),
-    eventsTable = new AirtablePlus({ tableName: "Events" });
+    eventsTable = new AirtablePlus({ tableName: "Events" }),
+    extraneousRedirectsTable = new AirtablePlus({ tableName: "Extraneous Redirects" });
 
 app.set('view engine', 'ejs');
 
@@ -217,16 +218,25 @@ app.get('/student/:studentId', async (req, res) => {
             }
 
             let subtext = test.fields["Student Names"].length == 1 ? "" : test.fields["Student Names"].join(", ");
+            
+            let testLink = test.fields["Link To Join"] + `?student=${student.id}`
 
+            if (test.fields.Students[0] !== student.id) {
+                testLink = null;
+            }
+
+            let teamTest = test.fields.Students.length != 1;
 
             return {
-                testLink: test.fields["Link To Join"],
+                testLink,
                 zoomLink: zoomLink,
                 subtext,
                 name: test.fields["Competition Friendly Name"],
                 openTime: test.fields["Competition Start Time"],
                 closeTime: test.fields["Competition End Time"],
-                openTimeText: new Date(test.fields["Competition Start Time"]).toLocaleTimeString("CDT", { timeStyle: 'short', timeZone: "America/Chicago" })
+                openTimeText: new Date(test.fields["Competition Start Time"]).toLocaleTimeString("CDT", { timeStyle: 'short', timeZone: "America/Chicago" }),
+                teamTest,
+                students: test.fields["Student Names"]
             };
         }));
 
@@ -260,7 +270,7 @@ app.get('/student/:studentId', async (req, res) => {
             secondary: "JHMC 2021", // Goes in the <title>
             schoolName: school.fields.Name,
             helpLink: nonTestingRooms.find(room => room.fields.ID == "help").fields["Zoom Link"],
-            divisionText: "Division " + school.fields.Division
+            divisionText: "Division " + school.fields.Division,
         });
     } catch (e) {
         console.error(e);
@@ -268,19 +278,24 @@ app.get('/student/:studentId', async (req, res) => {
     }
 });
 
-app.get('/help', async (req, res) => {
-    let eventsTableData = await eventsTable.read();
-    console.log(eventsTableData);
-    let helpLink = eventsTableData.find(room => room.fields.ID == "help").fields["Zoom Link"];
-    res.redirect(helpLink);
-});
-
 app.get('/error', (req, res) => {
     error(res);
 })
 
-app.get('*', function (req, res) {
-    res.status(404).render('pages/404.ejs');
+app.get('**', async (req, res) => {
+    let url = req.originalUrl;
+    let redirected = false;
+    let table = await extraneousRedirectsTable.read()
+    table.forEach(extraneousRedirect => {
+        if (url == extraneousRedirect.fields.Origin) {
+            res.redirect(extraneousRedirect.fields.Redirect);
+            redirected = true;
+        }
+    });
+    
+    if (!redirected) {
+        res.status(404).render('pages/404.ejs');
+    }
 });
 
 const server = app.listen(8080, () => {
