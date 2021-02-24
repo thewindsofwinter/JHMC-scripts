@@ -12,7 +12,8 @@ const testsTable = new AirtablePlus({ tableName: "Tests" }),
     studentsTable = new AirtablePlus({ tableName: "Students" }),
     schoolsTable = new AirtablePlus({ tableName: "Schools" }),
     competitionsTable = new AirtablePlus({ tableName: "Competitions" }),
-    eventsTable = new AirtablePlus({ tableName: "Events" });
+    eventsTable = new AirtablePlus({ tableName: "Events" }),
+    extraneousRedirectsTable = new AirtablePlus({ tableName: "Extraneous Redirects" });
 
 app.set('view engine', 'ejs');
 
@@ -31,16 +32,6 @@ app.get('/', (req, res) => {
 app.get('/mock', (req, res) => {
     res.redirect("https://forms.gle/eTbwE9xVsMoivrpD6");
 });
-
-(async () => {
-    let events = await eventsTable.read();
-    events.forEach(event => {
-        app.get(`${event.fields.ID}`, (req, res) => {
-            res.redirect(event.fields.zoomLink);
-        });
-    })
-})();
-
 
 app.get('/test/:recordId', async (req, res) => {
     const recordId = req.params.recordId;
@@ -66,7 +57,7 @@ app.get('/test/:recordId', async (req, res) => {
         let [competition, ...students] = await Promise.all([competitionPromise, ...studentsPromise]);
 
         let questions = await tests.getOrderedQuestions(record, competition.fields.Code);
-        let available = tests.validateTime(competition, record),
+        let available = tests.validateTime(competition, record, false),
             currentQuestion = record.fields["Current Question Index"];
 
         if (!testBegun && currentQuestion && currentQuestion != 0) {
@@ -120,7 +111,7 @@ app.post('/test/endpoint/:recordId', async (req, res) => {
 
     const questionsPromise = tests.getOrderedQuestions(record, req.body.competitionCode);
 
-    if (tests.validateTime(competition, record) !== "true") {
+    if (tests.validateTime(competition, record, true) !== "true") {
         res.send("TIMEOUT");
         return;
     }
@@ -218,15 +209,24 @@ app.get('/student/:studentId', async (req, res) => {
 
             let subtext = test.fields["Student Names"].length == 1 ? "" : test.fields["Student Names"].join(", ");
 
+            let testLink = test.fields["Link To Join"] + `?student=${student.id}`
+
+            if (test.fields.Students[0] !== student.id) {
+                testLink = null;
+            }
+
+            let teamTest = test.fields.Students.length != 1;
 
             return {
-                testLink: test.fields["Link To Join"],
+                testLink,
                 zoomLink: zoomLink,
                 subtext,
                 name: test.fields["Competition Friendly Name"],
                 openTime: test.fields["Competition Start Time"],
                 closeTime: test.fields["Competition End Time"],
-                openTimeText: new Date(test.fields["Competition Start Time"]).toLocaleTimeString("CDT", { timeStyle: 'short', timeZone: "America/Chicago" })
+                openTimeText: new Date(test.fields["Competition Start Time"]).toLocaleTimeString("CDT", { timeStyle: 'short', timeZone: "America/Chicago" }),
+                teamTest,
+                students: test.fields["Student Names"]
             };
         }));
 
@@ -260,7 +260,7 @@ app.get('/student/:studentId', async (req, res) => {
             secondary: "JHMC 2021", // Goes in the <title>
             schoolName: school.fields.Name,
             helpLink: nonTestingRooms.find(room => room.fields.ID == "help").fields["Zoom Link"],
-            divisionText: "Division " + school.fields.Division
+            divisionText: "Division " + school.fields.Division,
         });
     } catch (e) {
         console.error(e);
@@ -268,19 +268,40 @@ app.get('/student/:studentId', async (req, res) => {
     }
 });
 
-app.get('/help', async (req, res) => {
-    let eventsTableData = await eventsTable.read();
-    console.log(eventsTableData);
-    let helpLink = eventsTableData.find(room => room.fields.ID == "help").fields["Zoom Link"];
-    res.redirect(helpLink);
-});
-
 app.get('/error', (req, res) => {
     error(res);
 })
 
-app.get('*', function (req, res) {
-    res.status(404).render('pages/404.ejs');
+app.get('**', async (req, res) => {
+    let url = req.originalUrl;
+    let redirected = false;
+
+    let events = await eventsTable.read();
+    // console.log(events);
+    events.forEach(event => {
+        if (url == `/${event.fields.ID}`) {
+            if (!event.fields["Zoom Link"] || event.fields["Zoom Link"].length == 0) {
+                res.send("There is no Zoom Link made for this event. Please contact help.");
+            } else {
+                res.redirect(event.fields["Zoom Link"]);
+            }
+            redirected = true;
+        }
+    });
+
+    if (!redirected) {
+        let table = await extraneousRedirectsTable.read()
+        table.forEach(extraneousRedirect => {
+            if (url == extraneousRedirect.fields.Origin) {
+                res.redirect(extraneousRedirect.fields.Redirect);
+                redirected = true;
+            }
+        });
+    }
+
+    if (!redirected) {
+        res.status(404).render('pages/404.ejs');
+    }
 });
 
 const server = app.listen(8080, () => {

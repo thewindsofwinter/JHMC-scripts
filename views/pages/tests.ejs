@@ -231,8 +231,8 @@
                 loading(false);
             });
             if (individualQuestions) {
-                $("#question-progress-bar").css("width", 100 * parseInt(obj.index) / numberOfQuestions + "%");
-                $("#question-progress-bar").attr("aria-valuenow", parseInt(obj.index));
+                $("#question-progress-bar").css("width", 100 * parseInt(questions[0].index) / numberOfQuestions + "%");
+                $("#question-progress-bar").attr("aria-valuenow", parseInt(questions[0].index));
             }
             $(".next-button").click(nextQuestion);
         }
@@ -298,6 +298,7 @@
                 clearInterval(counterInterval);
                 // TODO: Add actual good looking alert
                 alert("Time is Up! Your last question was automatically submitted.");
+                location.reload();
             }
         }
 
