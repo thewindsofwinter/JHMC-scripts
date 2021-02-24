@@ -5,6 +5,7 @@ const AirtablePlus = require('airtable-plus');
 const DotEnv = require('dotenv').config();
 const humanizeDuration = require("humanize-duration");
 const tests = require('./tests');
+const { pathToRegexp, match, parse, compile } = require("path-to-regexp");
 var fs = require('fs');
 
 // baseID, apiKey, and tableName can alternatively be set by environment variables
@@ -273,31 +274,37 @@ app.get('/error', (req, res) => {
 })
 
 app.get('**', async (req, res) => {
-    let url = req.originalUrl;
+    let path = req.path;
     let redirected = false;
+    console.log(path);
 
+    let possibleRedirects = [];
+    
     let events = await eventsTable.read();
-    // console.log(events);
     events.forEach(event => {
-        if (url == `/${event.fields.ID}`) {
-            if (!event.fields["Zoom Link"] || event.fields["Zoom Link"].length == 0) {
-                res.send("There is no Zoom Link made for this event. Please contact help.");
-            } else {
-                res.redirect(event.fields["Zoom Link"]);
-            }
+        possibleRedirects.push({
+            from: `/${event.fields.ID}`,
+            to: event.fields["Zoom Link"]
+        });
+    });
+
+    let redirects = await extraneousRedirectsTable.read()
+    redirects.forEach(extraneousRedirect => {
+        possibleRedirects.push({
+            from: `${extraneousRedirect.fields.Origin}`,
+            to: extraneousRedirect.fields.Redirect
+        });
+    });
+
+    possibleRedirects.forEach(r => {
+        let fn = match(r.from, {decode: decodeURIComponent});
+        // console.log(fn, r.from, path, fn(path));
+        if (fn(path)) {
+            console.log(path, fn.from);
+            res.redirect(r.to);
             redirected = true;
         }
     });
-
-    if (!redirected) {
-        let table = await extraneousRedirectsTable.read()
-        table.forEach(extraneousRedirect => {
-            if (url == extraneousRedirect.fields.Origin) {
-                res.redirect(extraneousRedirect.fields.Redirect);
-                redirected = true;
-            }
-        });
-    }
 
     if (!redirected) {
         res.status(404).render('pages/404.ejs');
