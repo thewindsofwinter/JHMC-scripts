@@ -33,16 +33,6 @@ app.get('/mock', (req, res) => {
     res.redirect("https://forms.gle/eTbwE9xVsMoivrpD6");
 });
 
-(async () => {
-    let events = await eventsTable.read();
-    events.forEach(event => {
-        app.get(`${event.fields.ID}`, (req, res) => {
-            res.redirect(event.fields.zoomLink);
-        });
-    })
-})();
-
-
 app.get('/test/:recordId', async (req, res) => {
     const recordId = req.params.recordId;
     if (recordId == "sample") {
@@ -218,7 +208,7 @@ app.get('/student/:studentId', async (req, res) => {
             }
 
             let subtext = test.fields["Student Names"].length == 1 ? "" : test.fields["Student Names"].join(", ");
-            
+
             let testLink = test.fields["Link To Join"] + `?student=${student.id}`
 
             if (test.fields.Students[0] !== student.id) {
@@ -285,14 +275,30 @@ app.get('/error', (req, res) => {
 app.get('**', async (req, res) => {
     let url = req.originalUrl;
     let redirected = false;
-    let table = await extraneousRedirectsTable.read()
-    table.forEach(extraneousRedirect => {
-        if (url == extraneousRedirect.fields.Origin) {
-            res.redirect(extraneousRedirect.fields.Redirect);
+
+    let events = await eventsTable.read();
+    // console.log(events);
+    events.forEach(event => {
+        if (url == `/${event.fields.ID}`) {
+            if (!event.fields["Zoom Link"] || event.fields["Zoom Link"].length == 0) {
+                res.send("There is no Zoom Link made for this event. Please contact help.");
+            } else {
+                res.redirect(event.fields["Zoom Link"]);
+            }
             redirected = true;
         }
     });
-    
+
+    if (!redirected) {
+        let table = await extraneousRedirectsTable.read()
+        table.forEach(extraneousRedirect => {
+            if (url == extraneousRedirect.fields.Origin) {
+                res.redirect(extraneousRedirect.fields.Redirect);
+                redirected = true;
+            }
+        });
+    }
+
     if (!redirected) {
         res.status(404).render('pages/404.ejs');
     }
