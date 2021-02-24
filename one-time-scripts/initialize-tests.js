@@ -39,6 +39,7 @@ const testsTable = new AirtablePlus({ tableName: "Tests" }),
     });
 
     console.log("Question Order Generated!");
+    console.log("Updating Airtable Records...");
 })()
 
 // Pulled this from StackOverFlow
