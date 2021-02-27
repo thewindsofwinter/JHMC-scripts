@@ -51,6 +51,18 @@ const csvFilePath = './../shortSampleRoster.csv';
                 schoolData['Name'] = entry[schoolHeader];
             }
             else {
+                // Add team data
+                if(name.includes('Team') && !name.includes('Creative Thinking')) {
+                    if (studentData.hasOwnProperty(entry[name]) &&
+                        entry[name] !== '') {
+                        studentData[entry[name]]['Team'] = name;
+                    }
+                    else if (entry[name] != '') {
+                        studentData[entry[name]] = {};
+                        studentData[entry[name]]['Team'] = name;
+                    }
+                }
+
                 // If it doesn't refer to school, it must refer to student
                 if (name.includes('7th')) {
                     if (studentData.hasOwnProperty(entry[name]) &&
