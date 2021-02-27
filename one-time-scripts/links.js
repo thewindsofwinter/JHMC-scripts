@@ -15,16 +15,9 @@ const generateJoinLinks = async () => {
 
         let studentLinks;
         students.forEach(async s => {
-            studentLinks = s.fields["Links to Join"];
+            studentLinks = s.fields["Personalized Schedule"];
             // console.log(studentLinks);
-            await s.fields.Competitions.forEach(async (c,i) => {
-                let competitionRecord = await competitionsTable.find(c),
-                    competitionName = competitionRecord.fields.Name;
-                const joinText = studentLinks[i] + competitionName;
-                console.log(joinText);
-
-                // TODO: Generate HTML? with join links
-            });
+           
         });
     } catch (e) {
         console.log(e);

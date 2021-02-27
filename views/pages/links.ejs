@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/head'); %>
+        <%- include('../partials/meta'); %>
+            <style>
+                .active-row {
+                    font-size: x-large;
+                }
+
+                tr:not(.active-row):not(.header-row) {
+                    opacity: 50%;
+                }
+
+                .header-row {
+                    background-color: #EEE;
+                }
+
+                .supporting-text {
+                    color: gray;
+                    font-size: small;
+                }
+            </style>
+</head>
+
+<body>
+    <div class="container">
+        <h4 class="display-4">
+            <%= name %> - <%= schoolName %>
+        </h4>
+        <h4 class="lead"> 2021 Junior High Math Contest <%= divisionText %></h4>
+        <table class="table table-hover">
+            <tr class="header-row">
+                <th></th>
+                <th>Competition</th>
+                <th>Zoom</th> <!-- Zoom Link -->
+                <th style="text-align: center;">Contest</th> <!-- Contest Link -->
+            </tr>
+
+            <% for (var i=0; i < rooms.length; i++) { %>
+                <tr class="<%= rooms[i].active ? "active-row" : "" %>">
+                    <td opentimetext="<%= rooms[i].openTimeText %>">
+                        <%= rooms[i].openTimeText %>
+                    </td>
+                    <td>
+                        <%= rooms[i].name %> <br>
+                        <span class="supporting-text"><%= rooms[i].subtext %></span>
+                    </td>
+                    <td>
+                        <% if (rooms[i].zoomLink) { %>
+                            <button class="btn btn-primary" onclick="window.open('<%= rooms[i].zoomLink %>','_blank')"
+                                <%=rooms[i].active ? "" : "disabled" %>>Join Zoom Meeting</button>
+                            <% } %>
+                    </td>
+                    <td>
+                        <% if (rooms[i].testLink) { %>
+                            <button class="btn btn-dark" style="display:block;margin:auto;" onclick=" window.open('<%= rooms[i].testLink %>','_blank')"
+                                <%=rooms[i].active ? "" : "disabled" %>>Join Contest</button>
+                            <% } else if (rooms[i].teamTest == true) { %>
+                                <p class="supporting-text" style="min-width: 180px; max-width: 20%; text-align: center; margin: auto;"><%= rooms[i].students[0] %> is your team captain and can join the test.</p>
+                            <% }%>
+                    </td>
+                </tr>
+                <% } %>
+        </table>
+        <p>
+            Having a problem? First try <a href="javascript:window.location.reload(true);">reloading this page</a>.
+            If the problem persists, join the <a href="<%= helpLink %>">technical help room</a>.
+        </p>
+
+    </div>
+    <footer>
+        <%- include('../partials/footer'); %>
+    </footer>
+</body>
+
+</html>

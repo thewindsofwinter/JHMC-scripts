@@ -16,18 +16,20 @@ const schoolAttributes = ['Coach Name', 'Email Address', 'Division'];
 const tableValues = ['Coach Name', 'Coach Email', 'Division'];
 
 // Change once we get actual rosters
-const csvFilePath='./../sampleRoster.csv';
+const csvFilePath = './../shortSampleRoster.csv';
+
 
 (async () => {
+    // Start by getting competitions
+    // const competitions = await competitionsTable.read()
+
     const registration = await CSV().fromFile(csvFilePath);
 
     /* Show an example
     var ex = await studentsTable.read();
     console.log(ex[0]); */
 
-    for (var index in registration) {
-        // Get current entry
-        const entry = registration[index];
+    for (var entry of registration) {
 
         // A record is created for each school under “Schools” with
         // Coach name, email, division, etc.
@@ -40,36 +42,36 @@ const csvFilePath='./../sampleRoster.csv';
         // Teams
         var teamData = {};
 
-        for(var name in entry) {
-            if(schoolAttributes.includes(name)) {
+        for (var name in entry) {
+            if (schoolAttributes.includes(name)) {
                 const position = schoolAttributes.indexOf(name);
                 schoolData[tableValues[position]] = entry[schoolAttributes[position]];
             }
-            else if(schoolHeader === name) {
+            else if (schoolHeader === name) {
                 schoolData['Name'] = entry[schoolHeader];
             }
             else {
                 // If it doesn't refer to school, it must refer to student
-                if(name.includes('7th')) {
-                    if(studentData.hasOwnProperty(entry[name]) &&
+                if (name.includes('7th')) {
+                    if (studentData.hasOwnProperty(entry[name]) &&
                         entry[name] !== '') {
                         // Update each time -- that way at the end if someone is in 7th they will show up
                         studentData[entry[name]]['Competitions'].push(stripTitle(name))
                         studentData[entry[name]]['Grade'] = '7th';
                     }
-                    else if(entry[name] != '') {
+                    else if (entry[name] != '') {
                         studentData[entry[name]] = {};
                         studentData[entry[name]]['Competitions'] = [stripTitle(name)];
                         studentData[entry[name]]['Grade'] = '7th';
                     }
                 }
-                else if(name.includes('8th')) {
-                    if(studentData.hasOwnProperty(entry[name]) &&
+                else if (name.includes('8th')) {
+                    if (studentData.hasOwnProperty(entry[name]) &&
                         entry[name] !== '') {
                         // Could be a 7th grader -- dont update the grade field
                         studentData[entry[name]]['Competitions'].push(stripTitle(name));
                     }
-                    else if(entry[name] != '') {
+                    else if (entry[name] != '') {
                         studentData[entry[name]] = {};
                         studentData[entry[name]]['Competitions'] = [stripTitle(name)];
                         studentData[entry[name]]['Grade'] = '8th';
@@ -86,7 +88,7 @@ const csvFilePath='./../sampleRoster.csv';
             // await schoolsTable.create(schoolData);
 
             // Create student records
-            for(var student in studentData) {
+            for (var student in studentData) {
                 const finalJSON = {};
 
                 const school = schoolData['Name'];
@@ -99,15 +101,17 @@ const csvFilePath='./../sampleRoster.csv';
                 finalJSON['School'] = [row[0]['id']];
                 finalJSON['Grade'] = studentData[student]['Grade'];
 
+                // finalJSON['Tests'] = studentData[student][Competitions]
+
                 // console.log(finalJSON);
 
                 // await studentsTable.create(finalJSON);
             }
 
             // Update the competitions that they are in [TODO]
-            for(var student in studentData) {
-                var competitions = [];
-                for(var contest in studentData[student]['Competitions']) {
+            for (var student in studentData) {
+                var finalJSON = [];
+                for (var contest in studentData[student]['Competitions']) {
                     const contestName = studentData[student]['Competitions'][contest]
                         + " Division " + schoolData['Division'];
 
@@ -120,8 +124,11 @@ const csvFilePath='./../sampleRoster.csv';
                     });
 
                     // console.log(row);
-                    competitions.push(row[0]['id']);
+                    finalJSON.push(row[0]['id']);
+
+                    // testsTable.create()
                 }
+                console.log(finalJSON);
             }
         }
         catch (e) {
