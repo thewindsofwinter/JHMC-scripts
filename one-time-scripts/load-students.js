@@ -39,7 +39,7 @@ const csvFilePath = './../shortSampleRoster.csv';
         // Students
         var studentData = {};
 
-        // Teams
+        // Teams [TODO]
         var teamData = {};
 
         for (var name in entry) {
@@ -80,8 +80,38 @@ const csvFilePath = './../shortSampleRoster.csv';
             }
         }
 
+        // console.log(schoolData);
         console.log(studentData);
 
+        try {
+            // Update schools
+            // await schoolsTable.create(schoolData);
+
+            // Create student records
+            for (var student in studentData) {
+                const finalJSON = {};
+
+                const school = schoolData['Name'];
+                const row = await schoolsTable.read({
+                    filterByFormula: 'Name = "' + school + '"',
+                    maxRecords: 1
+                });
+
+                finalJSON['Name'] = student;
+                // I have no idea how this works but i'm not going to touch it
+                finalJSON['School'] = [row[0]['id']];
+                finalJSON['Grade'] = studentData[student]['Grade'];
+
+                // finalJSON['Tests'] = studentData[student][Competitions]
+
+                // console.log(finalJSON);
+
+                await studentsTable.create(finalJSON);
+            }
+        }
+        catch (e) {
+            console.error(e);
+        }
 
         /* try {
             // Update schools
@@ -148,5 +178,6 @@ function stripTitle(eventName) {
     if(normal.length < 10)
         return "Creative Thinking";
 
+    // Remove references to alternate things
     return normal.split("Alternate ").join("");
 }
