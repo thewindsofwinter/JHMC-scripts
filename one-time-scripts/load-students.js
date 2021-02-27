@@ -119,7 +119,7 @@ const csvFilePath = './../shortSampleRoster.csv';
         }
 
         // console.log(schoolData);
-        console.log(studentData);
+        // console.log(studentData);
 
         try {
             // Update schools
@@ -149,25 +149,35 @@ const csvFilePath = './../shortSampleRoster.csv';
 
             // Put students in competitions
             for (var student in studentData) {
-                var finalJSON = [];
+                var finalJSON = {};
                 for (var contest in studentData[student]['Competitions']) {
                     const contestName = "Division " + schoolData['Division']
                         + " " + studentData[student]['Competitions'][contest];
 
-                    // console.log('Name = "' + contestName + '"');
-                    // Do you need the competition ID? This part of the code just
-                    // gets you the ID from the competition name
-                    const row = await competitionsTable.read({
-                        filterByFormula: 'Name = "' + contestName + '"',
-                        maxRecords: 1
-                    });
+                    // Deal with team later
+                    if(!contestName.includes("Team")) {
+                        // console.log('Name = "' + contestName + '"');
+                        // Do you need the competition ID? This part of the code just
+                        // gets you the ID from the competition name
+                        const row = await competitionsTable.read({
+                            filterByFormula: 'Name = "' + contestName + '"',
+                            maxRecords: 1
+                        });
 
-                    // console.log(row);
-                    finalJSON.push(row[0]['id']);
+                        const studentRow = await studentsTable.read({
+                            filterByFormula: 'Name = "' + student + '"',
+                            maxRecords: 1
+                        });
 
-                    // testsTable.create()
+                        // console.log(row);
+
+                        finalJSON['Students'] = [studentRow[0]['id']];
+                        finalJSON['Competition'] = [row[0]['id']];
+
+                        // console.log(finalJSON);
+                        await testsTable.create(finalJSON);
+                    }
                 }
-                console.log(finalJSON);
             }
 
         }
