@@ -77,6 +77,32 @@ const csvFilePath = './../shortSampleRoster.csv';
                         studentData[entry[name]]['Grade'] = '8th';
                     }
                 }
+                // Handle Creative Thinking
+                else if(name.includes("Seventh")) {
+                    if (studentData.hasOwnProperty(entry[name]) &&
+                        entry[name] !== '') {
+                        // Update each time -- that way at the end if someone is in 7th they will show up
+                        studentData[entry[name]]['Competitions'].push('Creative Thinking')
+                        studentData[entry[name]]['Grade'] = '7th';
+                    }
+                    else if (entry[name] != '') {
+                        studentData[entry[name]] = {};
+                        studentData[entry[name]]['Competitions'] = ['Creative Thinking'];
+                        studentData[entry[name]]['Grade'] = '7th';
+                    }
+                }
+                else if(name.includes('Eighth')) {
+                    if (studentData.hasOwnProperty(entry[name]) &&
+                        entry[name] !== '') {
+                        // Could be a 7th grader -- dont update the grade field
+                        studentData[entry[name]]['Competitions'].push('Creative Thinking');
+                    }
+                    else if (entry[name] != '') {
+                        studentData[entry[name]] = {};
+                        studentData[entry[name]]['Competitions'] = ['Creative Thinking'];
+                        studentData[entry[name]]['Grade'] = '8th';
+                    }
+                }
             }
         }
 
@@ -106,8 +132,32 @@ const csvFilePath = './../shortSampleRoster.csv';
 
                 // console.log(finalJSON);
 
-                await studentsTable.create(finalJSON);
+                // await studentsTable.create(finalJSON);
             }
+
+            // Put students in competitions
+            for (var student in studentData) {
+                var finalJSON = [];
+                for (var contest in studentData[student]['Competitions']) {
+                    const contestName = "Division " + schoolData['Division']
+                        + " " + studentData[student]['Competitions'][contest];
+
+                    // console.log('Name = "' + contestName + '"');
+                    // Do you need the competition ID? This part of the code just
+                    // gets you the ID from the competition name
+                    const row = await competitionsTable.read({
+                        filterByFormula: 'Name = "' + contestName + '"',
+                        maxRecords: 1
+                    });
+
+                    // console.log(row);
+                    finalJSON.push(row[0]['id']);
+
+                    // testsTable.create()
+                }
+                console.log(finalJSON);
+            }
+
         }
         catch (e) {
             console.error(e);
