@@ -175,7 +175,12 @@ const csvFilePath = './../shortSampleRoster.csv';
                         finalJSON['Competition'] = [row[0]['id']];
 
                         // console.log(finalJSON);
-                        await testsTable.create(finalJSON);
+                        // await testsTable.create(finalJSON);
+                    }
+                    else {
+                        if(teamData.hasOwnProperty(entry[name])) {
+                            
+                        }
                     }
                 }
             }
