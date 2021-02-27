@@ -21,7 +21,7 @@ const csvFilePath = './../shortSampleRoster.csv';
 
 (async () => {
     // Start by getting competitions
-    // const competitions = await competitionsTable.read()
+    const competitions = await competitionsTable.read()
 
     const registration = await CSV().fromFile(csvFilePath);
 
@@ -80,12 +80,12 @@ const csvFilePath = './../shortSampleRoster.csv';
             }
         }
 
-        // console.log(studentData);
+        console.log(studentData);
 
 
-        try {
+        /* try {
             // Update schools
-            // await schoolsTable.create(schoolData);
+            await schoolsTable.create(schoolData);
 
             // Create student records
             for (var student in studentData) {
@@ -133,14 +133,20 @@ const csvFilePath = './../shortSampleRoster.csv';
         }
         catch (e) {
             console.error(e);
-        }
+        } */
     }
 })()
 
 function stripTitle(eventName) {
     // Go from 7th Grade Individual... stuff to just 7th grade individual
     // Utilize regular expressions
-    const regex = /[7-8]th Grade (Individual)?(Team)?(Creative Thinking)?/g;
+    const regex = /[7-8]th Grade (Alternate Team)?(Individual)?(Team)?/g;
 
-    return eventName.match(regex)[0];
+    const normal = eventName.match(regex)[0];
+
+    // Creative thinking doesn't have the 7th/8th grade heading
+    if(normal.length < 10)
+        return "Creative Thinking";
+
+    return normal.split("Alternate ").join("");
 }
