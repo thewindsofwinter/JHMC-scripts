@@ -184,58 +184,6 @@ const csvFilePath = './../shortSampleRoster.csv';
         catch (e) {
             console.error(e);
         }
-
-        /* try {
-            // Update schools
-            await schoolsTable.create(schoolData);
-
-            // Create student records
-            for (var student in studentData) {
-                const finalJSON = {};
-
-                const school = schoolData['Name'];
-                const row = await schoolsTable.read({
-                    filterByFormula: 'Name = "' + school + '"',
-                    maxRecords: 1
-                });
-
-                finalJSON['Name'] = student;
-                finalJSON['School'] = [row[0]['id']];
-                finalJSON['Grade'] = studentData[student]['Grade'];
-
-                // finalJSON['Tests'] = studentData[student][Competitions]
-
-                // console.log(finalJSON);
-
-                // await studentsTable.create(finalJSON);
-            }
-
-            // Update the competitions that they are in [TODO]
-            for (var student in studentData) {
-                var finalJSON = [];
-                for (var contest in studentData[student]['Competitions']) {
-                    const contestName = studentData[student]['Competitions'][contest]
-                        + " Division " + schoolData['Division'];
-
-                    // console.log('Name = "' + contestName + '"');
-                    // Do you need the competition ID? This part of the code just
-                    // gets you the ID from the competition name
-                    const row = await competitionsTable.read({
-                        filterByFormula: 'Name = "' + contestName + '"',
-                        maxRecords: 1
-                    });
-
-                    // console.log(row);
-                    finalJSON.push(row[0]['id']);
-
-                    // testsTable.create()
-                }
-                console.log(finalJSON);
-            }
-        }
-        catch (e) {
-            console.error(e);
-        } */
     }
 })()
 
