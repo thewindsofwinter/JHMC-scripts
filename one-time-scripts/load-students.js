@@ -106,19 +106,21 @@ const csvFilePath='./../sampleRoster.csv';
 
             // Update the competitions that they are in [TODO]
             for(var student in studentData) {
-                var finalJSON = [];
+                var competitions = [];
                 for(var contest in studentData[student]['Competitions']) {
                     const contestName = studentData[student]['Competitions'][contest]
                         + " Division " + schoolData['Division'];
 
                     // console.log('Name = "' + contestName + '"');
+                    // Do you need the competition ID? This part of the code just
+                    // gets you the ID from the competition name
                     const row = await competitionsTable.read({
                         filterByFormula: 'Name = "' + contestName + '"',
                         maxRecords: 1
                     });
 
                     // console.log(row);
-                    finalJSON.push(row[0]['id']);
+                    competitions.push(row[0]['id']);
                 }
             }
         }
