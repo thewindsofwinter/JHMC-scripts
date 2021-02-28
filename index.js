@@ -30,10 +30,6 @@ app.get('/', (req, res) => {
     res.render('pages/home.ejs');
 });
 
-app.get('/mock', (req, res) => {
-    res.redirect("https://forms.gle/eTbwE9xVsMoivrpD6");
-});
-
 app.get('/test/:recordId', async (req, res) => {
     const recordId = req.params.recordId;
     if (recordId == "sample") {
