@@ -10,12 +10,12 @@
                     <% } %>
     </h2>
     
-    <p id='questionText' class='questionText-<%= questionIndex %>'>
+    <p id='questionText' class='questionText-<%= questionIndex %>'  onmousedown='return false;' onselectstart='return false;'>
     
     </p>
     <div class="input-group mb-3">
         <input type="text" class="answer answer-<%= questionIndex %>" id="answer-<%= questionIndex %>" class="form-control"
-            placeholder="Your Answer" aria-label="Answer" aria-describedby="next-button-<%= questionIndex %>" questioncode="<%= questionCode %>">
+            placeholder="Your Answer" aria-label="Answer" aria-describedby="next-button-<%= questionIndex %>" questioncode="<%= questionCode %>" onpaste="return false;">
         <% if (individualQuestions) { %>
             <!-- TODO: FIX BAD Positioning of key & bootstrap error -->
             <button class="btn btn-outline-dark next-button" type="button" data-bs-toggle="tooltip"
