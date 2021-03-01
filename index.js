@@ -119,7 +119,9 @@ app.post('/test/endpoint/:recordId', async (req, res) => {
             let numberQuestionsCompleted = record.fields["Current Question Index"] || 0;
 
             if (record.id === process.env.SAMPLE_TEST_ID) {
-
+                const time = Date.now();
+                testsTable.update(recordId, { "Start Time": time });
+                record.fields["Start Time"] = time; // Could reaquire record, but that would take a lot of time — this is easier & faster
             } else if (record.fields["Start Time"] && numberQuestionsCompleted === questions.length) {
                 res.send("FINISHED");
                 return;
