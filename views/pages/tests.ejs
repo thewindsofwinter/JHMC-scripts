@@ -22,7 +22,6 @@
                     overflow: hidden;
                     white-space: nowrap !important;
                 }
-                
             </style>
 </head>
 
@@ -103,12 +102,12 @@
         <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-header">
                 <!-- <img src="..." class="rounded me-2" alt="..."> -->
-                <strong class="me-auto">5 Minutes Remaining</strong>
-                <small></small>
-                <!-- <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button> -->
+                <strong class="me-auto"><span class="toast-header-text"></span></strong>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <small>Now</small>
             </div>
             <div class="toast-body">
-                You have 5 minutes to submit your test.
+
             </div>
         </div>
     </div>
@@ -122,6 +121,7 @@
         var counterInterval;
         var individualQuestions = <%= individualQuestions %>;
         var questionTemplate = `<%- questionTemplate %>`;
+        var showWindowToast = false;
 
         $(document).ready(() => {
             $("#question-progress-bar").attr("aria-valuemax", numberOfQuestions);
@@ -162,6 +162,14 @@
                 });
             });
 
+            $(window).focus(function () {
+                if (showWindowToast) {
+                    $(".toast-header-text").text("Testing window left")
+                    $(".toast-body").text("Do not leave the testing window. This was automatically reported.")
+                    mainToast.show();
+                }
+                showWindowToast = false;
+            });
             // TODO: Close window button when completed or view contest schedule
         });
 
@@ -235,6 +243,12 @@
                 $("#question-progress-bar").attr("aria-valuenow", parseInt(questions[0].index));
             }
             $(".next-button").click(nextQuestion);
+
+            $(window).blur(function () {
+                    // Your action here
+                    console.log("window blurred!");
+                    showWindowToast = true;
+                });
         }
 
         var loading = (go) => {
@@ -259,8 +273,8 @@
             return new bootstrap.Tooltip(tooltipTriggerEl)
         });
 
-        var toastElList = [].slice.call(document.querySelectorAll('.toast'))
-        var fiveMinutesToast = toastElList.map(function (toastEl) {
+        var toastElList = [].slice.call(document.querySelectorAll('.toast'));
+        var mainToast = toastElList.map(function (toastEl) {
             return new bootstrap.Toast(toastEl, { delay: 5000 });
         })[0];
 
@@ -289,7 +303,9 @@
             $(".remainingTime").text((individualQuestions ? " - " : '') + minutes + ":" + secondsText + " Remaining");
 
             if (minutes == 5 && seconds == 0) {
-                fiveMinutesToast.show();
+                $(".toast-header-text").text("5 Minutes Remaining")
+                $(".toast-body").text("Your test will be automatically submitted in 5 minutes.")
+                mainToast.show();
             }
 
             if (minutes == 0 && seconds == 0) {
