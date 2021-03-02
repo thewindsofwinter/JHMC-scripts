@@ -216,7 +216,7 @@ app.get('/student/:studentId', async (req, res) => {
 
             return {
                 testLink,
-                zoomLink: zoomLink,
+                zoomLink,
                 subtext,
                 name: test.fields["Competition Friendly Name"],
                 openTime: test.fields["Competition Start Time"],
