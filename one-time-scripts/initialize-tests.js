@@ -35,7 +35,10 @@ const testsTable = new AirtablePlus({ tableName: "Tests" }),
 
         let testGrader = [graders[testIndex % graders.length].id];
         console.log(testGrader);
-        testsTable.update(test.id, { "Question Order": questionOrder, "Grader": testGrader});
+
+        if (!test.fields["Start Time"]) {
+            testsTable.update(test.id, { "Question Order": questionOrder, "Grader": testGrader});
+        }
     });
 
     console.log("Question Order Generated!");
