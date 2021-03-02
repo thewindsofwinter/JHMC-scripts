@@ -27,13 +27,13 @@
 <body>
     <div class="container">
         <h4 class="display-4">
-            <%= name %> - <%= schoolName %>
+            <%= name %> <%= schoolName? "-" : "" %> <%= schoolName %>
         </h4>
         <h4 class="lead"> 2021 Junior High Math Contest <%= divisionText %></h4>
         <table class="table table-hover">
             <tr class="header-row">
                 <th></th>
-                <th>Competition</th>
+                <th>Event</th>
                 <th>&nbsp;</th> <!-- Zoom Link -->
                 <th style="text-align: center;">&nbsp;</th> <!-- Contest Link -->
             </tr>
@@ -65,8 +65,12 @@
                 <% } %>
         </table>
         <p>
-            Having a problem? First try <a href="javascript:window.location.reload(true);">reloading this page</a> and contacting your proctor.
-            If the problem persists, join the <a href="<%= helpLink %>">technical help room</a>.
+            <% if (name == "Coaches" || name == "Parents") { %>
+                Have a question? Join the <a href="<%= helpLink %>">JHMC help room</a>.
+            <% } else { %>
+                Having a problem? First try <a href="javascript:window.location.reload(true);">reloading this page</a> and contacting your proctor.
+                If the problem persists, join the <a href="<%= helpLink %>">technical help room</a>.
+            <% } %>
         </p>
 
     </div>

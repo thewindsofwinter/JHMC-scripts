@@ -189,6 +189,39 @@ process.on('unhandledRejection', (reason, p) => {
     // application specific logging, throwing an error, or other logic here
 });
 
+let filterNonTestingRooms = (nonTestingRooms, groups, showDivision=false) => {
+    let final = [];
+    groups.push("All");
+    
+    nonTestingRooms.filter(room => arraysMatchOneTerm(room.fields.Group, groups))
+    .forEach(room => {
+        let name = room.fields.Name;
+        if (showDivision) {
+            let divisionA = room.fields.Group.includes("A");
+            let divisionAA = room.fields.Group.includes("AA");
+            if (divisionA) {
+                name += " - Division A";
+            } else if (divisionAA) {
+                name += " - Division AA";
+            }
+        }
+            final.push({
+                zoomLink: room.fields["Zoom Link"],
+                name: name,
+                openTime: room.fields.Start,
+                closeTime: room.fields.End,
+                openTimeText: new Date(room.fields.Start).toLocaleTimeString("CDT", { timeStyle: 'short', timeZone: "America/Chicago" }),
+                id: room.fields.ID
+            });
+        });
+
+    return final.sort((a, b) => new Date(a.openTime) - new Date(b.openTime));
+}
+
+let arraysMatchOneTerm = (arr1, arr2) => {
+    return arr1.some(r => arr2.includes(r));
+}
+
 app.get('/student/:studentId', async (req, res) => {
     const studentId = req.params.studentId;
     try {
@@ -230,17 +263,8 @@ app.get('/student/:studentId', async (req, res) => {
         }));
 
         let nonTestingRooms = await eventsTable.read();
-        nonTestingRooms.filter(room => room.fields.Group == "All" || room.fields.Group == school.fields.Division)
-            .forEach(room => {
-                studentRooms.push({
-                    zoomLink: room.fields["Zoom Link"],
-                    name: room.fields.Name,
-                    openTime: room.fields.Start,
-                    closeTime: room.fields.End,
-                    openTimeText: new Date(room.fields.Start).toLocaleTimeString("CDT", { timeStyle: 'short', timeZone: "America/Chicago" })
-                });
-            });
-
+        let filteredNonTestingRooms = filterNonTestingRooms(nonTestingRooms, [school.fields.Division, "Students"])
+        studentRooms = studentRooms.concat(filteredNonTestingRooms);
 
         studentRooms.sort((a, b) => new Date(a.openTime) - new Date(b.openTime));
 
@@ -267,9 +291,39 @@ app.get('/student/:studentId', async (req, res) => {
     }
 });
 
+app.get('/coaches', async (req, res) => {
+    let nonTestingRooms = await eventsTable.read();
+    let filteredNonTestingRooms = filterNonTestingRooms(nonTestingRooms, ["Coaches"], showDivision=true)
+
+    res.status(200).render("pages/links.ejs", {
+        rooms: filteredNonTestingRooms,
+        name: "Coaches",
+        primary: "Coaches Schedule",
+        secondary: "JHMC 2021", // Goes in the <title>
+        schoolName: "",
+        helpLink: nonTestingRooms.find(room => room.fields.ID == "help").fields["Zoom Link"],
+        divisionText: "",
+    });
+});
+
+app.get('/parents', async (req, res) => {
+    let nonTestingRooms = await eventsTable.read();
+    let filteredNonTestingRooms = filterNonTestingRooms(nonTestingRooms, ["Parents"], showDivision=true)
+
+    res.status(200).render("pages/links.ejs", {
+        rooms: filteredNonTestingRooms,
+        name: "Parents",
+        primary: "Parents Schedule",
+        secondary: "JHMC 2021", // Goes in the <title>
+        schoolName: "",
+        helpLink: nonTestingRooms.find(room => room.fields.ID == "help").fields["Zoom Link"],
+        divisionText: "",
+    });
+});
+
 app.get('/error', (req, res) => {
     error(res);
-})
+});
 
 app.get('**', async (req, res) => {
     let path = req.path;
