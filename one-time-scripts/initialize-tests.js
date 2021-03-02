@@ -34,7 +34,6 @@ const testsTable = new AirtablePlus({ tableName: "Tests" }),
         const questionOrder = shuffle([...Array(numQuestions).keys()].map(x => ++x)).join(","); // Pretty proud of this line ngl
 
         let testGrader = [graders[testIndex % graders.length].id];
-        console.log(testGrader);
 
         if (!test.fields["Start Time"]) {
             testsTable.update(test.id, { "Question Order": questionOrder, "Grader": testGrader});
