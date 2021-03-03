@@ -31,13 +31,14 @@ let arraysMatchOneTerm = (arr1, arr2) => {
     return arr1.some(r => arr2.includes(r));
 }
 
-module.exports = (app, eventsTable, studentsTable, schoolsTable, testsTable, error) => {
+module.exports = (app, { eventsTable, studentsTable, schoolsTable, testsTable, alertsTable }, websocket, error) => {
     app.get('/student/:studentId', async (req, res) => {
         const studentId = req.params.studentId;
         try {
             let student = await studentsTable.find(studentId);
             let testIds = student.fields.Tests;
             let school = await schoolsTable.find(student.fields["School"]);
+            
             let studentRooms = await Promise.all(testIds.map(async (testId) => {
                 let test = await testsTable.find(testId),
                     competitionName = test.fields["Competition Name"][0];
@@ -68,11 +69,15 @@ module.exports = (app, eventsTable, studentsTable, schoolsTable, testsTable, err
                     closeTime: test.fields["Competition End Time"],
                     openTimeText: new Date(test.fields["Competition Start Time"]).toLocaleTimeString("CDT", { timeStyle: 'short', timeZone: "America/Chicago" }),
                     teamTest,
-                    students: test.fields["Student Names"]
+                    students: test.fields["Student Names"],
                 };
             }));
+
+            let [nonTestingRooms, liveAlerts] = await Promise.all([eventsTable.read(), websocket.getAlerts(alertsTable)]);
+            
+            let alertsObject = await websocket.getAlertObject(liveAlerts),
+                alertsHtml = alertsObject.html;
     
-            let nonTestingRooms = await eventsTable.read();
             let filteredNonTestingRooms = filterNonTestingRooms(nonTestingRooms, [school.fields.Division, "Students"])
             studentRooms = studentRooms.concat(filteredNonTestingRooms);
     
@@ -94,6 +99,8 @@ module.exports = (app, eventsTable, studentsTable, schoolsTable, testsTable, err
                 schoolName: school.fields.Name,
                 helpLink: nonTestingRooms.find(room => room.fields.ID == "help").fields["Zoom Link"],
                 divisionText: "Division " + school.fields.Division,
+                // alertsHtml: "hi",
+                alertsHtml
             });
         } catch (e) {
             console.error(e);

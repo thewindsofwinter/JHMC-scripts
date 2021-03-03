@@ -9,6 +9,8 @@ const { pathToRegexp, match, parse, compile } = require("path-to-regexp");
 const http = require('http').createServer(app);
 const fs = require('fs');
 
+const websocket = require('./socket.js')
+
 // baseID, apiKey, and tableName can alternatively be set by environment variables
 const testsTable = new AirtablePlus({ tableName: "Tests" }),
     studentsTable = new AirtablePlus({ tableName: "Students" }),
@@ -192,9 +194,9 @@ app.post('/test/endpoint/:recordId', async (req, res) => {
     }
 });
 
-require('./schedule.js')(app, eventsTable, studentsTable, schoolsTable, testsTable, error);
+require('./schedule.js')(app, { eventsTable, studentsTable, schoolsTable, testsTable, alertsTable}, websocket, error);
 
-require('./socket.js')(http, app, alertsTable);
+websocket.buildWebsocket(http, app, alertsTable);
 
 app.get('/error', (req, res) => {
     error(res);
