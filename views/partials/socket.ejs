@@ -5,5 +5,8 @@
   socket.on("message", message => {
     console.log("message came!");
     console.log(message);
+    if (message.type == "alerts") {
+      $(".alert-area").html(message.html)
+    }
   });
 </script>
