@@ -1,0 +1,9 @@
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  var socket = io();
+
+  socket.on("message", message => {
+    console.log("message came!");
+    console.log(message);
+  });
+</script>
