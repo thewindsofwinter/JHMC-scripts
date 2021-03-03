@@ -110,7 +110,11 @@ module.exports = (app, { eventsTable, studentsTable, schoolsTable, testsTable, a
     
     app.get('/coaches', async (req, res) => {
         let nonTestingRooms = await eventsTable.read();
-        let filteredNonTestingRooms = filterNonTestingRooms(nonTestingRooms, ["Coaches"], showDivision=true)
+        let filteredNonTestingRooms = filterNonTestingRooms(nonTestingRooms, ["Coaches"], showDivision=true);
+
+        let liveAlerts = await websocket.getAlerts(alertsTable);
+        let alertsObject = await websocket.getAlertObject(liveAlerts),
+            alertsHtml = alertsObject.html;
     
         res.status(200).render("pages/links.ejs", {
             rooms: filteredNonTestingRooms,
@@ -120,12 +124,17 @@ module.exports = (app, { eventsTable, studentsTable, schoolsTable, testsTable, a
             schoolName: "",
             helpLink: nonTestingRooms.find(room => room.fields.ID == "help").fields["Zoom Link"],
             divisionText: "",
+            alertsHtml
         });
     });
     
     app.get('/parents', async (req, res) => {
         let nonTestingRooms = await eventsTable.read();
-        let filteredNonTestingRooms = filterNonTestingRooms(nonTestingRooms, ["Parents"], showDivision=true)
+        let filteredNonTestingRooms = filterNonTestingRooms(nonTestingRooms, ["Parents"], showDivision=true);
+
+        let liveAlerts = await websocket.getAlerts(alertsTable);
+        let alertsObject = await websocket.getAlertObject(liveAlerts),
+            alertsHtml = alertsObject.html;
     
         res.status(200).render("pages/links.ejs", {
             rooms: filteredNonTestingRooms,
@@ -135,6 +144,7 @@ module.exports = (app, { eventsTable, studentsTable, schoolsTable, testsTable, a
             schoolName: "",
             helpLink: nonTestingRooms.find(room => room.fields.ID == "help").fields["Zoom Link"],
             divisionText: "",
+            alertsHtml
         });
     });
 }
