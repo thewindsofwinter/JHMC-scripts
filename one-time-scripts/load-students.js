@@ -126,7 +126,7 @@ const csvFilePath = './../shortSampleRoster.csv';
         }
 
         // console.log(schoolData);
-        console.log(studentData);
+        // console.log(studentData);
 
         try {
             // Update schools
@@ -189,7 +189,7 @@ const csvFilePath = './../shortSampleRoster.csv';
                 for(var t in studentData[student]['Team']) {
                     const school = schoolData['Name'];
                     const team = studentData[student]['Team'][t];
-                    console.log(team);
+                    // console.log(team);
                     if(team.includes("7th")) {
                         const row = await competitionsTable.read({
                             filterByFormula: 'Name = "Division ' + schoolData['Division'] + ' 7th Grade Team"',
@@ -261,7 +261,7 @@ const csvFilePath = './../shortSampleRoster.csv';
                 await testsTable.create(teamData[record]);
             }
 
-            console.log(teamData);
+            // console.log(teamData);
         }
         catch (e) {
             console.error(e);
