@@ -1,5 +1,6 @@
 const socketio = require('socket.io');
 const Color = require('color');
+const cors = require('cors');
 let ejs = require('ejs');
 
 const buildWebsocket = (http, app, alertsTable) => {
@@ -12,7 +13,8 @@ const buildWebsocket = (http, app, alertsTable) => {
         // socket.emit("message", alertObject);
     });
 
-    app.get("/admin/update-alerts", async (req, res) => {
+    // have to enable CORS to allow airtable script to call
+    app.get("/admin/update-alerts", cors(), async (req, res) => { 
         let liveAlerts = await getAlerts(alertsTable, false);
         let alertObject = await getAlertObject(liveAlerts);
         sendMessage(alertObject);
