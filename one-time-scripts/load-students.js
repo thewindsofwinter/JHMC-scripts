@@ -16,7 +16,7 @@ const schoolAttributes = ['Coach Name', 'Email Address', 'Division'];
 const tableValues = ['Coach Name', 'Coach Email', 'Division'];
 
 // Change once we get actual rosters
-const csvFilePath = './../sampleRoster.csv';
+const csvFilePath = './../2021data.csv';
 
 
 (async () => {
@@ -30,6 +30,7 @@ const csvFilePath = './../sampleRoster.csv';
     console.log(ex[0]); */
 
     for (var entry of registration) {
+        console.log(entry);
 
         // A record is created for each school under “Schools” with
         // Coach name, email, division, etc.
@@ -51,18 +52,6 @@ const csvFilePath = './../sampleRoster.csv';
                 schoolData['Name'] = entry[schoolHeader];
             }
             else {
-                // Add team data
-                if(name.includes('Team') && !name.includes('Creative Thinking')) {
-                    if (studentData.hasOwnProperty(entry[name]) &&
-                        entry[name] !== '') {
-                        studentData[entry[name]]['Team'] = name;
-                    }
-                    else if (entry[name] != '') {
-                        studentData[entry[name]] = {};
-                        studentData[entry[name]]['Team'] = name;
-                    }
-                }
-
                 // If it doesn't refer to school, it must refer to student
                 if (name.includes('7th')) {
                     if (studentData.hasOwnProperty(entry[name]) &&
@@ -80,6 +69,9 @@ const csvFilePath = './../sampleRoster.csv';
                 else if (name.includes('8th')) {
                     if (studentData.hasOwnProperty(entry[name]) &&
                         entry[name] !== '') {
+                        console.log(entry[name])
+                        console.log(entry[name] !== '')
+                        console.log(studentData[entry[name]])
                         // Could be a 7th grader -- dont update the grade field
                         studentData[entry[name]]['Competitions'].push(stripTitle(name));
                     }
@@ -113,6 +105,19 @@ const csvFilePath = './../sampleRoster.csv';
                         studentData[entry[name]] = {};
                         studentData[entry[name]]['Competitions'] = ['Creative Thinking'];
                         studentData[entry[name]]['Grade'] = '8th';
+                    }
+                }
+
+
+                // Add team data
+                if(name.includes('Team') && !name.includes('Creative Thinking')) {
+                    if (studentData.hasOwnProperty(entry[name]) &&
+                        entry[name] !== '') {
+                        studentData[entry[name]]['Team'] = name;
+                    }
+                    else if (entry[name] != '') {
+                        studentData[entry[name]] = {};
+                        studentData[entry[name]]['Team'] = name;
                     }
                 }
             }
@@ -179,7 +184,7 @@ const csvFilePath = './../sampleRoster.csv';
                     }
                     else {
                         if(teamData.hasOwnProperty(entry[name])) {
-                            
+
                         }
                     }
                 }
