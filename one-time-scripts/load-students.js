@@ -186,8 +186,11 @@ const csvFilePath = './../shortSampleRoster.csv';
                     }
                 }
 
-                for(var team in studentData[student]['Teams']) {
-                    if(team.contains("7th")) {
+                for(var t in studentData[student]['Team']) {
+                    const school = schoolData['Name'];
+                    const team = studentData[student]['Team'][t];
+                    console.log(team);
+                    if(team.includes("7th")) {
                         const row = await competitionsTable.read({
                             filterByFormula: 'Name = "Division ' + schoolData['Division'] + ' 7th Grade Team"',
                             maxRecords: 1
@@ -202,21 +205,21 @@ const csvFilePath = './../shortSampleRoster.csv';
                         const schoolTeam = school + team.slice(0, -2);
 
                         if(teamData.hasOwnProperty(schoolTeam)) {
+                            // Switch in person
                             if(team.charAt(team.length - 1) === '1') {
-                                const temp = teamData[team]['Students'][0];
+                                const temp = teamData[schoolTeam]['Students'][0];
 
-                                teamData[team]['Students'][0] = studentRow[0]['id'];
-                                teamData[team]['Students'].push(temp);
+                                teamData[schoolTeam]['Students'][0] = studentRow[0]['id'];
+                                teamData[schoolTeam]['Students'].push(temp);
                             }
                             else {
-                                teamData[team]['Students'].push(studentRow[0]['id']);
+                                teamData[schoolTeam]['Students'].push(studentRow[0]['id']);
                             }
                         }
                         else if(schoolTeam != '') {
-                            teamData[team] = {};
-                            teamData[team]['Competition'] = row;
-                            teamData[scho]
-                            teamData[team]['Students'] = [studentRow[0]['id']];
+                            teamData[schoolTeam] = {};
+                            teamData[schoolTeam]['Competition'] = row;
+                            teamData[schoolTeam]['Students'] = [studentRow[0]['id']];
                         }
                     }
                     else {
@@ -225,26 +228,36 @@ const csvFilePath = './../shortSampleRoster.csv';
                             maxRecords: 1
                         });
 
+                        const studentRow = await studentsTable.read({
+                            filterByFormula: 'Name = "' + student + '"',
+                            maxRecords: 1
+                        });
+
                         // Never hurts to check for null
                         const schoolTeam = school + team.slice(0, -2);
 
-                        if(teamData.hasOwnProperty(schoolTeam)
-                            && contestName !== '') {
+                        if(teamData.hasOwnProperty(schoolTeam)) {
+                            // Switch in person if necessary
+                            if(team.charAt(team.length - 1) === '1') {
+                                const temp = teamData[schoolTeam]['Students'][0];
 
-                            if() {
-
+                                teamData[schoolTeam]['Students'][0] = studentRow[0]['id'];
+                                teamData[schoolTeam]['Students'].push(temp);
                             }
-                            teamData[team]['Students'].push(studentRow[0]['id']);
+                            else {
+                                teamData[schoolTeam]['Students'].push(studentRow[0]['id']);
+                            }
                         }
-                        else if(contestName != '') {
-                            teamData[team] = {};
-                            teamData[team]['Competition']
-                            teamData[team]['Students'] = [studentRow[0]['id']];
+                        else if(schoolTeam != '') {
+                            teamData[schoolTeam] = {};
+                            teamData[schoolTeam]['Competition'] = row;
+                            teamData[schoolTeam]['Students'] = [studentRow[0]['id']];
                         }
                     }
                 }
             }
 
+            console.log(teamData);
         }
         catch (e) {
             console.error(e);
