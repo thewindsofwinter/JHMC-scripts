@@ -16,7 +16,7 @@ const schoolAttributes = ['Coach Name', 'Email Address', 'Division'];
 const tableValues = ['Coach Name', 'Coach Email', 'Division'];
 
 // Change once we get actual rosters
-const csvFilePath = './../shortSampleRoster.csv';
+const csvFilePath = './../2021data.csv';
 
 
 (async () => {
@@ -130,7 +130,7 @@ const csvFilePath = './../shortSampleRoster.csv';
 
         try {
             // Update schools
-            // await schoolsTable.create(schoolData);
+            await schoolsTable.create(schoolData);
 
             // Create student records
             for (var student in studentData) {
@@ -151,7 +151,7 @@ const csvFilePath = './../shortSampleRoster.csv';
 
                 // console.log(finalJSON);
 
-                // await studentsTable.create(finalJSON);
+                await studentsTable.create(finalJSON);
             }
 
             // Put students in competitions
@@ -182,7 +182,7 @@ const csvFilePath = './../shortSampleRoster.csv';
                         finalJSON['Competition'] = [row[0]['id']];
 
                         // console.log(finalJSON);
-                        // await testsTable.create(finalJSON);
+                        await testsTable.create(finalJSON);
                     }
                 }
 
