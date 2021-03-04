@@ -16,7 +16,7 @@ const schoolAttributes = ['Coach Name', 'Email Address', 'Division'];
 const tableValues = ['Coach Name', 'Coach Email', 'Division'];
 
 // Change once we get actual rosters
-const csvFilePath = './../2021data.csv';
+const csvFilePath = './../shortSampleRoster.csv';
 
 
 (async () => {
@@ -30,7 +30,7 @@ const csvFilePath = './../2021data.csv';
     console.log(ex[0]); */
 
     for (var entry of registration) {
-        console.log(entry);
+        // console.log(entry);
 
         // A record is created for each school under “Schools” with
         // Coach name, email, division, etc.
@@ -115,6 +115,7 @@ const csvFilePath = './../2021data.csv';
                         entry[name] !== '') {
                         studentData[entry[name]]['Team'] = name;
                     }
+                    // Hopefully won't be triggered
                     else if (entry[name] != '') {
                         studentData[entry[name]] = {};
                         studentData[entry[name]]['Team'] = name;
@@ -183,8 +184,21 @@ const csvFilePath = './../2021data.csv';
                         // await testsTable.create(finalJSON);
                     }
                     else {
-                        if(teamData.hasOwnProperty(entry[name])) {
+                        const studentRow = await studentsTable.read({
+                            filterByFormula: 'Name = "' + student + '"',
+                            maxRecords: 1
+                        });
 
+                        // Never hurts to check for null
+                        const team = studentData[student]['Team'];
+                        if(teamData.hasOwnProperty(team)
+                            && contestName !== '') {
+                            teamData[team]['Students'].push(studentRow[0]['id']);
+                        }
+                        else if(contestName != '') {
+                            teamData[team] = {};
+                            teamData[team]['Competition']
+                            teamData[team]['Students'] = [studentRow[0]['id']];
                         }
                     }
                 }
