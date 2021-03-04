@@ -184,28 +184,34 @@ const csvFilePath = './../shortSampleRoster.csv';
                         // console.log(finalJSON);
                         // await testsTable.create(finalJSON);
                     }
-                    else {
-                        const row = await competitionsTable.read({
-                            filterByFormula: 'Name = "' + contestName + '"',
-                            maxRecords: 1
-                        });
+                }
 
-                        const studentRow = await studentsTable.read({
-                            filterByFormula: 'Name = "' + student + '"',
-                            maxRecords: 1
-                        });
+                for(var team in studentData[student]['Teams']) {
+                    const row = await competitionsTable.read({
+                        filterByFormula: 'Name = "' + contestName + '"',
+                        maxRecords: 1
+                    });
 
-                        // Never hurts to check for null
-                        const team = studentData[student]['Team'];
-                        if(teamData.hasOwnProperty(team)
-                            && contestName !== '') {
-                            teamData[team]['Students'].push(studentRow[0]['id']);
+                    const studentRow = await studentsTable.read({
+                        filterByFormula: 'Name = "' + student + '"',
+                        maxRecords: 1
+                    });
+
+                    // Never hurts to check for null
+                    const team = school + studentData[student]['Competitions'][contest]
+                        + studentData[student]['Team'].slice(0, -2);
+                    if(teamData.hasOwnProperty(team)
+                        && contestName !== '') {
+
+                        if() {
+
                         }
-                        else if(contestName != '') {
-                            teamData[team] = {};
-                            teamData[team]['Competition']
-                            teamData[team]['Students'] = [studentRow[0]['id']];
-                        }
+                        teamData[team]['Students'].push(studentRow[0]['id']);
+                    }
+                    else if(contestName != '') {
+                        teamData[team] = {};
+                        teamData[team]['Competition']
+                        teamData[team]['Students'] = [studentRow[0]['id']];
                     }
                 }
             }
