@@ -69,9 +69,9 @@ const csvFilePath = './../shortSampleRoster.csv';
                 else if (name.includes('8th')) {
                     if (studentData.hasOwnProperty(entry[name]) &&
                         entry[name] !== '') {
-                        console.log(entry[name])
-                        console.log(entry[name] !== '')
-                        console.log(studentData[entry[name]])
+                        // console.log(entry[name])
+                        // console.log(entry[name] !== '')
+                        // console.log(studentData[entry[name]])
                         // Could be a 7th grader -- dont update the grade field
                         studentData[entry[name]]['Competitions'].push(stripTitle(name));
                     }
@@ -111,21 +111,22 @@ const csvFilePath = './../shortSampleRoster.csv';
 
                 // Add team data
                 if(name.includes('Team') && !name.includes('Creative Thinking')) {
-                    if (studentData.hasOwnProperty(entry[name]) &&
+                    if (studentData.hasOwnProperty(entry[name]['Team']) &&
                         entry[name] !== '') {
-                        studentData[entry[name]]['Team'] = name;
+                        studentData[entry[name]]['Team'].push(name);
                     }
-                    // Hopefully won't be triggered
-                    else if (entry[name] != '') {
-                        studentData[entry[name]] = {};
-                        studentData[entry[name]]['Team'] = name;
+                    // Hopefully won't be triggered -- nvm, fixed
+                    else if (!studentData.hasOwnProperty(entry[name]['Team']) &&
+                        entry[name] != '') {
+                        // console.log("SOMETHING WENT WRONG, VERY WRONG");
+                        studentData[entry[name]]['Team'] = [name];
                     }
                 }
             }
         }
 
         // console.log(schoolData);
-        // console.log(studentData);
+        console.log(studentData);
 
         try {
             // Update schools
@@ -184,6 +185,11 @@ const csvFilePath = './../shortSampleRoster.csv';
                         // await testsTable.create(finalJSON);
                     }
                     else {
+                        const row = await competitionsTable.read({
+                            filterByFormula: 'Name = "' + contestName + '"',
+                            maxRecords: 1
+                        });
+
                         const studentRow = await studentsTable.read({
                             filterByFormula: 'Name = "' + student + '"',
                             maxRecords: 1
