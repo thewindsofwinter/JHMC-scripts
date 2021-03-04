@@ -218,7 +218,7 @@ const csvFilePath = './../shortSampleRoster.csv';
                         }
                         else if(schoolTeam != '') {
                             teamData[schoolTeam] = {};
-                            teamData[schoolTeam]['Competition'] = row;
+                            teamData[schoolTeam]['Competition'] = [row[0]['id']];
                             teamData[schoolTeam]['Students'] = [studentRow[0]['id']];
                         }
                     }
@@ -250,11 +250,15 @@ const csvFilePath = './../shortSampleRoster.csv';
                         }
                         else if(schoolTeam != '') {
                             teamData[schoolTeam] = {};
-                            teamData[schoolTeam]['Competition'] = row;
+                            teamData[schoolTeam]['Competition'] = [row[0]['id']];
                             teamData[schoolTeam]['Students'] = [studentRow[0]['id']];
                         }
                     }
                 }
+            }
+
+            for(var record in teamData) {
+                await testsTable.create(teamData[record]);
             }
 
             console.log(teamData);
