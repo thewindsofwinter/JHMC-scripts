@@ -55,7 +55,8 @@
                         <hr>
                         <h2 id='infoTitle'>Test Completed</h2>
                         <p>
-                            Please refer to your personal schedule page to find what is next. <span class="personalized-schedule-ad"></span>
+                            Please refer to your personal schedule page to find what is next. <span
+                                class="personalized-schedule-ad"></span>
                         </p>
                     </div>
                     <button type="button" id="beginTestButton" class="btn btn-dark btn-lg">
@@ -127,6 +128,10 @@
         $(document).ready(() => {
             $("#question-progress-bar").attr("aria-valuemax", numberOfQuestions);
             $("#question-progress-bar").css("width", 100 * parseInt(questionOnOpen) / numberOfQuestions + "%");
+
+            $(window).bind('beforeunload', function () {
+                return "It looks like you have input you haven't submitted."
+            });
 
             if (available !== "true") {
                 loading(false);
@@ -256,10 +261,10 @@
             $(".next-button").click(nextQuestion);
 
             $(window).blur(function () {
-                    // Your action here
-                    console.log("window blurred!");
-                    showWindowToast = true;
-                });
+                // Your action here
+                console.log("window blurred!");
+                showWindowToast = true;
+            });
         }
 
         var loading = (go) => {
