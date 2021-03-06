@@ -10,6 +10,7 @@ const buildWebsocket = (http, app, alertsTable) => {
         let liveAlerts = await getAlerts(alertsTable, false);
         let alertObject = await getAlertObject(liveAlerts);
 
+        // don't need to send new connections the alerts, as the alerts are sent with the HTML
         // socket.emit("message", alertObject);
     });
 

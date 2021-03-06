@@ -55,7 +55,7 @@
                         <hr>
                         <h2 id='infoTitle'>Test Completed</h2>
                         <p>
-                            Please refer to your personal schedule page to find what is next.
+                            Please refer to your personal schedule page to find what is next. <span class="personalized-schedule-ad"></span>
                         </p>
                     </div>
                     <button type="button" id="beginTestButton" class="btn btn-dark btn-lg">
@@ -69,6 +69,7 @@
                         <div id="questions">
 
                         </div>
+                        <!-- only displays if questions are not individual -->
                         <div style="display:<%= individualQuestions ? 'none' : 'block' %>">
                             <hr>
                             <button class="btn btn-dark next-button" type="button" data-bs-toggle="tooltip"
@@ -133,6 +134,11 @@
                 $("#infoDiv").show();
                 $('#infoTitle').text(available);
                 $("#beginTestButton").attr("disabled", "true");
+                const urlParams = new URLSearchParams(window.location.search);
+                let studentId = urlParams.get('student');
+                if (studentId) {
+                    $(".personalized-schedule-ad").html(`You can find it <a href='/student/${studentId}'>here</a>.`);
+                }
             } else if (questionOnOpen === numberOfQuestions) {
                 finished();
             }
@@ -176,6 +182,11 @@
         var nextQuestion = () => {
             $("#questionDiv").hide();
             loading();
+
+            if (!confirm("Are you sure you want to submit?")) {
+                return;
+            }
+
             let answers = $('.answer').map((_, el) => {
                 return {
                     text: el.value,
