@@ -10,6 +10,7 @@ const buildWebsocket = (http, app, alertsTable) => {
         let liveAlerts = await getAlerts(alertsTable, false);
         let alertObject = await getAlertObject(liveAlerts);
 
+        // don't need to send new connections the alerts, as the alerts are sent with the HTML
         // socket.emit("message", alertObject);
     });
 
@@ -17,14 +18,18 @@ const buildWebsocket = (http, app, alertsTable) => {
     app.get("/admin/update-alerts", cors(), async (req, res) => { 
         let liveAlerts = await getAlerts(alertsTable, false);
         let alertObject = await getAlertObject(liveAlerts);
-        sendMessage(alertObject);
+        io.emit("message", message);
 
         res.send("Alerts Updated!");
     });
 
-    const sendMessage = (message) => {
-        io.emit("message", message);
-    }
+    app.get('/admin/force-reload', cors(), async (req, res) => {
+        io.emit("message", {
+            type: "reload"
+        });
+
+        res.send("Forced Reload!");
+    });
 }
 
 const getAlertObject = async (alerts) => {

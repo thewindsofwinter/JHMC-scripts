@@ -7,6 +7,8 @@
     console.log(message);
     if (message.type == "alerts") {
       $(".alert-area").html(message.html)
+    } else if (message.type == "reload") {
+      window.location.reload();
     }
   });
 </script>
