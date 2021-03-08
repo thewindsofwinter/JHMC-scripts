@@ -266,6 +266,9 @@
             $("#infoDiv").show();
             $("#question-progress-bar").css("width", "100%");
             $("#question-progress-bar").attr("aria-valuenow", numberOfQuestions);
+            $(window).blur(() => {
+                // don't do anything if leaves tab
+            });
         }
 
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
