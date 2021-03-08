@@ -85,6 +85,10 @@ app.get('/test/:recordId', async (req, res) => {
 
         let competitionType = competition.fields["Test Type"];
 
+        let liveAlerts = await websocket.getAlerts(alertsTable);
+        let alertsObject = await websocket.getAlertObject(liveAlerts),
+            alertsHtml = alertsObject.html;
+
         res.render('pages/tests', {
             name,
             primary: name,
@@ -103,6 +107,7 @@ app.get('/test/:recordId', async (req, res) => {
             competitionType,
             individualQuestions: competitionType == "One Question",
             questionTemplate: fs.readFileSync('views/partials/question.ejs', 'utf8'),
+            alertsHtml
         })
     } catch (e) {
         console.log(e);

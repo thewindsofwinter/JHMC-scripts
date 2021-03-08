@@ -3,30 +3,33 @@
 
 <head>
     <%- include('../partials/head'); %>
-        <%- include('../partials/meta'); %>
-            <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-            <script id="MathJax-script" async
-                src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-            <script>
-                MathJax = {
-                    tex: {
-                        inlineMath: [['$', '$'], ['\\(', '\\)']]
-                    },
-                    svg: {
-                        // fontCache: 'global'
+        <%- include('../partials/socket'); %>
+            <%- include('../partials/meta'); %>
+                <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+                <script id="MathJax-script" async
+                    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+                <script>
+                    MathJax = {
+                        tex: {
+                            inlineMath: [['$', '$'], ['\\(', '\\)']]
+                        },
+                        svg: {
+                            // fontCache: 'global'
+                        }
+                    };
+                </script>
+                <style>
+                    .text-nowrap {
+                        overflow: hidden;
+                        white-space: nowrap !important;
                     }
-                };
-            </script>
-            <style>
-                .text-nowrap {
-                    overflow: hidden;
-                    white-space: nowrap !important;
-                }
-            </style>
+                </style>
 </head>
 
 <body class="container">
-
+    <div class="alert-area">
+        <%- alertsHtml %>
+    </div>
     <header>
         <%- include('../partials/header'); %>
     </header>
@@ -188,7 +191,7 @@
             $("#questionDiv").hide();
             loading();
 
-            if (!confirm("Are you sure you want to submit?")) {
+            if (!individualQuestions && !confirm("Are you sure you want to submit?")) {
                 return;
             }
 
