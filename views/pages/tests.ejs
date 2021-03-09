@@ -289,8 +289,12 @@
 
         var setCounterTime = (date_future) => {
             var date_now = new Date();
-            var delta = Math.abs(date_future - date_now) / 1000;
+            var delta = Math.ceil(Math.abs(date_future - date_now) / 1000);
 
+            // Theory: Delta ends up as a decimal slightly < x.00
+            // which causes the math.round to still round to 60
+            // Solution: make sure delta is an integer - Andy
+            // Solution confirmed to work
             var minutes = Math.floor(delta / 60);
             delta -= minutes * 60;
 
