@@ -133,7 +133,7 @@
             $("#question-progress-bar").css("width", 100 * parseInt(questionOnOpen) / numberOfQuestions + "%");
 
             $(window).bind('beforeunload', function () {
-                return "It looks like you have input you haven't submitted."
+                return true;
             });
 
             if (available !== "true") {
@@ -186,6 +186,13 @@
             });
             // TODO: Close window button when completed or view contest schedule
         });
+
+        var forceReload = () => {
+            $(window).bind('beforeunload', function () {
+                
+            });
+            window.location.reload();
+        }
 
         var nextQuestion = () => {
             $("#questionDiv").hide();
@@ -311,6 +318,10 @@
 
         var setCounterTime = (date_future) => {
             var date_now = new Date();
+
+            if (date_future < date_now) {
+                forceReload();
+            }
             var delta = Math.ceil(Math.abs(date_future - date_now) / 1000);
 
             // Theory: Delta ends up as a decimal slightly < x.00
