@@ -1,28 +1,42 @@
 const socketio = require('socket.io');
 const Color = require('color');
+const cors = require('cors');
 let ejs = require('ejs');
 
 const buildWebsocket = (http, app, alertsTable) => {
-    const io = socketio(http);
-    io.on("connection", async socket => {
-        console.log("user connected!");
-        let liveAlerts = await getAlerts(alertsTable, false);
-        let alertObject = await getAlertObject(liveAlerts);
+    let sockets = [];
 
+    let io = socketio(http);
+
+    io.on("connection", socket => {
+        console.log("user connected!");
+        // let liveAlerts = await getAlerts(alertsTable, false);
+
+        sockets.push(socket);
+
+        console.log(socket.id);
+        // let alertObject = await getAlertObject(liveAlerts);
+
+        // don't need to send new connections the alerts, as the alerts are sent with the HTML
         // socket.emit("message", alertObject);
     });
 
-    app.get("/admin/update-alerts", async (req, res) => {
+    // have to enable CORS to allow airtable script to call
+    app.get("/admin/update-alerts", cors(), async (req, res) => { 
         let liveAlerts = await getAlerts(alertsTable, false);
         let alertObject = await getAlertObject(liveAlerts);
-        sendMessage(alertObject);
+        io.emit("message", alertObject);
 
         res.send("Alerts Updated!");
     });
 
-    const sendMessage = (message) => {
-        io.emit("message", message);
-    }
+    app.get('/admin/force-reload', cors(), async (req, res) => {
+        io.emit("message", {
+            type: "reload"
+        });
+
+        res.send("Forced Reload!");
+    });
 }
 
 const getAlertObject = async (alerts) => {

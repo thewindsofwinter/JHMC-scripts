@@ -20,6 +20,7 @@ const testsTable = new AirtablePlus({ tableName: "Tests" }),
     extraneousRedirectsTable = new AirtablePlus({ tableName: "Redirects" }),
     alertsTable = new AirtablePlus({ tableName: "Alerts" });
 
+// error function that returns the rendered error page
 const error = (res, text) => {
     console.log("ERROR!");
     res.status(500).render('pages/error.ejs', {
@@ -41,6 +42,7 @@ app.get('/', (req, res) => {
     res.render('pages/home.ejs');
 });
 
+// any actual test
 app.get('/test/:recordId', async (req, res) => {
     const recordId = req.params.recordId;
     if (recordId == "sample") {
@@ -83,6 +85,10 @@ app.get('/test/:recordId', async (req, res) => {
 
         let competitionType = competition.fields["Test Type"];
 
+        let liveAlerts = await websocket.getAlerts(alertsTable);
+        let alertsObject = await websocket.getAlertObject(liveAlerts),
+            alertsHtml = alertsObject.html;
+
         res.render('pages/tests', {
             name,
             primary: name,
@@ -101,6 +107,7 @@ app.get('/test/:recordId', async (req, res) => {
             competitionType,
             individualQuestions: competitionType == "One Question",
             questionTemplate: fs.readFileSync('views/partials/question.ejs', 'utf8'),
+            alertsHtml
         })
     } catch (e) {
         console.log(e);
@@ -108,6 +115,8 @@ app.get('/test/:recordId', async (req, res) => {
     }
 });
 
+//endpoints for current tests to start; I built this part before websockets were implemented
+//now, to do this, i would just use websockets
 app.post('/test/endpoint/:recordId', async (req, res) => {
     const recordId = req.params.recordId;
 
