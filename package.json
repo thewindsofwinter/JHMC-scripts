@@ -12,10 +12,10 @@
     "ejs": "^3.1.5",
     "express": "^4.17.1",
     "humanize-duration": "^3.25.0",
+    "md-to-pdf": "^3.3.1",
     "path-to-regexp": "^6.2.0",
     "socket.io": "^3.1.2"
   },
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js"
