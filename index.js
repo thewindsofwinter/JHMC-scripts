@@ -190,6 +190,7 @@ app.post('/test/endpoint/:recordId', async (req, res) => {
                     // returning a promise which is received and awaited by Promise.all
                     return testsTable.update(recordId, { [answer.questionCode]: answer.text });
                 }));
+                const time = await testsTable.update(record.id, { "Submission Time": Date.now() });
                 res.status(200).send("FINISHED");
             }
 
