@@ -1,7 +1,7 @@
 let filterNonTestingRooms = (nonTestingRooms, groups, showDivision=false) => {
     let final = [];
     groups.push("All");
-    
+
     nonTestingRooms.filter(room => arraysMatchOneTerm(room.fields.Group, groups))
     .forEach(room => {
         let name = room.fields.Name;
@@ -38,28 +38,28 @@ module.exports = (app, { eventsTable, studentsTable, schoolsTable, testsTable, a
             let student = await studentsTable.find(studentId);
             let testIds = student.fields.Tests;
             let school = await schoolsTable.find(student.fields["School"]);
-            
+
             let studentRooms = await Promise.all(testIds.map(async (testId) => {
                 let test = await testsTable.find(testId),
                     competitionName = test.fields["Competition Name"][0];
-    
+
                 let zoomLink = school.fields["7th Grade Zoom Link"];
                 if (competitionName.includes("8th")) {
                     zoomLink = school.fields["8th Grade Zoom Link"];
                 } else if (competitionName.includes("Creative")) {
                     zoomLink = school.fields["Creative Thinking Zoom Link"];
                 }
-    
+
                 let subtext = test.fields["Student Names"].length == 1 ? "" : test.fields["Student Names"].join(", ");
-    
+
                 let testLink = test.fields["Link To Join"] + `?student=${student.id}`
-    
+
                 if (test.fields.Students[0] !== student.id) {
                     testLink = null;
                 }
-    
+
                 let teamTest = test.fields.Students.length != 1;
-    
+
                 return {
                     testLink,
                     zoomLink,
@@ -74,15 +74,15 @@ module.exports = (app, { eventsTable, studentsTable, schoolsTable, testsTable, a
             }));
 
             let [nonTestingRooms, liveAlerts] = await Promise.all([eventsTable.read(), websocket.getAlerts(alertsTable)]);
-            
+
             let alertsObject = await websocket.getAlertObject(liveAlerts),
                 alertsHtml = alertsObject.html;
-    
+
             let filteredNonTestingRooms = filterNonTestingRooms(nonTestingRooms, [school.fields.Division, "Students"])
             studentRooms = studentRooms.concat(filteredNonTestingRooms);
-    
+
             studentRooms.sort((a, b) => new Date(a.openTime) - new Date(b.openTime));
-    
+
             let now = new Date();
             studentRooms = studentRooms.map(room => {
                 return {
@@ -90,7 +90,7 @@ module.exports = (app, { eventsTable, studentsTable, schoolsTable, testsTable, a
                     active: (new Date(room.openTime) < now && new Date(room.closeTime) > now)
                 };
             });
-    
+
             res.status(200).render("pages/links.ejs", {
                 rooms: studentRooms,
                 name: student.fields.Name,
@@ -107,7 +107,7 @@ module.exports = (app, { eventsTable, studentsTable, schoolsTable, testsTable, a
             error(res);
         }
     });
-    
+
     app.get('/coaches', async (req, res) => {
         let nonTestingRooms = await eventsTable.read();
         let filteredNonTestingRooms = filterNonTestingRooms(nonTestingRooms, ["Coaches"], showDivision=true);
@@ -115,7 +115,16 @@ module.exports = (app, { eventsTable, studentsTable, schoolsTable, testsTable, a
         let liveAlerts = await websocket.getAlerts(alertsTable);
         let alertsObject = await websocket.getAlertObject(liveAlerts),
             alertsHtml = alertsObject.html;
-    
+
+        // Activate rooms
+        let now = new Date();
+        filteredNonTestingRooms = filteredNonTestingRooms.map(room => {
+            return {
+                ...room,
+                active: (new Date(room.openTime) < now && new Date(room.closeTime) > now)
+            };
+        });
+
         res.status(200).render("pages/links.ejs", {
             rooms: filteredNonTestingRooms,
             name: "Coaches",
@@ -127,7 +136,7 @@ module.exports = (app, { eventsTable, studentsTable, schoolsTable, testsTable, a
             alertsHtml
         });
     });
-    
+
     app.get('/parents', async (req, res) => {
         let nonTestingRooms = await eventsTable.read();
         let filteredNonTestingRooms = filterNonTestingRooms(nonTestingRooms, ["Parents"], showDivision=true);
@@ -135,7 +144,16 @@ module.exports = (app, { eventsTable, studentsTable, schoolsTable, testsTable, a
         let liveAlerts = await websocket.getAlerts(alertsTable);
         let alertsObject = await websocket.getAlertObject(liveAlerts),
             alertsHtml = alertsObject.html;
-    
+
+        // Activate rooms
+        let now = new Date();
+        filteredNonTestingRooms = filteredNonTestingRooms.map(room => {
+            return {
+                ...room,
+                active: (new Date(room.openTime) < now && new Date(room.closeTime) > now)
+            };
+        });
+
         res.status(200).render("pages/links.ejs", {
             rooms: filteredNonTestingRooms,
             name: "Parents",
