@@ -10,11 +10,13 @@
                     src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
                 <script>
                     MathJax = {
+                        loader: {load: ['[tex]/ams', '[tex]/textmacros']},
                         tex: {
-                            inlineMath: [['$', '$'], ['\\(', '\\)']]
+                            inlineMath: [['$', '$'], ['\\(', '\\)']],
+                            packages: {'[+]': ['ams', 'textmacros']}
                         },
                         svg: {
-                            // fontCache: 'global'
+                            fontCache: 'global'
                         }
                     };
                 </script>
@@ -189,7 +191,7 @@
 
         var forceReload = () => {
             $(window).bind('beforeunload', function () {
-                
+
             });
             window.location.reload();
         }

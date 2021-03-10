@@ -60,6 +60,8 @@ const getOrderedQuestions = async (record, competitionCode, competitionId) => {
 const validateTime = (competition, record, allowExtra=false) => {
     if (record.id === process.env.SAMPLE_TEST_ID) {
         return "true";
+    } else if (record.id === process.env.MASTER_TEST_ID) {
+        return "true";
     }
 
     let openTime = new Date(competition.fields.Opens) || new Date(0),
