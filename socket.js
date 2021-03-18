@@ -1,5 +1,4 @@
 const socketio = require('socket.io');
-const Color = require('color');
 const cors = require('cors');
 let ejs = require('ejs');
 
