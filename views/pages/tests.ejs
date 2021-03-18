@@ -201,10 +201,12 @@
         });
 
         var forceReload = () => {
-            $(window).bind('beforeunload', function () {
+            // tests should not be force reloaded
+            console.log("tests should not be force reloaded");
+            // $(window).bind('beforeunload', function () {
 
-            });
-            window.location.reload();
+            // });
+            // window.location.reload();
         }
 
         var nextQuestion = () => {
