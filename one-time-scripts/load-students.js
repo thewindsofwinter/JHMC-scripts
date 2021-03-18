@@ -1,12 +1,14 @@
 const AirtablePlus = require('airtable-plus');
 const CSV = require('csvtojson');
-const DotEnv = require('dotenv').config({ path: './../.env' });
 
-const testsTable = new AirtablePlus({ tableName: "Tests" }),
-    studentsTable = new AirtablePlus({ tableName: "Students" }),
-    schoolsTable = new AirtablePlus({ tableName: "Schools" }),
-    competitionsTable = new AirtablePlus({ tableName: "Competitions" });
+const { apiKey, baseID, sampleTestId } = require('./../secrets.js');
 
+// baseID, apiKey, and tableName can alternatively be set by environment variables
+const testsTable = new AirtablePlus({ tableName: "Tests", apiKey, baseID }),
+    studentsTable = new AirtablePlus({ tableName: "Students", apiKey, baseID }),
+    schoolsTable = new AirtablePlus({ tableName: "Schools", apiKey, baseID }),
+    competitionsTable = new AirtablePlus({ tableName: "Competitions", apiKey, baseID });
+    
 // What stuff to do for the school from the spreadsheet
 const schoolHeader = 'School Name';
 

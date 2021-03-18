@@ -7,11 +7,10 @@ const { mdToPdf } = require('md-to-pdf');
 
 const saveAllPdfs = true;
 
+const { apiKey, baseID, sampleTestId } = require('./../secrets.js');
+
 // baseID, apiKey, and tableName can alternatively be set by environment variables
-const testsTable = new AirtablePlus({ tableName: "Tests" }),
-    studentsTable = new AirtablePlus({ tableName: "Students" }),
-    schoolsTable = new AirtablePlus({ tableName: "Schools" }),
-    competitionsTable = new AirtablePlus({ tableName: "Competitions" });
+const schoolsTable = new AirtablePlus({ tableName: "Schools", apiKey, baseID });
 
 const generateJoinLinks = async () => {
     try {
@@ -35,7 +34,7 @@ const generateJoinLinks = async () => {
             let schoolMd = `# ${schoolName}\n## Coached By ${school.fields["Coach Name"]}\n### Division ${school.fields["Division"]}\n${studentLinkTexts}\n<div style="page-break-after: always;"></div>\n\n`;
             console.log(schoolMd);
             // console.log(studentLinks);
-            await mdToPdf({ content: schoolMd }, { dest: `final/${schoolName}.pdf` });
+            await mdToPdf({ content: schoolMd }, { dest: `schedule-links/${schoolName}.pdf` });
 
             finalMd += schoolMd;
         });
