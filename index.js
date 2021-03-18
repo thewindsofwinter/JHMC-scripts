@@ -2,23 +2,23 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const AirtablePlus = require('airtable-plus');
-const DotEnv = require('dotenv').config();
 const humanizeDuration = require("humanize-duration");
 const tests = require('./tests');
-const { pathToRegexp, match, parse, compile } = require("path-to-regexp");
+const { match } = require("path-to-regexp");
 const http = require('http').createServer(app);
 const fs = require('fs');
 
-const websocket = require('./socket.js')
+const websocket = require('./socket.js');
+const { apiKey, baseID, sampleTestId } = require('./secrets.js');
 
 // baseID, apiKey, and tableName can alternatively be set by environment variables
-const testsTable = new AirtablePlus({ tableName: "Tests" }),
-    studentsTable = new AirtablePlus({ tableName: "Students" }),
-    schoolsTable = new AirtablePlus({ tableName: "Schools" }),
-    competitionsTable = new AirtablePlus({ tableName: "Competitions" }),
-    eventsTable = new AirtablePlus({ tableName: "Events" }),
-    extraneousRedirectsTable = new AirtablePlus({ tableName: "Redirects" }),
-    alertsTable = new AirtablePlus({ tableName: "Alerts" });
+const testsTable = new AirtablePlus({ tableName: "Tests", apiKey, baseID }),
+    studentsTable = new AirtablePlus({ tableName: "Students", apiKey, baseID }),
+    schoolsTable = new AirtablePlus({ tableName: "Schools", apiKey, baseID }),
+    competitionsTable = new AirtablePlus({ tableName: "Competitions", apiKey, baseID }),
+    eventsTable = new AirtablePlus({ tableName: "Events", apiKey, baseID }),
+    extraneousRedirectsTable = new AirtablePlus({ tableName: "Redirects", apiKey, baseID }),
+    alertsTable = new AirtablePlus({ tableName: "Alerts", apiKey, baseID });
 
 // error function that returns the rendered error page
 const error = (res, text) => {
@@ -46,7 +46,7 @@ app.get('/', (req, res) => {
 app.get('/test/:recordId', async (req, res) => {
     const recordId = req.params.recordId;
     if (recordId == "sample") {
-        res.redirect("/test/" + process.env.SAMPLE_TEST_ID);
+        res.redirect("/test/" + sampleTestId);
         return;
     }
 
@@ -74,7 +74,7 @@ app.get('/test/:recordId', async (req, res) => {
             testsTable.update(record.id, { "Current Question Index": 0 });
         }
 
-        if (record.id == process.env.SAMPLE_TEST_ID) {
+        if (record.id == sampleTestId) {
             await testsTable.update(record.id, { "Current Question Index": 0 });
             currentQuestion = 0;
             testBegun = false;
@@ -111,7 +111,7 @@ app.get('/test/:recordId', async (req, res) => {
         })
     } catch (e) {
         console.log(e);
-        error(res, "Error fetching");
+        error(res, "Error fetching: " + e);
     }
 });
 
@@ -137,7 +137,7 @@ app.post('/test/endpoint/:recordId', async (req, res) => {
             let questions = await questionsPromise;
             let numberQuestionsCompleted = record.fields["Current Question Index"] || 0;
 
-            if (record.id === process.env.SAMPLE_TEST_ID) {
+            if (record.id === sampleTestId) {
                 const time = Date.now();
                 testsTable.update(recordId, { "Start Time": time });
                 record.fields["Start Time"] = time; // Could reaquire record, but that would take a lot of time — this is easier & faster

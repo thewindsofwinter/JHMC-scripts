@@ -1,7 +1,8 @@
 const AirtablePlus = require('airtable-plus');
 const DotEnv = require('dotenv').config();
+const { apiKey, baseID, sampleTestId, masterTestId } = require('./secrets.js');
 
-const competitionsTable = new AirtablePlus({ tableName: "Competitions" });
+const competitionsTable = new AirtablePlus({ tableName: "Competitions", apiKey, baseID });
 
 const getQuestions = async (competitionCode) => {
     competitionCode = competitionCode.toUpperCase();
@@ -38,7 +39,11 @@ const getOrderedQuestions = async (record, competitionCode, competitionId) => {
     // Example: I had previously listed question 4 twice, which made it have 11 questions... this wouldn't happen if I did it automatically, but it's still an issue!
 
     let unordered = await getQuestions(competitionCode);
-    let order = record.fields["Question Order"].split(","); //TODO: Account for if there is no question order
+    let questionOrderText = record.fields["Question Order"];
+    if (questionOrderText == undefined || questionOrderText === null) {
+        throw "There are no questions, or the question order is not set."
+    }
+    let order = questionOrderText.split(","); //TODO: Account for if there is no question order
     order = order.map(o => o - 1); //Adjusts for indexing starting at 0
     let ordered = order.map((o, i) => {
         return {
@@ -58,9 +63,9 @@ const getOrderedQuestions = async (record, competitionCode, competitionId) => {
 }
 
 const validateTime = (competition, record, allowExtra=false) => {
-    if (record.id === process.env.SAMPLE_TEST_ID) {
+    if (record.id === sampleTestId) {
         return "true";
-    } else if (record.id === process.env.MASTER_TEST_ID) {
+    } else if (record.id === masterTestId) {
         return "true";
     }
 

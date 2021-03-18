@@ -1,15 +1,12 @@
 // Generates question order, assigns each test a grader
 
 const AirtablePlus = require('airtable-plus');
-const DotEnv = require('dotenv').config({ path: './../.env' });
 
-console.log(process.env.AIRTABLE_API_KEY);
+const { apiKey, baseID, sampleTestId } = require('./../secrets.js');
 
-const testsTable = new AirtablePlus({ tableName: "Tests" }),
-    studentsTable = new AirtablePlus({ tableName: "Students" }),
-    schoolsTable = new AirtablePlus({ tableName: "Schools" }),
-    competitionsTable = new AirtablePlus({ tableName: "Competitions" }),
-    volunteersTable = new AirtablePlus({ tableName: "Volunteers" });
+// baseID, apiKey, and tableName can alternatively be set by environment variables
+const testsTable = new AirtablePlus({ tableName: "Tests", apiKey, baseID }),
+    competitionsTable = new AirtablePlus({ tableName: "Competitions", apiKey, baseID });
 
 (async () => {
     const tests = await testsTable.read();
