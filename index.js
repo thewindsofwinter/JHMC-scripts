@@ -8,7 +8,7 @@ const { match } = require("path-to-regexp");
 const http = require('http').createServer(app);
 const fs = require('fs');
 
-const websocket = require('./socket.js');
+const alerts = require('./alerts.js');
 const { apiKey, baseID, sampleTestId } = require('./secrets.js');
 
 // baseID, apiKey, and tableName can alternatively be set by environment variables
@@ -85,8 +85,8 @@ app.get('/test/:recordId', async (req, res) => {
 
         let competitionType = competition.fields["Test Type"];
 
-        let liveAlerts = await websocket.getAlerts(alertsTable);
-        let alertsObject = await websocket.getAlertObject(liveAlerts),
+        let liveAlerts = await alerts.getAlerts(alertsTable);
+        let alertsObject = await alerts.getAlertObject(liveAlerts),
             alertsHtml = alertsObject.html;
 
         res.render('pages/tests', {
@@ -204,9 +204,7 @@ app.post('/test/endpoint/:recordId', async (req, res) => {
     }
 });
 
-require('./schedule.js')(app, { eventsTable, studentsTable, schoolsTable, testsTable, alertsTable}, websocket, error);
-
-websocket.buildWebsocket(http, app, alertsTable);
+require('./schedule.js')(app, { eventsTable, studentsTable, schoolsTable, testsTable, alertsTable}, alerts, error);
 
 app.get('/error', (req, res) => {
     error(res);

@@ -31,7 +31,7 @@ let arraysMatchOneTerm = (arr1, arr2) => {
     return arr1.some(r => arr2.includes(r));
 }
 
-module.exports = (app, { eventsTable, studentsTable, schoolsTable, testsTable, alertsTable }, websocket, error) => {
+module.exports = (app, { eventsTable, studentsTable, schoolsTable, testsTable, alertsTable }, alerts, error) => {
     app.get('/student/:studentId', async (req, res) => {
         const studentId = req.params.studentId;
         try {
@@ -73,9 +73,9 @@ module.exports = (app, { eventsTable, studentsTable, schoolsTable, testsTable, a
                 };
             }));
 
-            let [nonTestingRooms, liveAlerts] = await Promise.all([eventsTable.read(), websocket.getAlerts(alertsTable)]);
+            let [nonTestingRooms, liveAlerts] = await Promise.all([eventsTable.read(), alerts.getAlerts(alertsTable)]);
 
-            let alertsObject = await websocket.getAlertObject(liveAlerts),
+            let alertsObject = await alerts.getAlertObject(liveAlerts),
                 alertsHtml = alertsObject.html;
 
             let filteredNonTestingRooms = filterNonTestingRooms(nonTestingRooms, [school.fields.Division, "Students"])
@@ -99,7 +99,6 @@ module.exports = (app, { eventsTable, studentsTable, schoolsTable, testsTable, a
                 schoolName: school.fields.Name,
                 helpLink: nonTestingRooms.find(room => room.fields.ID == "help").fields["Zoom Link"],
                 divisionText: "Division " + school.fields.Division,
-                // alertsHtml: "hi",
                 alertsHtml
             });
         } catch (e) {
@@ -112,8 +111,8 @@ module.exports = (app, { eventsTable, studentsTable, schoolsTable, testsTable, a
         let nonTestingRooms = await eventsTable.read();
         let filteredNonTestingRooms = filterNonTestingRooms(nonTestingRooms, ["Coaches"], showDivision=true);
 
-        let liveAlerts = await websocket.getAlerts(alertsTable);
-        let alertsObject = await websocket.getAlertObject(liveAlerts),
+        let liveAlerts = await alerts.getAlerts(alertsTable);
+        let alertsObject = await alerts.getAlertObject(liveAlerts),
             alertsHtml = alertsObject.html;
 
         // Activate rooms
@@ -141,8 +140,8 @@ module.exports = (app, { eventsTable, studentsTable, schoolsTable, testsTable, a
         let nonTestingRooms = await eventsTable.read();
         let filteredNonTestingRooms = filterNonTestingRooms(nonTestingRooms, ["Parents"], showDivision=true);
 
-        let liveAlerts = await websocket.getAlerts(alertsTable);
-        let alertsObject = await websocket.getAlertObject(liveAlerts),
+        let liveAlerts = await alerts.getAlerts(alertsTable);
+        let alertsObject = await alerts.getAlertObject(liveAlerts),
             alertsHtml = alertsObject.html;
 
         // Activate rooms
