@@ -248,11 +248,6 @@ app.get('**', async (req, res) => {
     }
 });
 
-process.on('unhandledRejection', (reason, p) => {
-    console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
-    // application specific logging, throwing an error, or other logic here
-});
-
 app.listen(8080, () => {
     console.log(`Server running on port http://localhost:${8080}`);
 });

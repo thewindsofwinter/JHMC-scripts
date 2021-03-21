@@ -1,5 +1,4 @@
 const AirtablePlus = require('airtable-plus');
-const DotEnv = require('dotenv').config();
 const { apiKey, baseID, sampleTestId, masterTestId } = require('./secrets.js');
 
 const competitionsTable = new AirtablePlus({ tableName: "Competitions", apiKey, baseID });

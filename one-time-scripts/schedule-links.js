@@ -1,7 +1,6 @@
 const express = require('express');
 const app = express();
 const AirtablePlus = require('airtable-plus');
-const DotEnv = require('dotenv').config({ path: './../.env' });
 const fs = require("fs");
 const { mdToPdf } = require('md-to-pdf');
 
