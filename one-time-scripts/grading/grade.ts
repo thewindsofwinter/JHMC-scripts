@@ -1,7 +1,6 @@
 // import * as fs from 'fs';
 import AirtablePlus from 'airtable-plus';
 import { apiKey, baseID } from '../../secrets.js';
-let color = require('colorts');
 
 const numQuestions = 20;
 
@@ -34,6 +33,14 @@ interface AnswerSet {
     Q20: string;
 }
 
+interface Question {
+    question?: string;
+    studentAnswer: string;
+    correctAnswer: string;
+    correct: boolean;
+    key: string;
+}
+
 interface Test {
     [key: string]: string | number | string[] | undefined;
     Students: string[];
@@ -58,6 +65,7 @@ interface Test {
     'Competition Type': string[];
     'Duration (seconds)': any;
     'Record ID': string;
+    'School Name': string;
     Q1?: string;
     Q2?: string;
     Q3?: string;
@@ -111,41 +119,86 @@ const testsTable = new AirtablePlus({ tableName: "Tests", apiKey, baseID }),
     let testRecords: TestRecord[] = await testsTable.read();
     let tests = testRecords.map(test => test.fields);
     let answerKeys = tests.filter(test => test["Student Names"][0] == "Answer Key");
+    // tests = tests.filter(test => test["Student Names"][0] !== "Answer Key");
 
-    tests = tests.filter(test => test['Competition ID'][0] == "A-7I");
+    const gradeCompetition = (id: string) => {
+        let testsToGrade = tests.filter(test => test['Competition ID'][0] == id);
+        let answerKey = getCorrectAnswers(testsToGrade[0].Competition[0]);
+        let questionAnswers: any = {
 
-    const gradeTest = (test: Test) => {
+        };
+
+        Object.keys(answerKey).forEach(key => questionAnswers[key] = {
+            correctAnswer: answerKey[key],
+            // correctAnswers: [],
+            incorrectAnswers: []
+        });    
+
+        testsToGrade.forEach(test => {
+            let graded = gradeTest(test, answerKey);
+            
+            graded.forEach(question => {                
+                if (!question.correct) {                                        
+                    questionAnswers[question.key].incorrectAnswers.push(question.studentAnswer);
+                }
+            });
+        });
+
+        console.log(questionAnswers);
+    }
+
+    const gradeTest = (test: Test, answerKey: AnswerSet) => {
         let competition = competitions.find(c => c.id == test.Competition[0]);
-        let answerKey = getCorrectAnswers(competition.id);
+        // let answerKey = getCorrectAnswers(competition.id);
         let answers = getAnswers(test);
+        let questions: Question[] = [];
+
+        let charctersToReplace = [" ", ".", "$"];
         
         let correctQuestions = 0;
         Object.keys(answers).forEach(key => {
-            // let correctAnswer = answerKey[key].replace(/\s/g, "");
-            // let studentAnswer = answers[key].replace(/\s/g, "");
             let correctAnswer = answerKey[key];
             let studentAnswer = answers[key];
+
+            // store raw answer before formatted
+            let question: Question = {
+                studentAnswer,
+                correctAnswer,
+                correct: false,
+                key
+            }
+
+            charctersToReplace.forEach(c => {
+                correctAnswer = correctAnswer.replace(new RegExp(c.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), "g"), "");
+                studentAnswer = studentAnswer.replace(new RegExp(c.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), "g"), "");
+            });
             
             if (correctAnswer === studentAnswer) {
                 correctQuestions ++;
+                question.correct = true;
                 // console.log('correct');
             } else {
-                console.log(`Correct Answer: ${correctAnswer} \nStudent Answer: ${studentAnswer}\n`);
+                // if (test['Student Names'].join().includes("Sophia"))
+                // console.log(`Correct Answer: ${correctAnswer} \nStudent Answer: ${studentAnswer}\n`);
             }
+
+            questions.push(question);
         });
 
-        console.log(("Total Correct: "+correctQuestions).green);
-        
+        // console.log(("Total Correct: "+correctQuestions + "\t" + test['Student Names'].join() + "\t" + test['School Name']));
+        test["Total Correct"] = correctQuestions;
+        return questions;
     }
 
     const getCorrectAnswers = (competitionId: string): AnswerSet => {
-        let answerKey = answerKeys.find(test => test.Competition[0] == competitionId);
+        let answerKey = answerKeys.find(test => test.Competition[0] == competitionId);        
         return getAnswers(answerKey);
     }
 
     const getAnswers = (test: Test | null): AnswerSet => {
         let answerSet: AnswerSet = {...blankAnswerSet};
 
+        // answerSet.name = test['Student Names'].join();
         if (test != null) {
             for (var i = 1; i <= numQuestions; i++) {
                 let code = "Q" + i;
@@ -163,7 +216,5 @@ const testsTable = new AirtablePlus({ tableName: "Tests", apiKey, baseID }),
         return answerSet;
     };
 
-    tests.forEach(test => {
-        gradeTest(test);
-    });
+    gradeCompetition("A-7I");
 })();
