@@ -14,13 +14,17 @@ The following folder structure should help. Note that these files will all be au
 |   +-- A-7I.csv
 |   +-- AA-7I.csv
 |   +-- A-7T.csv
-|   +-- ...etcetera
+|   ...
 +-- test-reports
 |   +-- School1Name
 |   |   +-- 7th Grade Individual
 |   |   |   +-- Student1Name.pdf
 |   |   |   +-- Student2Name.pdf
+|   |   |   ...
 |   |   +-- 8th Grade Individual
 |   |   |   +-- Student1Name.pdf
 |   |   |   +-- Student2Name.pdf
+|   |   |   ...
+|   |   ...
+|   ...
 ```
