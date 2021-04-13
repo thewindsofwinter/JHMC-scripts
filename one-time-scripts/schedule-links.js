@@ -34,7 +34,7 @@ const generateJoinLinks = async () => {
             let schoolMd = `# ${schoolName}\n## Coached By ${school.fields["Coach Name"]}\n### Division ${school.fields["Division"]}\n${studentLinkTexts}\n<div style="page-break-after: always;"></div>\n\n`;
             console.log(schoolMd);
             // console.log(studentLinks);
-            await mdToPdf({ content: schoolMd }, { dest: `schedule-links/${schoolName}.pdf` });
+            await mdToPdf({ content: schoolMd }, { dest: `../private-data/schedule-links/${schoolName}.pdf` });
 
             finalMd += schoolMd;
         });

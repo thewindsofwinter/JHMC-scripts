@@ -7,3 +7,6 @@ ts-node one-time-scripts/grading/grade.ts
 ```
 
 Otherwise, the file won't be read properly.
+
+## Potentional Bugs
+1. csv won't work with quotes, use a csv-writer package
