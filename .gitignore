@@ -1,4 +1,13 @@
-private-data/*
+private-data/**.csv
+private-data/graded-data/*
+private-data/schedule-links/*
+private-data/test-reports/*
+
+!private-data/graded-data/*.md
+!private-data/schedule-links/*.md
+!private-data/test-reports/*.md
+
+!private-data/README.md
 
 # Logs
 logs
