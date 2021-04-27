@@ -72,7 +72,7 @@ interface Test {
     totalPoints?: number;
     correctQuestions?: number;
     questions?: Question[];
-    'Disclaimer'?: string;
+    'disclaimer'?: string;
     Q1?: string;
     Q2?: string;
     Q3?: string;
@@ -163,7 +163,7 @@ const testsTable = new AirtablePlus({ tableName: "Tests", apiKey, baseID }),
 
             if (generateScoreReports) generateScoreReport(gradedTest);
 
-            csv.push(`"${test['Student Names']}", ${test['School Name'][0]}, ${test.correctQuestions}, ${test.totalPoints}`);
+            csv.push(`"${test['Student Names']}", ${test['School Name'][0]}, ${test.correctQuestions}, ${test.totalPoints.toPrecision(4)}`);
         });
 
         fs.writeFileSync("./private-data/graded-data/"+id+".csv", csv.join("\n"));
@@ -175,6 +175,8 @@ const testsTable = new AirtablePlus({ tableName: "Tests", apiKey, baseID }),
         // let answerKey = getCorrectAnswers(competition.id);
         let answers = getAnswers(test);
         let questions: Question[] = [];
+
+        test.disclaimer = competition.fields["Disclaimer"] || "";
 
         let charctersToReplace = ["%", "mph", "meters", "miles per hour", "minutes", "years old", "units", " ", "$", ","];
         
@@ -272,11 +274,11 @@ const testsTable = new AirtablePlus({ tableName: "Tests", apiKey, baseID }),
         }).join("\n\n");
 
         let reportMd = reportTemplate
-        reportMd = reportMd.replace("{{studentName}}", test['Student Names'].join(', '));
-        reportMd = reportMd.replace("{{subtitle}}", "Junior High Math Contest Student Score Report");
+        reportMd = reportMd.replace("{{studentName}}", test['Student Names'].join(', ') + " - " + test['School Name'][0]);
+        reportMd = reportMd.replace("{{subtitle}}", "Junior High Math Contest 2021 Student Score Report");
         reportMd = reportMd.replace("{{competitionName}}", competitionName);
         reportMd = reportMd.replace("{{score}}", test.totalPoints.toPrecision(4));
-        reportMd = reportMd.replace("{{disclaimer}}", test.totalPoints.toPrecision(4));
+        reportMd = reportMd.replace("{{disclaimer}}", test.disclaimer);
 
         reportMd = reportMd.replace("{{questions}}", questionsMd);
 
@@ -287,11 +289,27 @@ const testsTable = new AirtablePlus({ tableName: "Tests", apiKey, baseID }),
             if (!(pathExists)){
                 await shell.mkdir("-p", path);
             }
-            await mdToPdf({content: reportMd},  { dest: path + `/${test['Student Names'].join(" ")}.pdf` });
+            mdToPdf({content: reportMd},  { dest: path + `/${test['Student Names'].join(" ")}.pdf` });
         } catch (e) {
             console.log("Error producing student report: " + e);
         }
     }
+
+    const gradeSpecificStudentTest = (name: string, compId: string) => {
+        let test = tests.find(t => t['Student Names'].join() == name && t['Competition ID'][0] == compId);
+        let answerKey = getCorrectAnswers(test.Competition[0]);
+        let graded = gradeTest(test, answerKey);
+        generateScoreReport(graded);
+
+        graded.questions.forEach(q => {
+            console.log("\n");
+            console.log("Student Answer: " + q.studentAnswer);
+            console.log("Correct Answer: " + q.correctAnswer);
+            console.log("Marked Correct: " + q.correct);
+        });
+    }
+
+    // gradeSpecificStudentTest("Sample Student", "AA-7I");
 
     gradeCompetition("A-7I");
     gradeCompetition("AA-7I");
