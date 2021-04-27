@@ -18,6 +18,7 @@ There is also a tool that inputs roster data into a spreadsheet, an auto-grader 
 * Markdown
 * MathJAX
 * LaTeX
+* Bootstrap
 
 ## Screenshots
 See the [logistics powerpoint](https://github.com/thewindsofwinter/JHMC-scripts/blob/master/docs/JHMC%20Information%20Session.pdf) and the [sample score report](https://github.com/thewindsofwinter/JHMC-scripts/blob/master/docs/Sample%20Score%20Report.pdf) for more.
