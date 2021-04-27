@@ -20,6 +20,8 @@ There is also a tool that inputs roster data into a spreadsheet, an auto-grader 
 * LaTeX
 
 ## Screenshots
+See the [logistics powerpoint](https://github.com/thewindsofwinter/JHMC-scripts/blob/master/docs/JHMC%20Information%20Session.pdf) and the [sample score report](https://github.com/thewindsofwinter/JHMC-scripts/blob/master/docs/Sample%20Score%20Report.pdf) for more.
+
 The contest homepage
 ![Homepage](./assets/homepage.png)
 
@@ -31,5 +33,3 @@ A sample testing page. The answers sync to Airtable.
 
 An alert pushed to the client using Websockets. 
 ![Alert](./assets/alert.png)
-
-See the [logistics powerpoint](https://github.com/thewindsofwinter/JHMC-scripts/blob/master/docs/JHMC%20Information%20Session.pdf) and the [sample score report](https://github.com/thewindsofwinter/JHMC-scripts/blob/master/docs/Sample%20Score%20Report.pdf).
