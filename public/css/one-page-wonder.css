@@ -1,9 +1,10 @@
 /*!
  * Start Bootstrap - One Page Wonder v5.0.9 (https://startbootstrap.com/theme/one-page-wonder)
- * Copyright 2013-2021 Start Bootstrap
+ * Copyright 2013-2022 Start Bootstrap
  * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-one-page-wonder/blob/master/LICENSE)
  */
 
+/* Reminder that IMSA primary color is (25,56,104)*/
 body {
   font-family: 'Lato';
 }
@@ -37,9 +38,11 @@ h6 {
 .navbar-custom {
   padding-top: 1rem;
   padding-bottom: 1rem;
-  background-color: rgba(0, 0, 0, 0.7);
+  /* Darkened navbar from 0.7 */
+  background-color: rgba(0, 0, 0, 0.75);
 }
 
+/* TODO: Probably add navbar components */
 .navbar-custom .navbar-brand {
   text-transform: uppercase;
   font-size: 1rem;
@@ -59,7 +62,9 @@ header.masthead {
   overflow: hidden;
   padding-top: calc(7rem + 72px);
   padding-bottom: 7rem;
-  background: linear-gradient(0deg, #ff6a00 0%, #ee0979 100%);
+  /* Theme change: from #ee0979 to #4b89e7 (brightened IMSA color) */
+  /* Theme change: from #ff6a00 to #e329c1 to (kinda) match the favicon */
+  background: linear-gradient(0deg, #e329c1 0%, #4b89e7 100%);
   background-repeat: no-repeat;
   background-position: center center;
   background-attachment: scroll;
@@ -83,7 +88,9 @@ header.masthead .bg-circle {
   z-index: 0;
   position: absolute;
   border-radius: 100%;
-  background: linear-gradient(0deg, #ee0979 0%, #ff6a00 100%);
+  /* Theme change: from #ee0979 to #4b89e7 (brightened IMSA color) */
+  /* Theme change: from #ff6a00 to #e329c1 to (kinda) match the favicon */
+  background: linear-gradient(0deg, #4b89e7 0%, #e329c1 100%);
 }
 
 header.masthead .bg-circle-1 {

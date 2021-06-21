@@ -95,7 +95,7 @@ module.exports = (app, { eventsTable, studentsTable, schoolsTable, testsTable, a
                 rooms: studentRooms,
                 name: student.fields.Name,
                 primary: student.fields.Name,
-                secondary: "JHMC 2021", // Goes in the <title>
+                secondary: "JHMC 2022", // Goes in the <title>
                 schoolName: school.fields.Name,
                 helpLink: nonTestingRooms.find(room => room.fields.ID == "help").fields["Zoom Link"],
                 divisionText: "Division " + school.fields.Division,
@@ -129,7 +129,7 @@ module.exports = (app, { eventsTable, studentsTable, schoolsTable, testsTable, a
             rooms: filteredNonTestingRooms,
             name: "Coaches",
             primary: "Coaches Schedule",
-            secondary: "JHMC 2021", // Goes in the <title>
+            secondary: "JHMC 2022", // Goes in the <title>
             schoolName: "",
             helpLink: nonTestingRooms.find(room => room.fields.ID == "help").fields["Zoom Link"],
             divisionText: "",
@@ -158,7 +158,7 @@ module.exports = (app, { eventsTable, studentsTable, schoolsTable, testsTable, a
             rooms: filteredNonTestingRooms,
             name: "Parents",
             primary: "Parents Schedule",
-            secondary: "JHMC 2021", // Goes in the <title>
+            secondary: "JHMC 2022", // Goes in the <title>
             schoolName: "",
             helpLink: nonTestingRooms.find(room => room.fields.ID == "help").fields["Zoom Link"],
             divisionText: "",
