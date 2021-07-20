@@ -204,7 +204,9 @@
   <script>
     $(window).scroll(() => {
       var yoff = window.pageYOffset;
-      $(".bg-circle").css('transform', 'translateY('+0.6*yoff+'px)')
+      $(".bg-circle").map((i, a) => {
+        $(a).css('transform', 'translateY(' + (i + 1) / 6 * yoff + 'px)');
+      })
     });
   </script>
 
