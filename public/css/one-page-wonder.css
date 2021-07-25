@@ -291,9 +291,27 @@ header.masthead .bg-plus-1 {
   padding-bottom: 2px !important;
 }
 
-.title-partner {
-    margin:auto;
+.partners {
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.partner {
+    flex: 1;
+    display: flex;
+    justify-content: center;
     width:fit-content;
+    margin: 1rem;
+}
+
+.title-partner {
+    justify-content: center;
+    align-items: center;
+    flex: 2;
+    width:fit-content;
+    height:fit-content;
+    background-color: var(--ink);
 }
 
 .logo {
