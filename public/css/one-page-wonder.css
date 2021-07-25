@@ -7,6 +7,15 @@
 /* Reminder that IMSA primary color is (25,56,104)*/
 body {
   font-family: 'Lato';
+
+  /* Define default colors */
+
+  /* Old JHMC */
+  --old-navbar: rgba(0, 0, 0, 0.7);
+  --old-circle-magenta: #ee0979;
+  --old-circle-orange: #ff6a00;
+  --old-active-primary-magenta: #bd0760;
+  --old-active-primary-orange: #cc5500;
 }
 
 h1,
