@@ -291,6 +291,27 @@ header.masthead .bg-plus-1 {
   padding-bottom: 2px !important;
 }
 
+.title-partner {
+    margin:auto;
+    width:fit-content;
+}
+
+.logo {
+    display:inline-block;
+    height: 4rem;
+    vertical-align: middle;
+}
+
+.spacer {
+    display:inline-block;
+    /* TODO: BAD, FIX */
+    font-size: 5rem;
+    font-weight: 300;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    vertical-align: middle;
+}
+
 #bottom-spacer {
   height: 60px !important;
 }
