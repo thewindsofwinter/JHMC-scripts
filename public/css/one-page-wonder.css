@@ -178,7 +178,7 @@ header.masthead .masthead-content {
 }
 
 header.masthead .masthead-content .masthead-heading {
-  font-size: 4rem;
+  font-size: 5rem !important;
 }
 
 header.masthead .masthead-content .masthead-subheading {
