@@ -28,6 +28,10 @@ body {
   --pencil-lead: #5c6274;
   --imsa-blue: #193768;
   --water: #d4f1f9;
+  --deepwater: #b2e6f4;
+
+  color: var(--ink);
+  background-color: var(--paper);
 }
 
 h1,
@@ -38,6 +42,20 @@ h5,
 h6 {
   font-family: 'Open Sans';
   font-weight: 800 !important;
+}
+
+/* TODO: harmonize new classes with bootstrap */
+.btn-imsa {
+  background-color: var(--imsa-blue) !important;
+  color: var(--water) !important;
+  transition: 0.3s;
+}
+
+.btn-imsa:hover,
+.btn-imsa:active,
+.btn-imsa:visited,
+.btn-imsa:focus {
+  background-color: var(--ink) !important;
 }
 
 .btn-xl {
@@ -61,6 +79,10 @@ h6 {
     background-image: url("./../img/paper-background.png");
     width: calc(100% - 100px);
     height: calc(100% - 100px);
+}
+
+.imsa-foreground {
+    color: var(--imsa-blue);
 }
 
 .rounded-pill {
@@ -126,13 +148,13 @@ header.masthead .bg-circle {
   /* Theme change: from #ee0979 to #4b89e7 (brightened IMSA color) */
   /* Theme change: from #ff6a00 to #e329c1 to (kinda) match the favicon */
   background: linear-gradient(0deg, #4b89e7 0%, #e329c1 100%);
+  opacity: 0.6;
 }
 
 header.masthead .bg-circle-1 {
   /* Override background to use sprite */
   background: url(./../img/seamless-pencil-background.jpg) 0 0;
   background-size: 500px 500px;
-  opacity: 0.5;
   height: 90rem;
   width: 90rem;
   bottom: -55rem;
@@ -143,7 +165,6 @@ header.masthead .bg-circle-2 {
   /* Start in a different place */
   background: url(./../img/seamless-pencil-background.jpg) 200px 200px;
   background-size: 500px 500px;
-  opacity: 0.5;
   height: 50rem;
   width: 50rem;
   top: -25rem;
@@ -153,7 +174,6 @@ header.masthead .bg-circle-2 {
 header.masthead .bg-circle-3 {
   background: url(./../img/seamless-pencil-background.jpg) 400px 400px;
   background-size: 500px 500px;
-  opacity: 0.5;
   height: 20rem;
   width: 20rem;
   bottom: -10rem;
@@ -163,7 +183,6 @@ header.masthead .bg-circle-3 {
 header.masthead .bg-circle-4 {
   background: url(./../img/seamless-pencil-background.jpg) 600px 600px;
   background-size: 500px 500px;
-  opacity: 0.5;
   height: 30rem;
   width: 30rem;
   top: -5rem;
