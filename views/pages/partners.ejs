@@ -8,7 +8,7 @@
   <%- include('../partials/meta'); %>
 
   <!-- Update to 2022 -->
-  <title>JHMC 2022</title>
+  <title>Contest Partners</title>
 
   <!-- Bootstrap core CSS -->
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -60,31 +60,6 @@
         <!-- TODO: harmonize with bootstrap, for now changing colors manually -->
         <a href="https://docs.google.com/forms/d/e/1FAIpQLScLNivDmUuYJrHekc0w8ylTJ0Nyi7Vx5p6LHdOxYjyOKgzZow/viewform?usp=sf_link" class="btn btn-imsa btn-xl rounded-pill mt-5">Fill Out Interest Form</a>
       </div>
-    </div>
-    <div class="bg-plus-1 bg-square" id="4">
-        <!-- Making circles empty, maybe squares too and plus signs -->
-        <table class="empty-plus">
-            <tr>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-            </tr>
-        </table>
-    </div>
-    <div class="bg-circle-1 bg-circle" id="1">
-        <!-- Making circles empty, maybe squares too and plus signs -->
-        <div class="empty-circle"></div>
-    </div>
-    <div class="bg-circle-2 bg-circle" id="2">
-        <!-- Making circles empty, maybe squares too and plus signs -->
-        <div class="empty-circle"></div>
-    </div>
-    <div class="bg-square-1 bg-square" id="3">
-        <!-- Making circles empty, maybe squares too and plus signs -->
-        <div class="empty-square"></div>
     </div>
   </header>
 
@@ -215,6 +190,21 @@
 
   <!-- Footer -->
   <footer class="py-5 bg-black">
+    <div class="container partners">
+        <div class="partner">
+            <img src="img/aops_logo.svg" class="logo"/>
+        </div>
+        <div class="partner title-partner">
+            <a href="https://www.imsa.edu" class="text-reset">
+                <img src="img/imsa-logo.png" class="logo" />
+                <p class="text-white spacer">|</p>
+                <img src="img/jhmc-logo.png" class="logo"/>
+            </a>
+        </div>
+        <div class="partner">
+            <img src="img/wolfram-logo.png" class="logo"/>
+        </div>
+    </div>
     <div class="container">
       <p class="m-0 text-center text-white small">Copyright &copy; JHMC 2022</p>
     </div>
@@ -224,19 +214,6 @@
   <!-- Bootstrap core JavaScript -->
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script>
-    $(window).scroll(() => {
-      var yoff = window.pageYOffset;
-      // Added x-component and square translate
-      $(".bg-circle").map((i, a) => {
-        $(a).css('transform', 'translate(' + (i) / 10 * yoff + 'px,' + (i + 1) / 6 * yoff + 'px)');
-      })
-
-      $(".bg-square").map((i, a) => {
-        $(a).css('transform', 'translate(' + (i - 2) / 12 * yoff + 'px,' + (2 * i - 1) / 6 * yoff + 'px)');
-      })
-    });
-  </script>
 
 </body>
 
