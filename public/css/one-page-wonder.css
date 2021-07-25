@@ -57,10 +57,10 @@ h6 {
     margin: 50px;
     border-radius: 100%;
     /* Make it tile the same way */
-    background-size: 400px 400px;
-    background-image: url("img/paper.gif");
-    width: calc(100% - 50px);
-    height: calc(100% - 50px);
+    background-size: 800px 800px;
+    background-image: url("./../img/paper-background.png");
+    width: calc(100% - 100px);
+    height: calc(100% - 100px);
 }
 
 .rounded-pill {
@@ -71,7 +71,7 @@ h6 {
   padding-top: 1rem;
   padding-bottom: 1rem;
   /* Darkened navbar from 0.7 */
-  background-color: rgba(35, 39, 50, 0.8);
+  background-color: var(--new-navbar);
 }
 
 /* TODO: Probably add navbar components */
@@ -96,11 +96,14 @@ header.masthead {
   padding-bottom: 7rem;
   /* Theme change: from #ee0979 to #4b89e7 (brightened IMSA color) */
   /* Theme change: from #ff6a00 to #e329c1 to (kinda) match the favicon */
-  background: linear-gradient(0deg, #e329c1 0%, #4b89e7 100%);
+  /* background: linear-gradient(0deg, #e329c1 0%, #4b89e7 100%); */
+  /* Add paper background
   background-repeat: no-repeat;
   background-position: center center;
   background-attachment: scroll;
-  background-size: cover;
+  background-size: cover; */
+  background-size: 800px 800px;
+  background-image: url("./../img/paper-background.png");
 }
 
 header.masthead .masthead-content {
@@ -126,6 +129,10 @@ header.masthead .bg-circle {
 }
 
 header.masthead .bg-circle-1 {
+  /* Override background to use sprite */
+  background: url(./../img/seamless-pencil-background.jpg) 0 0;
+  background-size: 500px 500px;
+  opacity: 0.5;
   height: 90rem;
   width: 90rem;
   bottom: -55rem;
@@ -133,6 +140,10 @@ header.masthead .bg-circle-1 {
 }
 
 header.masthead .bg-circle-2 {
+  /* Start in a different place */
+  background: url(./../img/seamless-pencil-background.jpg) 200px 200px;
+  background-size: 500px 500px;
+  opacity: 0.5;
   height: 50rem;
   width: 50rem;
   top: -25rem;
@@ -140,6 +151,9 @@ header.masthead .bg-circle-2 {
 }
 
 header.masthead .bg-circle-3 {
+  background: url(./../img/seamless-pencil-background.jpg) 400px 400px;
+  background-size: 500px 500px;
+  opacity: 0.5;
   height: 20rem;
   width: 20rem;
   bottom: -10rem;
@@ -147,6 +161,9 @@ header.masthead .bg-circle-3 {
 }
 
 header.masthead .bg-circle-4 {
+  background: url(./../img/seamless-pencil-background.jpg) 600px 600px;
+  background-size: 500px 500px;
+  opacity: 0.5;
   height: 30rem;
   width: 30rem;
   top: -5rem;
