@@ -338,3 +338,24 @@ header.masthead .bg-plus-1 {
 #bottom-spacer {
   height: 60px !important;
 }
+
+.partner-content {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.partner-description {
+    text-align: justify;
+}
+
+.logo-right {
+    float:right;
+    width: 60%;
+    margin-left: 1rem;
+}
+
+.logo-left {
+    float:left;
+    width: 60%;
+    margin-right: 1rem;
+}
