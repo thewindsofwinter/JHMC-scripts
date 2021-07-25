@@ -91,7 +91,6 @@ h5 {
     margin:-5px;
     width: calc(100% + 10px);
     height: calc(100% + 10px);
-    opacity: 1;
     border: none;
 }
 
@@ -193,7 +192,7 @@ header.masthead .bg-circle {
   /* Theme change: from #ee0979 to #4b89e7 (brightened IMSA color) */
   /* Theme change: from #ff6a00 to #e329c1 to (kinda) match the favicon */
   background: linear-gradient(0deg, #4b89e7 0%, #e329c1 100%);
-  opacity: 0.75;
+  opacity: 0.6;
 }
 
 header.masthead .bg-square {
@@ -202,7 +201,7 @@ header.masthead .bg-square {
   /* Theme change: from #ee0979 to #4b89e7 (brightened IMSA color) */
   /* Theme change: from #ff6a00 to #e329c1 to (kinda) match the favicon */
   background: linear-gradient(0deg, #4b89e7 0%, #e329c1 100%);
-  opacity: 0.75;
+  opacity: 0.6;
 }
 
 header.masthead .bg-circle-1 {
