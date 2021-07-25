@@ -374,3 +374,12 @@ header.masthead .bg-plus-1 {
 .btn-info:active, .btn-info:focus, .btn-info:hover {
   background-color: var(--imsa-light-blue) !important;
 }
+
+.nav-item a {
+  color: var(--pencil-lead);
+  transition: color 0.5s;
+}
+
+.nav-item a:active, .nav-item a:focus, .nav-item a:hover {
+  color: var(--water) !important;
+}
