@@ -158,8 +158,8 @@ h5 {
 header.masthead {
   position: relative;
   overflow: hidden;
-  padding-top: calc(7rem + 72px);
-  padding-bottom: 7rem;
+  padding-top: calc(6rem + 72px);
+  padding-bottom: 6rem;
   /* Theme change: from #ee0979 to #4b89e7 (brightened IMSA color) */
   /* Theme change: from #ff6a00 to #e329c1 to (kinda) match the favicon */
   /* background: linear-gradient(0deg, #e329c1 0%, #4b89e7 100%); */
@@ -170,6 +170,10 @@ header.masthead {
   background-size: cover; */
   background-size: 800px 800px;
   background-image: url("./../img/paper-background.png");
+}
+
+header.masthead h5 {
+    text-align: justify;
 }
 
 header.masthead .masthead-content {
