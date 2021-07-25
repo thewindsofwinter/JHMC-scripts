@@ -308,7 +308,7 @@ header.masthead .bg-plus-1 {
 .title-partner {
     justify-content: center;
     align-items: center;
-    flex: 2;
+    flex: 4;
     width:fit-content;
     height:fit-content;
     background-color: var(--ink);
