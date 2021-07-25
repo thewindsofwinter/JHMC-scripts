@@ -8,7 +8,7 @@
   <%- include('../partials/meta'); %>
 
   <!-- Update to 2022 -->
-  <title>Our Sponsors</title>
+  <title>JHMC 2022</title>
 
   <!-- Bootstrap core CSS -->
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -32,10 +32,10 @@
     <div class="container">
       <!-- Update to 2022 -->
       <a class="navbar-brand" href="#">JHMC 2022</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+      <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
         aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
-      </button>
+      </button> -->
       <!-- <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
@@ -49,20 +49,43 @@
     </div>
   </nav>
 
-  <header class="masthead text-center text-white">
+  <!-- Used to be different for bootstrap stuff, must harmonize -->
+  <header class="masthead text-center imsa-foreground">
     <div class="masthead-content">
       <div class="container">
         <!-- Only updated for 2022 title etc, still have to update form -->
         <h1 class="masthead-heading mb-0">2022 Virtual JHMC</h1>
         <h2 class="masthead-subheading mb-0">Saturday, March 12th</h2>
         <!-- TODO: UPDATE GOOGLE FORM LINK HERE AND AT BOTTOM OF PAGE -->
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLScLNivDmUuYJrHekc0w8ylTJ0Nyi7Vx5p6LHdOxYjyOKgzZow/viewform?usp=sf_link" class="btn btn-light btn-xl rounded-pill mt-5">Fill Out Interest Form</a>
+        <!-- TODO: harmonize with bootstrap, for now changing colors manually -->
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLScLNivDmUuYJrHekc0w8ylTJ0Nyi7Vx5p6LHdOxYjyOKgzZow/viewform?usp=sf_link" class="btn btn-imsa btn-xl rounded-pill mt-5">Fill Out Interest Form</a>
       </div>
     </div>
-    <div class="bg-circle-1 bg-circle" id="1"></div>
-    <div class="bg-circle-2 bg-circle" id="2"></div>
-    <div class="bg-circle-3 bg-circle" id="3"></div>
-    <div class="bg-circle-4 bg-circle" id="4"></div>
+    <div class="bg-plus-1 bg-square" id="4">
+        <!-- Making circles empty, maybe squares too and plus signs -->
+        <table class="empty-plus">
+            <tr>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+    </div>
+    <div class="bg-circle-1 bg-circle" id="1">
+        <!-- Making circles empty, maybe squares too and plus signs -->
+        <div class="empty-circle"></div>
+    </div>
+    <div class="bg-circle-2 bg-circle" id="2">
+        <!-- Making circles empty, maybe squares too and plus signs -->
+        <div class="empty-circle"></div>
+    </div>
+    <div class="bg-square-1 bg-square" id="3">
+        <!-- Making circles empty, maybe squares too and plus signs -->
+        <div class="empty-square"></div>
+    </div>
   </header>
 
   <section>
@@ -204,8 +227,13 @@
   <script>
     $(window).scroll(() => {
       var yoff = window.pageYOffset;
+      // Added x-component and square translate
       $(".bg-circle").map((i, a) => {
-        $(a).css('transform', 'translateY(' + (i + 1) / 6 * yoff + 'px)');
+        $(a).css('transform', 'translate(' + (i) / 10 * yoff + 'px,' + (i + 1) / 6 * yoff + 'px)');
+      })
+
+      $(".bg-square").map((i, a) => {
+        $(a).css('transform', 'translate(' + (i - 2) / 12 * yoff + 'px,' + (2 * i - 1) / 6 * yoff + 'px)');
       })
     });
   </script>

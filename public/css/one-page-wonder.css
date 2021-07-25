@@ -26,7 +26,8 @@ body {
   --paper: #fbfbf8;
   --ink: #232732;
   --pencil-lead: #5c6274;
-  --imsa-blue: #1E417B;
+  --imsa-blue: #1a3668;
+  --imsa-light-blue: #00b4df;
   --water: #d4f1f9;
   --deepwater: #b2e6f4;
 
@@ -50,9 +51,9 @@ h5 {
 
 /* TODO: harmonize new classes with bootstrap */
 .btn-imsa {
-  background-color: var(--imsa-blue) !important;
-  color: var(--water) !important;
-  transition: 0.3s;
+  background-color: var(--imsa-light-blue) !important;
+  color: var(--imsa-blue) !important;
+  transition: 0.5s;
 }
 
 .btn-imsa:hover,
@@ -60,6 +61,7 @@ h5 {
 .btn-imsa:visited,
 .btn-imsa:focus {
   background-color: var(--ink) !important;
+  color: var(--water) !important;
 }
 
 .btn-xl {
@@ -191,7 +193,7 @@ header.masthead .bg-circle {
   /* Theme change: from #ee0979 to #4b89e7 (brightened IMSA color) */
   /* Theme change: from #ff6a00 to #e329c1 to (kinda) match the favicon */
   background: linear-gradient(0deg, #4b89e7 0%, #e329c1 100%);
-  opacity: 0.6;
+  opacity: 0.75;
 }
 
 header.masthead .bg-square {
@@ -200,7 +202,7 @@ header.masthead .bg-square {
   /* Theme change: from #ee0979 to #4b89e7 (brightened IMSA color) */
   /* Theme change: from #ff6a00 to #e329c1 to (kinda) match the favicon */
   background: linear-gradient(0deg, #4b89e7 0%, #e329c1 100%);
-  opacity: 0.6;
+  opacity: 0.75;
 }
 
 header.masthead .bg-circle-1 {
