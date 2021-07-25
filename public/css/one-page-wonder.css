@@ -52,6 +52,17 @@ h6 {
   background-color: #000 !important;
 }
 
+.empty-circle {
+    /* Added to hollow out circle for paper theme*/
+    margin: 50px;
+    border-radius: 100%;
+    /* Make it tile the same way */
+    background-size: 400px 400px;
+    background-image: url("img/paper.gif");
+    width: calc(100% - 50px);
+    height: calc(100% - 50px);
+}
+
 .rounded-pill {
   border-radius: 5rem;
 }
