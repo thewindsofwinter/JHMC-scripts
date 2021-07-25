@@ -81,6 +81,45 @@ h6 {
     height: calc(100% - 100px);
 }
 
+.empty-plus {
+    margin:-5px;
+    width: calc(100% + 10px);
+    height: calc(100% + 10px);
+    opacity: 1;
+    border: none;
+}
+
+.empty-plus td {
+    border: 50px transparent solid;
+    background: black;
+    background-clip: content-box;
+    background-image: url("./../img/paper-background.png");
+    background-size: 800px 800px;
+}
+
+.empty-plus tr:first-child td {
+  border-top: 0;
+}
+.empty-plus tr:last-child td {
+  border-bottom: 0;
+}
+.empty-plus tr td:first-child {
+  border-left: 0;
+}
+.empty-plus tr td:last-child {
+  border-right: 0;
+}
+
+.empty-square {
+    /* Added to hollow out circle for paper theme*/
+    margin: 50px;
+    /* Make it tile the same way */
+    background-size: 800px 800px;
+    background-image: url("./../img/paper-background.png");
+    width: calc(100% - 100px);
+    height: calc(100% - 100px);
+}
+
 .imsa-foreground {
     color: var(--imsa-blue);
 }
@@ -151,6 +190,15 @@ header.masthead .bg-circle {
   opacity: 0.6;
 }
 
+header.masthead .bg-square {
+  z-index: 0;
+  position: absolute;
+  /* Theme change: from #ee0979 to #4b89e7 (brightened IMSA color) */
+  /* Theme change: from #ff6a00 to #e329c1 to (kinda) match the favicon */
+  background: linear-gradient(0deg, #4b89e7 0%, #e329c1 100%);
+  opacity: 0.6;
+}
+
 header.masthead .bg-circle-1 {
   /* Override background to use sprite */
   background: url(./../img/seamless-pencil-background.jpg) 0 0;
@@ -171,7 +219,7 @@ header.masthead .bg-circle-2 {
   right: -25rem;
 }
 
-header.masthead .bg-circle-3 {
+header.masthead .bg-square-1 {
   background: url(./../img/seamless-pencil-background.jpg) 400px 400px;
   background-size: 500px 500px;
   height: 20rem;
@@ -180,7 +228,7 @@ header.masthead .bg-circle-3 {
   right: 5%;
 }
 
-header.masthead .bg-circle-4 {
+header.masthead .bg-plus-1 {
   background: url(./../img/seamless-pencil-background.jpg) 600px 600px;
   background-size: 500px 500px;
   height: 30rem;
