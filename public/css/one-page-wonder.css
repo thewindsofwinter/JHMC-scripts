@@ -16,6 +16,18 @@ body {
   --old-circle-orange: #ff6a00;
   --old-active-primary-magenta: #bd0760;
   --old-active-primary-orange: #cc5500;
+
+  /* New JHMC */
+  --new-navbar: rgba(35, 39, 50, 0.8);
+  --new-circle-blue: #4b89e7;
+  --new-circle-violet: #e329c1;
+
+  /* Pencil Theme */
+  --paper: #fbfbf8;
+  --ink: #232732;
+  --pencil-lead: #5c6274;
+  --imsa-blue: #193768;
+  --water: #d4f1f9;
 }
 
 h1,
