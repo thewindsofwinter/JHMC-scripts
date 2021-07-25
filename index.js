@@ -42,6 +42,10 @@ app.get('/', (req, res) => {
     res.render('pages/home.ejs');
 });
 
+app.get('/partners', (req, res) => {
+    res.render('pages/partners.ejs');
+});
+
 // any actual test
 app.get('/test/:recordId', async (req, res) => {
     const recordId = req.params.recordId;
