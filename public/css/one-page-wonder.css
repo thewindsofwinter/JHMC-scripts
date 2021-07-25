@@ -312,6 +312,7 @@ header.masthead .bg-plus-1 {
     width:fit-content;
     height:fit-content;
     background-color: var(--ink);
+    border-radius: 10px;
 }
 
 .logo {
