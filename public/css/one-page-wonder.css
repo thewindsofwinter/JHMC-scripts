@@ -35,6 +35,15 @@ body {
   background-color: var(--paper);
 }
 
+blockquote {
+    color: var(--pencil-lead);
+    font-size: 1.5rem;
+    padding-left: 1rem;
+    margin-left: 1rem;
+    border-left: 0.5rem var(--imsa-blue) solid;
+    font-weight: 300;
+}
+
 h1,
 h2,
 h3,
