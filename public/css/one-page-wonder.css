@@ -43,6 +43,11 @@ blockquote {
     border-left: 0.5rem var(--imsa-light-blue) solid;
 }
 
+.value-list li {
+    margin-bottom: 0.5em;
+    margin-top: 0.5em;
+}
+
 h1,
 h2,
 h3,
