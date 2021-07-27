@@ -63,7 +63,7 @@ h5 {
 }
 
 /* TODO: harmonize new classes with bootstrap */
-.btn-imsa {
+.btn-imsa, .btn-imsa:visited {
   background-color: var(--imsa-light-blue) !important;
   color: var(--imsa-blue) !important;
   transition: 0.5s;
@@ -71,7 +71,6 @@ h5 {
 
 .btn-imsa:hover,
 .btn-imsa:active,
-.btn-imsa:visited,
 .btn-imsa:focus {
   background-color: var(--ink) !important;
   color: var(--water) !important;
