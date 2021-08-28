@@ -7,6 +7,16 @@ Because we didn't want to cancel JHMC this year, we decided to make a test-takin
 
 There is also a tool that inputs roster data into a spreadsheet, an auto-grader for the tests, and a tool that generates schedule links for all the students, all in `./one-time-scripts`.
 
+## Items
+* Front-end test taking website `./views`
+* Home page `./public`
+* Back-end of the test taking website `./index.js, ./schedule.js, ./socket.js, ./tests.js`
+* Auto-load data into Airtable `./one-time-scripts/load-students.js`
+* Create & initialize student tests `./one-time-scripts/initialize-tests.js`
+* Generate links of student pages to give to teachers `./one-time-scripts/schedule-links.js`
+* Autograde tests, generate test reports (should only be used to mark answers right) `./one-time-scripts/grading`
+* Information distributed coaches, sample score reports `./docs`
+
 ## Technologies Used
 * Airtable
 * Websockets
