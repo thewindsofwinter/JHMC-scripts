@@ -46,12 +46,12 @@ app.get('/partners', (req, res) => {
     res.render('pages/partners.ejs');
 });
 
-app.get('/contest', (req, res) => {
-    res.render('pages/contest.ejs');
+app.get('/contest-rules', (req, res) => {
+    res.render('pages/contest-rules.ejs');
 });
 
-app.get('/questions', (req, res) => {
-    res.render('pages/questions.ejs');
+app.get('/past-tests', (req, res) => {
+    res.render('pages/past-tests.ejs');
 });
 
 app.get('/about', (req, res) => {
