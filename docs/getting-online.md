@@ -10,7 +10,7 @@ JHMC is a node application, so it can be run on any environment that can run nod
 
 In 2021, I ran the server scripts on Google Cloud's App engine. The project id is `imsajhmc` and access to the project should be given by the website leaders from the year before. If you ever need access to the GCP project and cannot get it from prior chairs, [email me](mailto:reach@patrick.today).
 
-If you go to the [app engine page for the project](https://console.cloud.google.com/appengine?serviceId=default&project=imsajhmc), you should the instance, which may be turned off or disabled due to prices. You may need to connect a billing account, but Google Cloud Platform often provides free credit (JHMC 2021 ran off of free credit). You'll then need to enable the instance, which likely requries connecting a billing account.
+If you go to the [app engine page for the project](https://console.cloud.google.com/appengine?serviceId=default&project=imsajhmc), you should see the server instance, which may be turned off or disabled due to high prices. You may need to connect a billing account, but Google Cloud Platform often provides free credit (JHMC 2021 ran off of free credit). You'll then need to enable the instance, which likely requries connecting a billing account.
 
 ### Deploying the app
 You'll need to install the [Cloud SDK](https://cloud.google.com/sdk/docs/install). You can check you have installed it correctly by running `gcloud -v`.
