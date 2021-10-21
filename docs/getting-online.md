@@ -23,4 +23,4 @@ When you're ready to deploy your app, run `gcloud app deploy`.
 1. You may get a message telling you to enable `Cloud Build`. According to [stackoverflow](https://stackoverflow.com/questions/52561749/gcloud-app-deploy-error-response-7-access-not-configured-cloud-build-has-n), this is really a message saying you must enable billing. 
 
 ## Stopping the app
-During the offseason, keeping JHMC's homepage as a static site, or running it on cloud functions without websocket alerts might work better. Simply stop the instance in the app engine to do this.
+During the offseason, keeping JHMC's homepage as a static site, or running it on cloud functions without websocket alerts might work better because the server can be costly. Simply stop the instance in the app engine to do this, and then choose your favorite method to deploy a static site. Transitioning to cloud functions might require a bit more work.
