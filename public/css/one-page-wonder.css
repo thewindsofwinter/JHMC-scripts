@@ -108,7 +108,7 @@ h5 {
 
 .empty-plus td {
     border: 50px transparent solid;
-    background: black;
+    background: #ffffff00;
     background-clip: content-box;
     background-image: url("./../img/paper-background.png");
     background-size: 800px 800px;
@@ -132,7 +132,7 @@ h5 {
     margin: 50px;
     /* Make it tile the same way */
     background-size: 800px 800px;
-    background-image: url("./../img/paper-background.png");
+    background-image: url("./../img/paper-background.png"); */
     width: calc(100% - 100px);
     height: calc(100% - 100px);
 }
