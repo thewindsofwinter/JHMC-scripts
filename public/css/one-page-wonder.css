@@ -328,7 +328,8 @@ header.masthead .bg-plus-1 {
     flex: 4;
     width:fit-content;
     height:fit-content;
-    background-color: var(--ink);
+    /* TODO: make ink later 8?
+    background-color: black; */
     border-radius: 10px;
 }
 
