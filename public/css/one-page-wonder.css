@@ -335,6 +335,7 @@ header.masthead .bg-plus-1 {
 .logo {
     display:inline-block;
     height: 4rem;
+    /* TODO: BAD, FIX */
     vertical-align: sub;
 }
 
