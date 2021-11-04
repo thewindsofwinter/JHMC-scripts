@@ -23,6 +23,7 @@ body {
   --new-circle-violet: #e329c1;
 
   /* Pencil Theme */
+  --gold: #ffd700;
   --paper: #fbfbf8;
   --ink: #232732;
   --pencil-lead: #5c6274;
@@ -344,7 +345,6 @@ header.masthead .bg-plus-1 {
     font-weight: 300;
     margin-left: 0.5rem;
     margin-right: 0.5rem;
-    vertical-align: middle;
 }
 
 #bottom-spacer {
@@ -394,4 +394,43 @@ header.masthead .bg-plus-1 {
 
 .nav-item a:active, .nav-item a:focus, .nav-item a:hover {
   color: var(--water) !important;
+}
+
+.blurbs {
+    opacity: 0.9;
+    color: var(--paper);
+    background: linear-gradient(60deg, var(--imsa-blue), var(--ink));
+    width: 100%;
+}
+
+.blurbs td {
+    width:33%;
+    border: 2rem var(--paper) solid;
+    border-top: 4rem var(--paper) solid;
+    text-align: center;
+    padding: 1rem;
+}
+
+.blurbs h5 {
+    color: var(--paper);
+    margin-bottom: 0px;
+}
+
+.blurbs .content-blurb {
+    position: relative;
+    padding-top: 5rem;
+    vertical-align:top;
+}
+
+.blurbs .content-blurb .blurb {
+    text-align: justify;
+}
+
+.blurbs .content-blurb .top {
+    position:absolute;
+    top:-4rem;
+    width:8rem;
+    height:8rem;
+    left: calc(50% - 4rem);
+    border-radius: 100%;
 }
