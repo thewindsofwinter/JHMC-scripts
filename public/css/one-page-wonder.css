@@ -406,7 +406,7 @@ header.masthead .bg-plus-1 {
 }
 
 .blurbs td {
-    width:33%;
+    width:50%;
     border: 2rem var(--paper) solid;
     border-top: 4rem var(--paper) solid;
     text-align: center;
@@ -425,7 +425,7 @@ header.masthead .bg-plus-1 {
 }
 
 .blurbs .content-blurb .blurb {
-    text-align: justify;
+    text-align: left;
 }
 
 .blurbs .content-blurb .top {
