@@ -399,7 +399,7 @@ header.masthead .bg-plus-1 {
 }
 
 .blurbs {
-    opacity: 0.9;
+    opacity: 0.8;
     color: var(--paper);
     background: linear-gradient(60deg, var(--imsa-blue), var(--ink));
     width: 100%;
@@ -407,8 +407,8 @@ header.masthead .bg-plus-1 {
 
 .blurbs td {
     width:50%;
-    border: 2rem var(--paper) solid;
-    border-top: 4rem var(--paper) solid;
+    border: 3rem var(--paper) solid;
+    border-top: 5rem var(--paper) solid;
     text-align: center;
     padding: 1rem;
 }
@@ -420,7 +420,7 @@ header.masthead .bg-plus-1 {
 
 .blurbs .content-blurb {
     position: relative;
-    padding-top: 5rem;
+    padding-top: 6rem;
     vertical-align:top;
 }
 
@@ -430,9 +430,9 @@ header.masthead .bg-plus-1 {
 
 .blurbs .content-blurb .top {
     position:absolute;
-    top:-4rem;
-    width:8rem;
-    height:8rem;
-    left: calc(50% - 4rem);
+    top:-5rem;
+    width:10rem;
+    height:10rem;
+    left: calc(50% - 5rem);
     border-radius: 100%;
 }
