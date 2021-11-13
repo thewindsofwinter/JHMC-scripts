@@ -185,7 +185,16 @@ header.masthead {
   background-image: url("./../img/paper-background.png");
 }
 
-header.masthead h5 {
+header.masthead2 {
+  position: relative;
+  overflow: hidden;
+  padding-top: calc(4rem + 72px);
+  padding-bottom: 4rem;
+  background-size: 800px 800px;
+  background-image: url("./../img/paper-background.png");
+}
+
+header.masthead h5, header.masthead2 h5 {
     text-align: justify;
 }
 
@@ -194,11 +203,11 @@ header.masthead .masthead-content {
   position: relative;
 }
 
-header.masthead .masthead-content .masthead-heading {
+header .masthead-content .masthead-heading {
   font-size: 5rem !important;
 }
 
-header.masthead .masthead-content .masthead-subheading {
+header .masthead-content .masthead-subheading {
   font-size: 2rem;
 }
 
