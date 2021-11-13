@@ -91,13 +91,13 @@ h5 {
 
 .empty-circle {
     /* Added to hollow out circle for paper theme*/
-    margin: 50px;
+    margin: 4rem;
     border-radius: 100%;
     /* Make it tile the same way */
     background-size: 800px 800px;
     background-image: url("./../img/paper-background.png");
-    width: calc(100% - 100px);
-    height: calc(100% - 100px);
+    width: calc(100% - 8rem);
+    height: calc(100% - 8rem);
 }
 
 .empty-plus {
@@ -105,8 +105,11 @@ h5 {
     width: calc(100% + 10px);
     height: calc(100% + 10px);
     border: none;
+    background-size: cover;
+    background-image: url("./../img/transparent-plus.png");
 }
 
+/*
 .empty-plus td {
     border: 50px transparent solid;
     background: #ffffff00;
@@ -127,15 +130,16 @@ h5 {
 .empty-plus tr td:last-child {
   border-right: 0;
 }
+*/
 
 .empty-square {
     /* Added to hollow out circle for paper theme*/
-    margin: 50px;
+    margin: 4rem;
     /* Make it tile the same way */
     background-size: 800px 800px;
     background-image: url("./../img/paper-background.png"); */
-    width: calc(100% - 100px);
-    height: calc(100% - 100px);
+    width: calc(100% - 8rem);
+    height: calc(100% - 8rem);
 }
 
 .imsa-foreground {
@@ -217,8 +221,8 @@ header.masthead .bg-circle {
   border-radius: 100%;
   /* Theme change: from #ee0979 to #4b89e7 (brightened IMSA color) */
   /* Theme change: from #ff6a00 to #e329c1 to (kinda) match the favicon */
-  background: linear-gradient(0deg, #4b89e7 0%, #e329c1 100%);
-  opacity: 0.6;
+  /* background: linear-gradient(0deg, #4b89e7 0%, #e329c1 100%); */
+  opacity: 0.9;
 }
 
 header.masthead .bg-square {
@@ -226,8 +230,8 @@ header.masthead .bg-square {
   position: absolute;
   /* Theme change: from #ee0979 to #4b89e7 (brightened IMSA color) */
   /* Theme change: from #ff6a00 to #e329c1 to (kinda) match the favicon */
-  background: linear-gradient(0deg, #4b89e7 0%, #e329c1 100%);
-  opacity: 0.6;
+  /* background: linear-gradient(0deg, #4b89e7 0%, #e329c1 100%); */
+  opacity: 0.9;
 }
 
 header.masthead .bg-circle-1 {
@@ -260,8 +264,8 @@ header.masthead .bg-square-1 {
 }
 
 header.masthead .bg-plus-1 {
-  background: url(./../img/seamless-pencil-background.jpg) 600px 600px;
-  background-size: 500px 500px;
+  /* background: url(./../img/seamless-pencil-background.jpg) 600px 600px;
+  background-size: 500px 500px; */
   height: 30rem;
   width: 30rem;
   top: -5rem;
