@@ -401,7 +401,7 @@ header.masthead .bg-plus-1 {
 .blurbs {
     opacity: 0.8;
     color: var(--paper);
-    background: linear-gradient(60deg, var(--imsa-blue), var(--ink));
+    background-color: var(--imsa-blue);
     width: 100%;
 }
 
