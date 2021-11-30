@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: http://imsajhmc.com/sitemap.xml
