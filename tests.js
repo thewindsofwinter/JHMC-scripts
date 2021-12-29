@@ -18,10 +18,10 @@ const getQuestions = async (competitionCode) => {
             if (question === undefined) {
                 moreQuestions = false;
             } else {
-                questions.push({ 
-                    ["Q" + questionNumber]: question, 
-                    questionNumber: parseInt(questionNumber), 
-                    text: question, 
+                questions.push({
+                    ["Q" + questionNumber]: question,
+                    questionNumber: parseInt(questionNumber),
+                    text: question,
                     questionCode: "Q" + questionNumber
                 });
                 questionNumber++;
@@ -51,13 +51,13 @@ const getOrderedQuestions = async (record, competitionCode, competitionId) => {
             index: i,
         }
     }).filter(o => o.questionNumber); //filters for all those that have a question number
-    
+
     if (ordered.length < unordered.length) {
         let missingQuestions = unordered.filter(q => {
             return ordered.find(o => o.questionCode != q.questionCode)
         })
         ordered = [...ordered, missingQuestions]
-        console.log("Questions are missing from the ordered questions with recordId "+record.id);    
+        console.log("Questions are missing from the ordered questions with recordId "+record.id);
     }
     return ordered;
 }
@@ -74,7 +74,7 @@ const validateTime = (competition, record, allowExtra=false) => {
         startTime = new Date(record.fields["Start Time"]),
         duration = competition.fields["Max Duration"] * 1000,
         expireTime = new Date(startTime.getTime() + duration + (allowExtra ? (1000 * 5) : 0)); // Add 5 seconds grace period to get last question in
-    
+
     let currentTime = new Date();
     if (openTime > currentTime) {
         return "Test not open yet"
@@ -93,7 +93,7 @@ const getEndTime = (competition, record) => {
         expireTime = new Date(startTime.getTime() + duration);
 
     // console.log(closeTime, startTime, expireTime);
-    
+
     return closeTime > expireTime ? expireTime : closeTime
 }
 

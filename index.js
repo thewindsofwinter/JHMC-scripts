@@ -36,6 +36,15 @@ app.use(bodyParser.urlencoded({
 
 app.use(bodyParser.json());
 
+app.use(function(req, res, next){
+  if (req.hostname != 'localhost' && req.get('X-Forwarded-Proto') == 'http') {
+    res.redirect(`https://${req.host}${req.url}`);
+    return;
+  }
+
+  next();
+});
+
 app.use(express.static(__dirname + '/public'));
 
 app.get('/', (req, res) => {
