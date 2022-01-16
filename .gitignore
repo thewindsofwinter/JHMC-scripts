@@ -128,3 +128,6 @@ dist
 .yarn/install-state.gz
 .pnp.*
 secrets.js
+
+# Google HTML confirmations
+*.html
