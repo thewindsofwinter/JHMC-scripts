@@ -38,7 +38,7 @@ app.use(function(req, res, next){
   }
   next();
   */
-  
+
   // Redirect HTTP to HTTPS
   if (req.headers["x-forwarded-proto"] === "https") return next();
   if (req.protocol === "https") return next();
