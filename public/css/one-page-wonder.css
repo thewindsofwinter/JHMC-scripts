@@ -354,6 +354,10 @@ header.masthead .bg-plus-1 {
     vertical-align: sub;
 }
 
+.pad-right-logo {
+  padding-right: 4rem;
+}
+
 .spacer {
     display:inline-block;
     /* TODO: BAD, FIX */
