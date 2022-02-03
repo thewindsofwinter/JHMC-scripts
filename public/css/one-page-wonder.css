@@ -367,7 +367,8 @@ header.masthead .bg-plus-1 {
 }
 
 .partner-content {
-    padding-top: 1rem;
+    padding-top: 0.75rem;
+    border-top: 0.25rem black solid;
     padding-bottom: 1rem;
 }
 
