@@ -344,6 +344,7 @@ header.masthead .bg-plus-1 {
     /* TODO: make ink later 8?
     background-color: black; */
     border-radius: 10px;
+    border: 0.25rem white solid;
 }
 
 .logo {
