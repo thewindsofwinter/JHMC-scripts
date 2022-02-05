@@ -21,19 +21,22 @@
 <!-- TODO: find better way to do this -->
 <script>
   $(window).on('load resize', () => {
-    var width = $('.partners').first().width();
+    // Width with whitespace
+    var width = $('.partners').first().width() - 120;
+
     // Added x-component and square translate
     $(".logo").map((i, a) => {
-      $(a).css('height', 'calc(' + width + 'px / 18)');
+      $(a).css('height', 'calc(' + width + 'px / 16)');
+      $(a).css('margin', 'calc(' + width + 'px / 64)');
     })
 
     $(".pad-right-logo").map((i, a) => {
-      $(a).css('padding-right', 'calc(' + width + 'px / 16)');
+      $(a).css('padding-right', 'calc(' + width + 'px / 14)');
     })
 
     $(".spacer").map((i, a) => {
-      $(a).css('font-size', 'calc(' + width + 'px * 5 / 72)');
-      $(a).css('margin-bottom', 'calc(' + width + 'px / 72)');
+      $(a).css('font-size', 'calc(' + width + 'px * 5 / 64)');
+      $(a).css('margin-bottom', 'calc(' + width + 'px / 64)');
     })
   });
 </script>
