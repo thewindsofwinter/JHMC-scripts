@@ -19,11 +19,11 @@
 
 <!-- Dynamically resize footer elements -->
 <script>
-  $(window).load(() => {
-    var width = $('.partners')[0].width();
+  $(window).on('load', () => {
+    var width = $('.partners').first().width();
     // Added x-component and square translate
     $(".logo").map((i, a) => {
-      $(a).css('height', 'calc(' + width + 'px / 16)');
+      $(a).css('height', 'calc(' + width + 'px / 18)');
     })
   });
 </script>
