@@ -398,14 +398,16 @@ header.masthead .bg-plus-1 {
     font-weight: 700;
     text-transform: uppercase;
     background-color: var(--imsa-blue);
+    border-color: var(--imsa-blue);
     font-size: 1.5rem;
     padding: 0.75rem;
-    transition: background-color 0.5s;
+    transition: background-color 0.5s, border-color 0.5s;
     border-radius: 0.5rem;
 }
 
 .btn-info:active, .btn-info:focus, .btn-info:hover {
   background-color: var(--imsa-light-blue) !important;
+  border-color: var(--imsa-light-blue) !important;
 }
 
 .nav-item a {
