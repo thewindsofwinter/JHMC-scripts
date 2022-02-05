@@ -346,6 +346,10 @@ header.masthead .bg-plus-1 {
     background-color: black; */
     border-radius: 10px;
     border: 0.25rem white solid;
+
+    /* Avoid looking bad */
+    padding-left: 1rem;
+    padding-right: 1rem;
 }
 
 .logo {
