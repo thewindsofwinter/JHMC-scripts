@@ -31,18 +31,18 @@ const error = (res, text) => {
 app.set('view engine', 'ejs');
 
 app.use(function(req, res, next){
-  /* // Try new solution
+  // Try new solution
   if (req.hostname != 'localhost' && req.get('X-Forwarded-Proto') == 'http') {
     res.redirect(`https://${req.host}${req.url}`);
     return;
   }
-  next(); */
+  next();
 
 
-  // Redirect HTTP to HTTPS
+  /* // Redirect HTTP to HTTPS
   if (req.headers["x-forwarded-proto"] === "https") return next();
   if (req.protocol === "https") return next();
-  res.redirect(301, `https://${req.hostname}${req.url}`);
+  res.redirect(301, `https://${req.hostname}${req.url}`); */
 });
 
 app.use(bodyParser.urlencoded({

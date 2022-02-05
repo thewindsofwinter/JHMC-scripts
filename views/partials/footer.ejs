@@ -3,26 +3,26 @@
   <div class="container partners">
       <div class="partner">
           <a href="https://aops.com" class="text-reset">
-            <img src="/img/aops-light.png" class="logo" alt="Sample Sponsor Logo"/>
+            <img src="/img/aops-light.png" class="logo aops-logo" alt="AOPS Logo"/>
           </a>
       </div>
       <div class="partner">
           <a href="https://wolfram.com" class="text-reset">
-            <img src="/img/wolfram-corporate-logo-stacked-med.png" class="logo" alt="Sample Sponsor Logo"/>
+            <img src="/img/wolfram-corporate-logo-stacked-med.png" class="logo wolfram-logo" alt="Wolfram Logo"/>
           </a>
       </div>
       <div class="partner title-partner">
           <a href="https://www.imsa.edu" class="text-reset">
-              <img src="/img/imsa-logo.png" class="logo" alt="Blue/White IMSA Logo" />
+              <img src="/img/imsa-logo.png" class="logo imsa-logo" alt="Blue/White IMSA Logo" />
           </a>
               <p class="text-white spacer">|</p>
           <a href="https://alumni.imsa.edu/org/mao/jhmc.php" class="text-reset">
-              <img src="/img/jhmc-logo.png" class="logo" alt="JHMC Logo"/>
+              <img src="/img/jhmc-logo.png" class="logo jhmc-logo" alt="JHMC Logo"/>
           </a>
       </div>
       <div class="partner pad-right-logo">
           <a href="https://janestreet.com" class="text-reset">
-            <img src="/img/jane_street_light.png" class="logo" alt="Sample Sponsor Logo"/>
+            <img src="/img/jane_street_light.png" class="logo jane-street-logo" alt="Jane Street Logo"/>
           </a>
       </div>
       <!--
@@ -33,5 +33,15 @@
   <div class="container">
     <p class="m-0 text-center text-white small">Copyright &copy; JHMC 2022</p>
   </div>
+
+  <script>
+    $(window).onload(() => {
+      var width = $('.partners')[0].width();
+      // Added x-component and square translate
+      $(".logo").map((i, a) => {
+        $(a).css('height', 'calc(' + width + 'px / 16)');
+      })
+    });
+  </script>
   <!-- /.container -->
 </footer>
