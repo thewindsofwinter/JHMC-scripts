@@ -27,8 +27,13 @@
       $(a).css('height', 'calc(' + width + 'px / 18)');
     })
 
+    $(".pad-right-logo").map((i, a) => {
+      $(a).css('padding-right', 'calc(' + width + 'px / 16)');
+    })
+
     $(".spacer").map((i, a) => {
       $(a).css('font-size', 'calc(' + width + 'px * 5 / 72)');
+      $(a).css('margin-bottom', 'calc(' + width + 'px / 72)');
     })
   });
 </script>
