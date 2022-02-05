@@ -67,6 +67,7 @@ h5 {
 .btn-imsa, .btn-imsa:visited {
   background-color: var(--imsa-light-blue) !important;
   color: var(--imsa-blue) !important;
+  font-size: 1.2rem !important;
   transition: 0.5s;
 }
 
