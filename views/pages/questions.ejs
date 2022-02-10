@@ -29,37 +29,7 @@
 <body>
 
   <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
-    <div class="container">
-      <!-- Update to 2022 -->
-      <a class="navbar-brand" href="#">Junior High Math Contest</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
-        aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <!-- TODO: add other pages (see partners page) -->
-      <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="/">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/about">About Us</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/contest">Contest</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/partners">Partners</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Past Tests</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/signup">Sign Up</a>
-          </li>
-      </ul>
-    </div>
-  </nav>
+  <%- include('../partials/navbar') %>
 
   <!-- Used to be different for bootstrap stuff, must harmonize -->
   <header class="masthead text-center imsa-foreground">
