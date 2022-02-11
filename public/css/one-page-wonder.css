@@ -239,28 +239,28 @@ header.masthead .bg-circle-1 {
   /* Override background to use sprite */
   background: url(./../img/seamless-pencil-background.jpg) 0 0;
   background-size: 500px 500px;
-  height: 90rem;
-  width: 90rem;
-  bottom: -55rem;
-  left: -55rem;
+  height: 90%;
+  width: 90%;
+  bottom: -55%;
+  left: -55%;
 }
 
 header.masthead .bg-circle-2 {
   /* Start in a different place */
   background: url(./../img/seamless-pencil-background.jpg) 200px 200px;
   background-size: 500px 500px;
-  height: 50rem;
-  width: 50rem;
-  top: -25rem;
-  right: -25rem;
+  height: 50%;
+  width: 50%;
+  top: -25%;
+  right: -25%;
 }
 
 header.masthead .bg-square-1 {
   background: url(./../img/seamless-pencil-background.jpg) 400px 400px;
   background-size: 500px 500px;
-  height: 20rem;
-  width: 20rem;
-  bottom: -10rem;
+  height: 20%;
+  width: 20%;
+  bottom: -10%;
   right: 5%;
 }
 
