@@ -264,7 +264,7 @@ header.masthead .bg-square-1 {
   aspect-ratio: 1;
   width: 20%;
   bottom: -10rem;
-  right: 5%;
+  right: calc(2.5% + 40px);
 }
 
 header.masthead .bg-plus-1 {
