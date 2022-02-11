@@ -239,7 +239,8 @@ header.masthead .bg-circle-1 {
   /* Override background to use sprite */
   background: url(./../img/seamless-pencil-background.jpg) 0 0;
   background-size: 500px 500px;
-  height: 90%;
+  /* height: 90rem; */
+  aspect-ratio: 1;
   width: 90%;
   bottom: -55rem;
   left: -55%;
@@ -249,7 +250,8 @@ header.masthead .bg-circle-2 {
   /* Start in a different place */
   background: url(./../img/seamless-pencil-background.jpg) 200px 200px;
   background-size: 500px 500px;
-  height: 50%;
+  /* height: 50rem; */
+  aspect-ratio: 1;
   width: 50%;
   top: -25rem;
   right: -25%;
@@ -258,7 +260,8 @@ header.masthead .bg-circle-2 {
 header.masthead .bg-square-1 {
   background: url(./../img/seamless-pencil-background.jpg) 400px 400px;
   background-size: 500px 500px;
-  height: 20%;
+  /* height: 20rem; aspect-ratio works with most browsers */
+  aspect-ratio: 1;
   width: 20%;
   bottom: -10rem;
   right: 5%;
@@ -267,7 +270,8 @@ header.masthead .bg-square-1 {
 header.masthead .bg-plus-1 {
   /* background: url(./../img/seamless-pencil-background.jpg) 600px 600px;
   background-size: 500px 500px; */
-  height: 30%;
+  /* height: 30rem; */
+  aspect-ratio: 1;
   width: 30%;
   top: -5rem;
   right: 35%;

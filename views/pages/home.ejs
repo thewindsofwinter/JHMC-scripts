@@ -196,7 +196,28 @@
   <!-- Footer -->
   <%- include('../partials/footer') %>
 
-  
+  <script>
+    $(window).on('load resize', () => {
+      // Width with whitespace
+      var width = $('.masthead-content').first().width();
+
+      // Added x-component and square translate
+      $(".bg-plus-1").map((i, a) => {
+        $(a).css('bottom', 'calc(-' + width + 'px / 2)');
+      })
+
+      $(".bg-circle-1").map((i, a) => {
+        $(a).css('bottom', 'calc(-' + width + 'px / 2)');
+      })
+
+      $(".bg-circle-2").map((i, a) => {
+        $(a).css('top', 'calc(-' + width + 'px / 4)');
+      })
+
+      $(".bg-square-1").map((i, a) => {
+      })
+    });
+  </script>
 </body>
 
 </html>
