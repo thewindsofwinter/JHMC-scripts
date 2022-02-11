@@ -209,12 +209,16 @@
 
       $(".bg-circle-1").map((i, a) => {
         $(a).css('width', 'calc(' + width + 'px * 7 / 8)');
-          $(a).css('height', 'calc(' + width + 'px * 7 / 8)');
+        $(a).css('height', 'calc(' + width + 'px * 7 / 8)');
+        $(a).css('bottom', 'calc(-' + width + 'px / 2)');
+        $(a).css('left', 'calc(-' + width + 'px / 2)');
       })
 
       $(".bg-circle-2").map((i, a) => {
         $(a).css('width', 'calc(' + width + 'px / 2)');
-          $(a).css('height', 'calc(' + width + 'px / 2)');
+        $(a).css('height', 'calc(' + width + 'px / 2)');
+        $(a).css('top', 'calc(-' + width + 'px / 4)');
+        $(a).css('right', 'calc(-' + width + 'px / 4)');
       })
 
       $(".bg-square-1").map((i, a) => {
