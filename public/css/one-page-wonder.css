@@ -243,7 +243,7 @@ header.masthead .bg-circle-1 {
   aspect-ratio: 1;
   width: 90%;
   bottom: -55rem;
-  left: -55%;
+  left: calc(-27.5% - 440px);
 }
 
 header.masthead .bg-circle-2 {
@@ -254,7 +254,7 @@ header.masthead .bg-circle-2 {
   aspect-ratio: 1;
   width: 50%;
   top: -25rem;
-  right: -25%;
+  right: calc(-12.5% - 200px);
 }
 
 header.masthead .bg-square-1 {
@@ -274,7 +274,7 @@ header.masthead .bg-plus-1 {
   aspect-ratio: 1;
   width: 30%;
   top: -5rem;
-  right: 35%;
+  right: calc(17.5% + 280px);
 }
 
 @media (min-width: 992px) {
