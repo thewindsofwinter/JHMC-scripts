@@ -241,7 +241,7 @@ header.masthead .bg-circle-1 {
   background-size: 500px 500px;
   height: 90%;
   width: 90%;
-  bottom: -55%;
+  bottom: -55rem;
   left: -55%;
 }
 
@@ -251,7 +251,7 @@ header.masthead .bg-circle-2 {
   background-size: 500px 500px;
   height: 50%;
   width: 50%;
-  top: -25%;
+  top: -25rem;
   right: -25%;
 }
 
@@ -260,15 +260,15 @@ header.masthead .bg-square-1 {
   background-size: 500px 500px;
   height: 20%;
   width: 20%;
-  bottom: -10%;
+  bottom: -10rem;
   right: 5%;
 }
 
 header.masthead .bg-plus-1 {
   /* background: url(./../img/seamless-pencil-background.jpg) 600px 600px;
   background-size: 500px 500px; */
-  height: 30rem;
-  width: 30rem;
+  height: 30%;
+  width: 30%;
   top: -5rem;
   right: 35%;
 }
