@@ -241,9 +241,9 @@ header.masthead .bg-circle-1 {
   background-size: 500px 500px;
   /* height: 90rem; */
   aspect-ratio: 1;
-  width: calc(45% + 720px);
+  width: calc(70% + 360px);
   bottom: -55rem;
-  left: calc(-27.5% - 440px);
+  left: calc(-40% - 220px);
 }
 
 header.masthead .bg-circle-2 {
@@ -252,7 +252,7 @@ header.masthead .bg-circle-2 {
   background-size: 500px 500px;
   /* height: 50rem; */
   aspect-ratio: 1;
-  width: calc(25% + 400px);
+  width: calc(40% + 200px);
   top: -25rem;
   right: calc(-12.5% - 200px);
 }
@@ -262,9 +262,9 @@ header.masthead .bg-square-1 {
   background-size: 500px 500px;
   /* height: 20rem; aspect-ratio works with most browsers */
   aspect-ratio: 1;
-  width: calc(10% + 160px);
+  width: calc(15% + 80px);
   bottom: -10rem;
-  right: calc(2.5% + 40px);
+  right: calc(10% + 10px);
 }
 
 header.masthead .bg-plus-1 {
@@ -272,9 +272,9 @@ header.masthead .bg-plus-1 {
   background-size: 500px 500px; */
   /* height: 30rem; */
   aspect-ratio: 1;
-  width: calc(15% + 240px);
+  width: calc(25% + 120px);
   top: -5rem;
-  right: calc(17.5% + 280px);
+  left: calc(40% - 150px);
 }
 
 @media (min-width: 992px) {
