@@ -310,24 +310,7 @@
 
   <!-- Footer -->
   <%- include('../partials/footer') %>
-
-  <!-- Bootstrap core JavaScript -->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script>
-    $(window).scroll(() => {
-      var yoff = window.pageYOffset;
-      // Added x-component and square translate
-      $(".bg-circle").map((i, a) => {
-        $(a).css('transform', 'translate(' + (i) / 10 * yoff + 'px,' + (i + 1) / 6 * yoff + 'px)');
-      })
-
-      $(".bg-square").map((i, a) => {
-        $(a).css('transform', 'translate(' + (i - 2) / 12 * yoff + 'px,' + (2 * i - 1) / 6 * yoff + 'px)');
-      })
-    });
-  </script>
-
+  
 </body>
 
 </html>
