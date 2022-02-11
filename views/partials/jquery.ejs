@@ -44,3 +44,28 @@
     })
   });
 </script>
+
+
+<script>
+  $(window).on('load resize', () => {
+    // Width with whitespace
+    var width = Math.max(10, $('.masthead-content').first().width() * 2 - 1600);
+
+    // Added x-component and square translate
+    $(".bg-plus-1").map((i, a) => {
+      $(a).css('top', 'calc(-' + width + 'px / 20) !important');
+    })
+
+    $(".bg-circle-1").map((i, a) => {
+      $(a).css('bottom', 'calc(-' + width + 'px * 55%) !important');
+    })
+
+    $(".bg-circle-2").map((i, a) => {
+      $(a).css('top', 'calc(-' + width + 'px * 25%) !important');
+    })
+
+    $(".bg-square-1").map((i, a) => {
+      $(a).css('bottom', 'calc(-' + width + 'px * 10%) !important');
+    })
+  });
+</script>
