@@ -49,7 +49,7 @@
 <script>
   $(window).on('load resize', () => {
     // Width with whitespace
-    var width = Math.max(10, $('.masthead-content').first().width() * 2 - 1600);
+    var width = $('.masthead-content').first().width() / 4 + 1200
 
     // Added x-component and square translate
     $(".bg-plus-1").map((i, a) => {
@@ -57,15 +57,15 @@
     })
 
     $(".bg-circle-1").map((i, a) => {
-      $(a).css('bottom', 'calc(-' + width + 'px * 55%) !important');
+      $(a).css('bottom', 'calc(-' + width + 'px * 11 / 20)');
     })
 
     $(".bg-circle-2").map((i, a) => {
-      $(a).css('top', 'calc(-' + width + 'px * 25%) !important');
+      $(a).css('top', 'calc(-' + width + 'px / 4)');
     })
 
     $(".bg-square-1").map((i, a) => {
-      $(a).css('bottom', 'calc(-' + width + 'px * 10%) !important');
+      $(a).css('bottom', 'calc(-' + width + 'px / 10)');
     })
   });
 </script>
