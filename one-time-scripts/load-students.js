@@ -8,7 +8,7 @@ const testsTable = new AirtablePlus({ tableName: "Tests", apiKey, baseID }),
     studentsTable = new AirtablePlus({ tableName: "Students", apiKey, baseID }),
     schoolsTable = new AirtablePlus({ tableName: "Schools", apiKey, baseID }),
     competitionsTable = new AirtablePlus({ tableName: "Competitions", apiKey, baseID });
-    
+
 // What stuff to do for the school from the spreadsheet
 const schoolHeader = 'School Name';
 
@@ -18,7 +18,7 @@ const schoolAttributes = ['Coach Name', 'Email Address', 'Division'];
 const tableValues = ['Coach Name', 'Coach Email', 'Division'];
 
 // Change once we get actual rosters
-const csvFilePath = './../private-data/finalroster.csv';
+const csvFilePath = './../private-data/2022roster.csv';
 
 (async () => {
     // Start by getting competitions
@@ -147,6 +147,21 @@ const csvFilePath = './../private-data/finalroster.csv';
                 // I have no idea how this works but i'm not going to touch it
                 finalJSON['School'] = [row[0]['id']];
                 finalJSON['Grade'] = studentData[student]['Grade'];
+
+                for (var contest in studentData[student]['Competitions']) {
+                    const contestName = "Division " + schoolData['Division']
+                        + " " + studentData[student]['Competitions'][contest];
+
+                    if (contestName.includes("Team")) {
+                      finalJSON['Team'] = contestName;
+                    }
+                    else if (contestName.includes("Creative Thinking")) {
+                      finalJSON['Creative Thinking'] = contestName;
+                    }
+                    else {
+                      finalJSON['Individual'] = contestName;
+                    }
+                }
 
                 // finalJSON['Tests'] = studentData[student][Competitions]
 
