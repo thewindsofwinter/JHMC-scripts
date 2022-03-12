@@ -6,7 +6,8 @@ const { apiKey, baseID, sampleTestId } = require('./../secrets.js');
 
 // baseID, apiKey, and tableName can alternatively be set by environment variables
 const testsTable = new AirtablePlus({ tableName: "Tests", apiKey, baseID }),
-    competitionsTable = new AirtablePlus({ tableName: "Competitions", apiKey, baseID });
+    competitionsTable = new AirtablePlus({ tableName: "Competitions", apiKey, baseID }),
+    volunteersTable = new AirtablePlus({ tableName: "Volunteers", apiKey, baseID });
 
 (async () => {
     const tests = await testsTable.read();
@@ -18,6 +19,7 @@ const testsTable = new AirtablePlus({ tableName: "Tests", apiKey, baseID }),
     // NOTE: this assumes no tests are added and no competitions are changed while this is running
 
     tests.forEach((test, testIndex) => {
+        // console.log(test);
         const competitionId = test.fields.Competition[0];
         const comp = competitions.find(c => c.id == competitionId);
 
@@ -28,7 +30,16 @@ const testsTable = new AirtablePlus({ tableName: "Tests", apiKey, baseID }),
                 numQuestions++
             } else break;
         }
-        const questionOrder = shuffle([...Array(numQuestions).keys()].map(x => ++x)).join(","); // Pretty proud of this line ngl
+
+        var questionOrder;
+
+        if(test.fields['Competition Name'][0].includes("Creative Thinking")) {
+            questionOrder = [...Array(numQuestions).keys()].map(x => ++x).join(",");
+        }
+        else {
+            questionOrder = shuffle([...Array(numQuestions).keys()].map(x => ++x)).join(","); // Pretty proud of this line ngl
+        }
+
 
         let testGrader = [graders[testIndex % graders.length].id];
 

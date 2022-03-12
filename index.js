@@ -232,7 +232,7 @@ app.post('/test/endpoint/:recordId', async (req, res) => {
             console.log(e);
         }
     } else {
-        res.status(400).send("Unkown Request");
+        res.status(400).send("Unknown Request");
     }
 });
 
@@ -258,6 +258,9 @@ app.get('**', async (req, res) => {
             to: event.fields["Zoom Link"]
         });
     });
+
+    // Eliminate events
+    // possibleRedirects = []
 
     let redirects = await extraneousRedirectsTable.read()
     redirects.forEach(extraneousRedirect => {

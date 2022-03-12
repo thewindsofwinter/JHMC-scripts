@@ -48,16 +48,16 @@
         </h4>
         <table class="table table-hover">
             <tr class="header-row">
-                <th></th>
+                <th>Contest Window</th>
                 <th>Event</th>
-                <th>&nbsp;</th> <!-- Zoom Link -->
+                <!-- <th>&nbsp;</th> --> <!-- Zoom Link -->
                 <th style="text-align: center;">&nbsp;</th> <!-- Contest Link -->
             </tr>
 
             <% for (var i=0; i < rooms.length; i++) { %>
                 <tr class="<%= rooms[i].active ? " active-row" : "" %>">
                     <td opentimetext="<%= rooms[i].openTimeText %>">
-                        <%= rooms[i].openTimeText %>
+                        <%= rooms[i].openTimeText %> CT - <br/ > <%= rooms[i].closeTimeText %> CT
                     </td>
                     <td>
                         <%= rooms[i].name %> <br>
@@ -65,12 +65,12 @@
                                 <%= rooms[i].subtext %>
                             </span>
                     </td>
-                    <td>
+                    <!-- <td>
                         <% if (rooms[i].zoomLink) { %>
                             <button class="btn btn-primary" onclick="window.open('<%= rooms[i].zoomLink %>','_blank')"
                                 <%=rooms[i].active ? "" : "disabled" %>>Join Zoom Meeting</button>
                             <% } %>
-                    </td>
+                    </td> -->
                     <td>
                         <% if (rooms[i].testLink) { %>
                             <button class="btn btn-dark" style="display:block;margin:auto;"
@@ -97,8 +97,6 @@
         </p>
 
     </div>
-
-    <%- include('../partials/footer'); %>
 
     <script>
 

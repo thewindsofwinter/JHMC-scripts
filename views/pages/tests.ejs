@@ -376,12 +376,18 @@
                 mainToast.show();
             }
 
-            if (minutes == 0 && seconds == 0) {
+            console.log(questions)
+
+            if (competitionCode.endsWith('-C') && questionOnOpen) {
+
+            }
+
+            if (minutes < 0) {
                 // TODO: MAKE SURE THIS ACTUALLY SUBMIT
                 $(".next-button").click();
                 clearInterval(counterInterval);
                 // TODO: Add actual good looking alert
-                alert("Time is Up! Your last question was automatically submitted.");
+                alert("Time is up! Your last question was automatically submitted.");
                 location.reload();
             }
         }
