@@ -1,399 +1,432 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <%- include('../partials/head'); %> <%- include('../partials/socket'); %>
+    <%- include('../partials/meta'); %>
 
-<head>
-    <%- include('../partials/head'); %>
-        <%- include('../partials/socket'); %>
-            <%- include('../partials/meta'); %>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script
+      id="MathJax-script"
+      async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+    ></script>
+    <script>
+      MathJax = {
+        loader: { load: ["[tex]/ams", "[tex]/textmacros"] },
+        tex: {
+          inlineMath: [
+            ["$", "$"],
+            ["\\(", "\\)"],
+          ],
+          packages: { "[+]": ["ams", "textmacros"] },
+        },
+        svg: {
+          fontCache: "global",
+        },
+      };
+    </script>
+    <style>
+      .text-nowrap {
+        overflow: hidden;
+        white-space: nowrap !important;
+      }
+      img {
+        padding-top: 20px;
+        padding-bottom: 20px;
+        max-width: 90%;
+        display: block;
+        margin: 0 auto;
+      }
+      .caption {
+        width: 100%;
+        text-align: center;
+      }
 
-                <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-                <script id="MathJax-script" async
-                    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-                <script>
-                    MathJax = {
-                        loader: {load: ['[tex]/ams', '[tex]/textmacros']},
-                        tex: {
-                            inlineMath: [['$', '$'], ['\\(', '\\)']],
-                            packages: {'[+]': ['ams', 'textmacros']}
-                        },
-                        svg: {
-                            fontCache: 'global'
-                        }
-                    };
-                </script>
-                <style>
-                    .text-nowrap {
-                        overflow: hidden;
-                        white-space: nowrap !important;
-                    }
-                    img {
-                        padding-top: 20px;
-                        padding-bottom: 20px;
-                        max-width: 90%;
-                        display: block;
-                        margin: 0 auto;
-                    }
-                    .caption {
-                        width: 100%;
-                        text-align: center;
-                    }
+      .answer {
+        margin-right: 0.5rem;
+        padding-left: 0.5rem;
+        border-radius: 0.25rem;
+        border: 1px solid #343a40;
+      }
+    </style>
 
-                    .answer {
-                      margin-right: 0.5rem;
-                      padding-left: 0.5rem;
-                      border-radius: 0.25rem;
-                      border: 1px solid #343a40;
-                    }
-                </style>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i"
+      rel="stylesheet"
+    />
 
+    <!-- Custom styles for this template -->
+    <link href="css/one-page-wonder.css" rel="stylesheet" />
+  </head>
 
-                <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@800&display=swap" rel="stylesheet">
-                <link href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i"
-                    rel="stylesheet">
-
-
-                <!-- Custom styles for this template -->
-                <link href="css/one-page-wonder.css" rel="stylesheet">
-</head>
-
-<body class="container">
-    <div class="alert-area">
-        <%- alertsHtml %>
-    </div>
-    <header>
-        <%- include('../partials/header'); %>
-    </header>
+  <body class="container">
+    <div class="alert-area"><%- alertsHtml %></div>
+    <header><%- include('../partials/header'); %></header>
 
     <main>
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="jumbotron">
-                    <h1>
-                        <%= competition %> Test
-                    </h1>
-                    <p>You have <%= durationText %> to complete this test.</p>
-                    <p>
-                        <% if (individualQuestions) { %>
-                            You will see only one question at a time. You will not be able to go back to an old
-                            question.
-                            <% } else { %>
-                                Because this is a team test, all questions will be available.
-                                <% } %>
-                                    Calculators are allowed.
-                    </p>
-                    <p>
-                        If you encounter any technical difficulties, private message your proctor on Zoom.
-                    </p>
-                    <div id="infoDiv" style="display: none;">
-                        <hr>
-                        <h2 id='infoTitle'>Test Completed</h2>
-                        <p>
-                            Please refer to your personal schedule page to find what is next. <span
-                                class="personalized-schedule-ad"></span>
-                        </p>
-                    </div>
-                    <button type="button" id="beginTestButton" class="btn btn-dark btn-lg">
-                        <%= beginButtonText %>
-                    </button>
-                    <div id="loadingSpinner" class="spinner-border" style="width: 2rem; height: 2rem;display: none;"
-                        role="status">
-                        <span class="sr-only">Loading...</span>
-                    </div>
-                    <div id="questionDiv" style="display:none;">
-                        <div id="questions">
-
-                        </div>
-                        <!-- only displays if questions are not individual -->
-                        <div style="display:<%= individualQuestions ? 'none' : 'block' %>">
-                            <hr>
-                            <button class="btn btn-dark next-button" type="button" data-bs-toggle="tooltip"
-                                id="next-button" data-bs-placement="top" title="Remember, all answers are final">
-                                Submit</button>
-                        </div>
-                    </div>
-                </div>
-                <% if (individualQuestions) { %>
-                    <div class="progress">
-                        <div id="question-progress-bar" style="width: 0%" class="progress-bar" role="progressbar"
-                            aria-valuenow="1" aria-valuemin="0" aria-valuemax="10"></div>
-                    </div>
-                    <% } %>
-                        <br>
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="jumbotron">
+            <h1><%= competition %> Test</h1>
+            <p>You have <%= durationText %> to complete this test.</p>
+            <p>
+              <% if (individualQuestions) { %> You will see only one question at
+              a time. You will not be able to go back to an old question. <% }
+              else { %> Because this is a team test, all questions will be
+              available. <% } %> Calculators are allowed.
+            </p>
+            <p>
+              If you encounter any technical difficulties, private message your
+              proctor on Zoom.
+            </p>
+            <div id="infoDiv" style="display: none">
+              <hr />
+              <h2 id="infoTitle">Test Completed</h2>
+              <p>
+                Please refer to your personal schedule page to find what is
+                next. <span class="personalized-schedule-ad"></span>
+              </p>
             </div>
+            <button
+              type="button"
+              id="beginTestButton"
+              class="btn btn-dark btn-lg"
+            >
+              <%= beginButtonText %>
+            </button>
+            <div
+              id="loadingSpinner"
+              class="spinner-border"
+              style="width: 2rem; height: 2rem; display: none"
+              role="status"
+            >
+              <span class="sr-only">Loading...</span>
+            </div>
+            <div id="questionDiv" style="display: none">
+              <div id="questions"></div>
+              <!-- only displays if questions are not individual -->
+              <div
+                style="display:<%= individualQuestions ? 'none' : 'block' %>"
+              >
+                <hr />
+                <button
+                  class="btn btn-dark next-button"
+                  type="button"
+                  data-bs-toggle="tooltip"
+                  id="next-button"
+                  data-bs-placement="top"
+                  title="Remember, all answers are final"
+                >
+                  Submit
+                </button>
+              </div>
+            </div>
+          </div>
+          <% if (individualQuestions) { %>
+          <div class="progress">
+            <div
+              id="question-progress-bar"
+              style="width: 0%"
+              class="progress-bar"
+              role="progressbar"
+              aria-valuenow="1"
+              aria-valuemin="0"
+              aria-valuemax="10"
+            ></div>
+          </div>
+          <% } %>
+          <br />
+        </div>
 
-            <!-- <div class="col-sm-3">
+        <!-- <div class="col-sm-3">
                 <div class="well">
                     <h3>Time Remaining</h3>
                 </div>
             </div> -->
-
-        </div>
+      </div>
     </main>
 
-    <div style="position: absolute; right: 10px; bottom: 10px;">
-        <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="toast-header">
-                <!-- <img src="..." class="rounded me-2" alt="..."> -->
-                <strong class="me-auto"><span class="toast-header-text"></span></strong>
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                <small>Now</small>
-            </div>
-            <div class="toast-body">
-
-            </div>
+    <div style="position: absolute; right: 10px; bottom: 10px">
+      <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+          <!-- <img src="..." class="rounded me-2" alt="..."> -->
+          <strong class="me-auto"
+            ><span class="toast-header-text"></span
+          ></strong>
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          <small>Now</small>
         </div>
+        <div class="toast-body"></div>
+      </div>
     </div>
 
-
     <script>
-        var recordId = '<%- recordId %>';
-        var competitionId = '<%- competitionId %>';
-        var competitionCode = '<%- competitionCode %>';
-        var numberOfQuestions = '<%- numberOfQuestions %>';
-        var questionOnOpen = '<%- currentQuestion %>';
-        var available = '<%- available %>';
-        var counterInterval;
-        var individualQuestions = <%= individualQuestions %>;
-        var questionTemplate = `<%- questionTemplate %>`;
-        var showWindowToast = false;
+      var recordId = '<%- recordId %>';
+      var competitionId = '<%- competitionId %>';
+      var competitionCode = '<%- competitionCode %>';
+      var numberOfQuestions = '<%- numberOfQuestions %>';
+      var questionOnOpen = '<%- currentQuestion %>';
+      var available = '<%- available %>';
+      var counterInterval;
+      var individualQuestions = <%= individualQuestions %>;
+      var questionTemplate = `<%- questionTemplate %>`;
+      var showWindowToast = false;
+      var testQuestions = questionOnOpen
 
-        $(document).ready(() => {
-            $("#question-progress-bar").attr("aria-valuemax", numberOfQuestions);
-            $("#question-progress-bar").css("width", 100 * parseInt(questionOnOpen) / numberOfQuestions + "%");
+      $(document).ready(() => {
+          $("#question-progress-bar").attr("aria-valuemax", numberOfQuestions);
+          $("#question-progress-bar").css("width", 100 * parseInt(questionOnOpen) / numberOfQuestions + "%");
 
-            $(window).bind('beforeunload', function () {
-                return true;
-            });
+          $(window).bind('beforeunload', function () {
+              return true;
+          });
 
-            if (available !== "true") {
-                loading(false);
-                $("#questionDiv").hide();
-                $("#infoDiv").show();
-                $('#infoTitle').text(available);
-                $("#beginTestButton").attr("disabled", "true");
-                const urlParams = new URLSearchParams(window.location.search);
-                let studentId = urlParams.get('student');
-                if (studentId) {
-                    $(".personalized-schedule-ad").html(`You can find it <a href='/student/${studentId}'>here</a>.`);
-                }
-            } else if (questionOnOpen === numberOfQuestions) {
-                finished();
-            }
+          if (available !== "true") {
+              loading(false);
+              $("#questionDiv").hide();
+              $("#infoDiv").show();
+              $('#infoTitle').text(available);
+              $("#beginTestButton").attr("disabled", "true");
+              const urlParams = new URLSearchParams(window.location.search);
+              let studentId = urlParams.get('student');
+              if (studentId) {
+                  $(".personalized-schedule-ad").html(`You can find it <a href='/student/${studentId}'>here</a>.`);
+              }
+          } else if (questionOnOpen === numberOfQuestions) {
+              finished();
+          }
 
-            $("#beginTestButton").click(() => {
-                $("#beginTestButton").hide();
+          $("#beginTestButton").click(() => {
+              $("#beginTestButton").hide();
 
-                if (!confirm('By clicking \"OK\" you certify that you are indeed <%= name %> and are taking the <%= competition %> test. If this is not correct click "Cancel" and talk to your proctor and teacher.')) {
-                    return;
-                }
+              if (!confirm('By clicking \"OK\" you certify that you are indeed <%= name %> and are taking the <%= competition %> test. If this is not correct click "Cancel" and talk to your proctor and teacher.')) {
+                  return;
+              }
 
-                loading();
-                $.ajax({
-                    type: 'POST',
-                    url: "/test/endpoint/" + recordId,
-                    async: true,
-                    data:
-                        JSON.stringify({
-                            action: "begin",
-                            competitionCode: competitionCode,
-                        }),
-                    contentType: 'application/json; charset=utf-8',
-                    success: function (data) { displayQuestion(data) },
-                    error: function (xhr, ajaxOptions, thrownError) {
-                        alert(thrownError);
-                    }
-                });
-            });
+              loading();
+              $.ajax({
+                  type: 'POST',
+                  url: "/test/endpoint/" + recordId,
+                  async: true,
+                  data:
+                      JSON.stringify({
+                          action: "begin",
+                          competitionCode: competitionCode,
+                      }),
+                  contentType: 'application/json; charset=utf-8',
+                  success: function (data) { displayQuestion(data) },
+                  error: function (xhr, ajaxOptions, thrownError) {
+                      alert(thrownError);
+                  }
+              });
+          });
 
-            $(window).focus(function () {
-                if (showWindowToast) {
-                    $(".toast-header-text").text("Testing window left")
-                    $(".toast-body").text("Do not leave the testing window. This was automatically reported.")
-                    mainToast.show();
-                }
-                showWindowToast = false;
-            });
-            // TODO: Close window button when completed or view contest schedule
-        });
+          $(window).focus(function () {
+              if (showWindowToast) {
+                  $(".toast-header-text").text("Testing window left")
+                  $(".toast-body").text("Do not leave the testing window. This was automatically reported.")
+                  mainToast.show();
+              }
+              showWindowToast = false;
+          });
+          // TODO: Close window button when completed or view contest schedule
+      });
 
-        var forceReload = () => {
-            // tests should not be force reloaded
-            console.log("tests should not be force reloaded");
-            // $(window).bind('beforeunload', function () {
+      var forceReload = () => {
+          // tests should not be force reloaded
+          console.log("tests should not be force reloaded");
+          // $(window).bind('beforeunload', function () {
 
-            // });
-            // window.location.reload();
-        }
+          // });
+          // window.location.reload();
+      }
 
-        var nextQuestion = () => {
-            $("#questionDiv").hide();
-            loading();
+      var nextQuestion = () => {
+          $("#questionDiv").hide();
+          loading();
 
-            if (!individualQuestions && !confirm("Are you sure you want to submit?")) {
-                return;
-            }
+          if (!individualQuestions && !confirm("Are you sure you want to submit?")) {
+              return;
+          }
 
-            let answers = $('.answer').map((_, el) => {
-                return {
-                    text: el.value,
-                    questionCode: el.getAttribute("questioncode")
-                }
-            }).get();
+          let answers = $('.answer').map((_, el) => {
+              return {
+                  text: el.value,
+                  questionCode: el.getAttribute("questioncode")
+              }
+          }).get();
 
-            $.ajax({
-                type: 'POST',
-                url: "/test/endpoint/" + recordId,
-                async: true,
-                data:
-                    JSON.stringify({
-                        action: "next",
-                        competitionCode: competitionCode,
-                        answers
-                    }),
-                contentType: 'application/json; charset=utf-8',
-                success: function (data) {
-                    displayQuestion(data);
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    alert(thrownError);
-                }
-            });
-        }
+          $.ajax({
+              type: 'POST',
+              url: "/test/endpoint/" + recordId,
+              async: true,
+              data:
+                  JSON.stringify({
+                      action: "next",
+                      competitionCode: competitionCode,
+                      answers
+                  }),
+              contentType: 'application/json; charset=utf-8',
+              success: function (data) {
+                  displayQuestion(data);
+              },
+              error: function (xhr, ajaxOptions, thrownError) {
+                  alert(thrownError);
+              }
+          });
+      }
 
-        var displayQuestion = obj => {
-            if (obj == "FINISHED") {
-                finished();
-                return;
-            } else if (obj == "TIMEOUT") {
-                location.reload();
-            }
+      var displayQuestion = obj => {
+          if (obj == "FINISHED") {
+              finished();
+              return;
+          } else if (obj == "TIMEOUT") {
+              location.reload();
+          }
 
-            console.log(obj);
-            let questions = obj.questions;
-            let mathjaxNodes = [];
+          console.log(obj);
+          let questions = obj.questions;
+          testQuestions = obj.questions;
+          let mathjaxNodes = [];
 
-            let html = "";
-            for (question of questions) {
-                // html += ejs.compile(questionTemplate)({ questionIndex: question.index, individualQuestions });
-                html += ejs.render(questionTemplate, { questionIndex: question.index, questionCode: question.questionCode, individualQuestions }).toString();
-            }
+          let html = "";
+          for (question of questions) {
+              // html += ejs.compile(questionTemplate)({ questionIndex: question.index, individualQuestions });
+              html += ejs.render(questionTemplate, { questionIndex: question.index, questionCode: question.questionCode, individualQuestions }).toString();
+          }
 
-            $("#questions").html(html);
+          $("#questions").html(html);
 
-            for (question of questions) {
-                $(`.answer-${question.index}`).val("");
-                $(`.questionTitle-${question.index}`).text("Question " + parseInt(question.index + 1));
-                let node = $(`.questionText-${question.index}`)[0];
-                node.innerHTML = question.text;
-                mathjaxNodes.push(node);
-            }
-            clearInterval(counterInterval);
-            countdown(new Date(obj.closingTime));
-            MathJax.typesetClear(mathjaxNodes);
-            MathJax.typesetPromise(mathjaxNodes).then(() => {
-                // the new content is has been typeset
-                $("#questionDiv").show();
-                loading(false);
-            });
-            if (individualQuestions) {
-                $("#question-progress-bar").css("width", 100 * parseInt(questions[0].index) / numberOfQuestions + "%");
-                $("#question-progress-bar").attr("aria-valuenow", parseInt(questions[0].index));
-            }
-            $(".next-button").click(nextQuestion);
+          for (question of questions) {
+              $(`.answer-${question.index}`).val("");
+              $(`.questionTitle-${question.index}`).text("Question " + parseInt(question.index + 1));
+              let node = $(`.questionText-${question.index}`)[0];
+              node.innerHTML = question.text;
+              mathjaxNodes.push(node);
+          }
+          clearInterval(counterInterval);
+          countdown(new Date(obj.closingTime));
+          MathJax.typesetClear(mathjaxNodes);
+          MathJax.typesetPromise(mathjaxNodes).then(() => {
+              // the new content is has been typeset
+              $("#questionDiv").show();
+              loading(false);
+          });
+          if (individualQuestions) {
+              $("#question-progress-bar").css("width", 100 * parseInt(questions[0].index) / numberOfQuestions + "%");
+              $("#question-progress-bar").attr("aria-valuenow", parseInt(questions[0].index));
+          }
+          $(".next-button").click(nextQuestion);
 
-            $(window).blur(function () {
-                // Your action here
-                console.log("window blurred!");
-                showWindowToast = true;
-            });
-        }
+          $(window).blur(function () {
+              // Your action here
+              console.log("window blurred!");
+              showWindowToast = true;
+          });
+      }
 
-        var loading = (go) => {
-            if (go === false) {
-                $("#loadingSpinner").hide();
-            } else {
-                $("#loadingSpinner").show();
-            }
-        }
+      var loading = (go) => {
+          if (go === false) {
+              $("#loadingSpinner").hide();
+          } else {
+              $("#loadingSpinner").show();
+          }
+      }
 
-        var finished = () => {
-            loading(false);
-            $("#beginTestButton").hide();
-            $("#questionDiv").hide();
-            $("#infoDiv").show();
-            $("#question-progress-bar").css("width", "100%");
-            $("#question-progress-bar").attr("aria-valuenow", numberOfQuestions);
-            $(window).blur(() => {
-                // don't do anything if leaves tab
-            });
-        }
+      var finished = () => {
+          loading(false);
+          $("#beginTestButton").hide();
+          $("#questionDiv").hide();
+          $("#infoDiv").show();
+          $("#question-progress-bar").css("width", "100%");
+          $("#question-progress-bar").attr("aria-valuenow", numberOfQuestions);
+          $(window).blur(() => {
+              // don't do anything if leaves tab
+          });
+      }
 
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl)
-        });
+      var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+      var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+          return new bootstrap.Tooltip(tooltipTriggerEl)
+      });
 
-        var toastElList = [].slice.call(document.querySelectorAll('.toast'));
-        var mainToast = toastElList.map(function (toastEl) {
-            return new bootstrap.Toast(toastEl, { delay: 5000 });
-        })[0];
+      var toastElList = [].slice.call(document.querySelectorAll('.toast'));
+      var mainToast = toastElList.map(function (toastEl) {
+          return new bootstrap.Toast(toastEl, { delay: 5000 });
+      })[0];
 
-        var countdown = (date_future) => {
-            console.log(date_future);
-            // get total seconds between the times
-            setCounterTime(date_future);
-            counterInterval = setInterval(() => {
-                setCounterTime(date_future);
-            }, 1000);
-        }
+      var countdown = (date_future) => {
+          console.log(date_future);
+          // get total seconds between the times
+          setCounterTime(date_future);
+          counterInterval = setInterval(() => {
+              setCounterTime(date_future);
+          }, 1000);
+      }
 
-        var setCounterTime = (date_future) => {
-            var date_now = new Date();
+      var setCounterTime = (date_future) => {
+          var date_now = new Date();
 
-            if (date_future < date_now) {
-                forceReload();
-            }
-            var delta = Math.ceil(Math.abs(date_future - date_now) / 1000);
+          if (date_future < date_now) {
+              forceReload();
+          }
+          var delta = Math.ceil(Math.abs(date_future - date_now) / 1000); // in seconds
 
-            // Theory: Delta ends up as a decimal slightly < x.00
-            // which causes the math.round to still round to 60
-            // Solution: make sure delta is an integer - Andy
-            // Solution confirmed to work
-            var minutes = Math.floor(delta / 60);
-            delta -= minutes * 60;
+          // Theory: Delta ends up as a decimal slightly < x.00
+          // which causes the math.round to still round to 60
+          // Solution: make sure delta is an integer - Andy
+          // Solution confirmed to work
 
-            var seconds = Math.round(delta % 60);  // in theory the modulus is not required
-            var secondsText = seconds.toString();
-            if (secondsText.length == 1) {
-                secondsText = "0" + secondsText;
-            }
 
-            $(".remainingTime").text((individualQuestions ? " - " : '') + minutes + ":" + secondsText + " Remaining");
+          // This is some half-working code for creative thinking
+          // Where the students can see only one question at a time
+          const isCreativeThinking = false
+        //   const isCreativeThinking = competitionCode.endsWith('-C')
+          if (isCreativeThinking) {
+            const questionIndex = testQuestions[0].index;
 
-            if (minutes == 5 && seconds == 0) {
-                $(".toast-header-text").text("5 Minutes Remaining")
-                $(".toast-body").text("Your test will be automatically submitted in 5 minutes.")
-                mainToast.show();
-            }
+            const contestEndTime = date_future;
+            const timePerQuestion = 25 / numberOfQuestions; // in minutes
 
-            console.log(questions)
+            const numQuestionsLeft = numberOfQuestions - questionIndex - 1;
+            const questionEndTimeFromNow = numQuestionsLeft * timePerQuestion * 60;
+            const questionEndTime = date_future - questionEndTimeFromNow * 1000;
 
-            if (competitionCode.endsWith('-C') && questionOnOpen) {
+            delta = Math.ceil(Math.abs(questionEndTime - date_now) / 1000); // in seconds
+          }
+          var minutes = Math.floor(delta / 60);
+          delta -= minutes * 60;
 
-            }
+          var seconds = Math.round(delta % 60);  // in theory the modulus is not required
+          var secondsText = seconds.toString();
+          if (secondsText.length == 1) {
+              secondsText = "0" + secondsText;
+          }
 
-            if (minutes < 0) {
-                // TODO: MAKE SURE THIS ACTUALLY SUBMIT
-                $(".next-button").click();
-                clearInterval(counterInterval);
-                // TODO: Add actual good looking alert
-                alert("Time is up! Your last question was automatically submitted.");
-                location.reload();
-            }
-        }
+          $(".remainingTime").text((individualQuestions ? " - " : '') + minutes + ":" + secondsText + " Remaining");
 
+          if (minutes == 5 && seconds == 0) {
+              $(".toast-header-text").text("5 Minutes Remaining")
+              $(".toast-body").text("Your test will be automatically submitted in 5 minutes.")
+              mainToast.show();
+          }
+
+
+
+
+          if (minutes < 0) {
+              // TODO: MAKE SURE THIS ACTUALLY SUBMIT
+              $(".next-button").click();
+              clearInterval(counterInterval);
+              // TODO: Add actual good looking alert
+              alert("Time is up! Your last question was automatically submitted.");
+              location.reload();
+          }
+      }
     </script>
-
-</body>
-
+  </body>
 </html>
