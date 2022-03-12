@@ -102,7 +102,8 @@ module.exports = (app, { eventsTable, studentsTable, schoolsTable, testsTable, a
                 primary: student.fields.Name,
                 secondary: "JHMC 2022", // Goes in the <title>
                 schoolName: school.fields.Name,
-                helpLink: nonTestingRooms.find(room => room.fields.ID == "help").fields["Zoom Link"],
+                // helpLink: nonTestingRooms.find(room => room.fields.ID == "help").fields["Zoom Link"],
+                helpLink: "https://zoom.us/j/97978208692?pwd=OXFEREZJekVsQ1diRVNwNllFRlk0dz09",
                 divisionText: "Division " + school.fields.Division,
                 // alertsHtml: "hi",
                 alertsHtml
@@ -138,7 +139,8 @@ module.exports = (app, { eventsTable, studentsTable, schoolsTable, testsTable, a
             primary: "Coaches Schedule",
             secondary: "JHMC 2022", // Goes in the <title>
             schoolName: "",
-            helpLink: nonTestingRooms.find(room => room.fields.ID == "help").fields["Zoom Link"],
+            // helpLink: nonTestingRooms.find(room => room.fields.ID == "help").fields["Zoom Link"],
+            helpLink: "https://zoom.us/j/97978208692?pwd=OXFEREZJekVsQ1diRVNwNllFRlk0dz09",
             divisionText: "",
             alertsHtml
         });
@@ -169,7 +171,8 @@ module.exports = (app, { eventsTable, studentsTable, schoolsTable, testsTable, a
             primary: "Parents Schedule",
             secondary: "JHMC 2022", // Goes in the <title>
             schoolName: "",
-            helpLink: nonTestingRooms.find(room => room.fields.ID == "help").fields["Zoom Link"],
+            // helpLink: nonTestingRooms.find(room => room.fields.ID == "help").fields["Zoom Link"],
+            helpLink: "https://zoom.us/j/97978208692?pwd=OXFEREZJekVsQ1diRVNwNllFRlk0dz09",
             divisionText: "",
             alertsHtml
         });

@@ -63,7 +63,8 @@ const getOrderedQuestions = async (record, competitionCode, competitionId) => {
 }
 
 const validateTime = (competition, record, allowExtra=false) => {
-    return "true";
+    // TODO: turn off
+    // return "true";
 
     if (record.id === sampleTestId) {
         return "true";
