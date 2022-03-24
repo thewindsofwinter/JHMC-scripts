@@ -78,6 +78,10 @@ const validateTime = (competition, record, allowExtra=false) => {
         duration = competition.fields["Max Duration"] * 1000,
         expireTime = new Date(startTime.getTime() + duration + (allowExtra ? (1000 * 5) : 0)); // Add 5 seconds grace period to get last question in
 
+    // console.log(startTime)
+    // console.log(expireTime)
+    // console.log(currentTime)
+
     let currentTime = new Date();
     if (openTime > currentTime) {
         return "Test not open yet"

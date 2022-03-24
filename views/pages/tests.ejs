@@ -409,16 +409,16 @@
 
           $(".remainingTime").text((individualQuestions ? " - " : '') + minutes + ":" + secondsText + " Remaining");
 
+          console.log(minutes + " " + seconds)
           if (minutes == 5 && seconds == 0) {
               $(".toast-header-text").text("5 Minutes Remaining")
               $(".toast-body").text("Your test will be automatically submitted in 5 minutes.")
               mainToast.show();
           }
 
-
-
-
-          if (minutes < 0) {
+          // FIX THIS BUG
+          if (minutes == 0 && seconds == 1) {
+              console.log("HEY")
               // TODO: MAKE SURE THIS ACTUALLY SUBMIT
               $(".next-button").click();
               clearInterval(counterInterval);

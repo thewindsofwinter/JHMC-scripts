@@ -33,7 +33,7 @@ const error = (res, text) => {
   console.log("ERROR!");
   res.status(500).render("pages/error.ejs", {
     errorText:
-      text || "There was an unexpected error. Please contact your proctor.",
+      text || "There was an unexpected error. Please contact your proctor, who will inform the JHMC team.",
   });
 };
 
@@ -116,8 +116,11 @@ app.get("/test/:recordId", async (req, res) => {
       record,
       competition.fields.Code
     );
+    
     let available = tests.validateTime(competition, record, false),
       currentQuestion = record.fields["Current Question Index"];
+
+    console.log(available)
 
     if (!testBegun && currentQuestion && currentQuestion != 0) {
       currentQuestion = 0;
