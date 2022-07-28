@@ -138,7 +138,7 @@ h5 {
     margin: 4rem;
     /* Make it tile the same way */
     background-size: 800px 800px;
-    background-image: url("./../img/paper-background.jpg"); */
+    background-image: url("./../img/paper-background.jpg");
     width: calc(100% - 8rem);
     height: calc(100% - 8rem);
 }
