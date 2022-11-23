@@ -1,184 +1,234 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <!--TODO: go through every image and make sure slashes are there (i.e. /img/stuff instead of img/stuff) -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <%- include('../partials/meta'); %>
 
-<head>
-  <!--TODO: go through every image and make sure slashes are there (i.e. /img/stuff instead of img/stuff) -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <%- include('../partials/meta'); %>
-
-  <!-- Update to 2022 -->
-  <title>About Us | JHMC</title>
-  <meta name="description" content="The Junior High Math Contest provides creative
+    <!-- Update to 2022 -->
+    <title>About Us | JHMC</title>
+    <meta
+      name="description"
+      content="The Junior High Math Contest provides creative
   and collaborative problem-solving opportunities to middle school students across
-  the nation.">
+  the nation."
+    />
 
-  <!-- Bootstrap core CSS -->
-  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="canonical" href="https://imsajhmc.com/about">
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="canonical" href="https://imsajhmc.com/about" />
 
-  <!-- Custom fonts for this template -->
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@800&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i"
-    rel="stylesheet">
+    <!-- Custom fonts for this template -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i"
+      rel="stylesheet"
+    />
 
-  <!-- Custom styles for this template -->
-  <link href="css/one-page-wonder.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="css/one-page-wonder.css" rel="stylesheet" />
+  </head>
 
-</head>
+  <body>
+    <!-- Navigation -->
+    <%- include('../partials/navbar') %>
 
-<body>
-
-  <!-- Navigation -->
-  <%- include('../partials/navbar') %>
-
-  <header class="masthead2 text-center imsa-foreground">
-    <div class="masthead-content">
-      <div class="container">
-        <!-- TODO: Find good title -->
-        <h1 class="masthead-heading mb-0">Our Story</h1>
-        <br />
-        <h2>A Brief Description of Our Team, Mission, and Core Values</h2>
+    <header class="masthead2 text-center imsa-foreground">
+      <div class="masthead-content">
+        <div class="container">
+          <!-- TODO: Find good title -->
+          <h1 class="masthead-heading mb-0">Our Story</h1>
+          <br />
+          <h2>A Brief Description of Our Team, Mission, and Core Values</h2>
+        </div>
       </div>
-    </div>
-  </header>
+    </header>
 
-  <section>
-    <div class="container">
-      <div class="row align-items-center">
-        <!-- <div class="col-lg-6 order-lg-2">
+    <section>
+      <div class="container">
+        <div class="row align-items-center">
+          <!-- <div class="col-lg-6 order-lg-2">
           <div class="p-5">
             <img class="img-fluid rounded-circle" src="img/01.jpg" alt="Rounded Circle">
           </div>
         </div> -->
-        <div class="col-lg order-lg-1">
-          <div class="p-5">
-            <!-- TODO: Fix vertical alignment -->
-            <h2 class="display-4">Our Team</h2>
-            <table class="blurbs">
+          <div class="col-lg order-lg-1">
+            <div class="p-5">
+              <!-- TODO: Fix vertical alignment -->
+              <h2 class="display-4">Our Team</h2>
+              <!-- <table class="blurbs">
                 <tr>
-                    <td>
-                        <div class="content-blurb">
-                            <img class="top" src="img/organizers/yina.jpg" alt="Yina Wang"/>
-                            <h5>Yina Wang</h5>
-                            <p>JHMC co-chair</p>
-                            <p class="blurb">
-                                Yina is a senior at IMSA. Her favorite topic in
-                                competition mathematics is counting and probability,
-                                and her least favorite is number theory. When not
-                                engaged in MAΘ, Student Council, or Psychology Club,
-                                Yina derives enjoyment from pestering her roommate, Shiqi.
-                            </p>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="content-blurb">
-                            <img class="top" src="img/organizers/rohan.jpg" alt="Rohan Jain"/>
-                            <h5>Rohan Jain</h5>
-                            <p>JHMC co-chair and web lead</p>
-                            <p class="blurb">
-                                Rohan is a senior at IMSA. He enjoys web development,
-                                math, physics, sleeping, and contemplating
-                                his existence in this meaningless world. His
-                                favorite topic in mathematics is lie algebra because 
-                                of its applications to many fields of physics.
-                            </p>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                  <td>
-                        <div class="content-blurb">
-                            <img class="top" src="img/organizers/shiqi.png" alt="Shiqi Cheng"/>
-                            <h5>Shiqi Cheng</h5>
-                            <p>Mu Alpha Theta president</p>
-                            <p class="blurb">
-                                Shiqi is a senior at IMSA. Outside of Mu Alpha
-                                Theta, she plays the viola, does science research, and
-                                occasionally commits mild acts of mayhem. Shiqi can
-                                usually be found doing math for fun or reading
-                                one of her many books. When not in meetings and
-                                stressed about work, Shiqi often distributes
-                                compliments and positive comments to her peers.
-                            </p>
-                        </div>
-                    </td>
-                    <td>
-                      <div class="content-blurb">
-                          <img class="top" src="img/organizers/pietro.jpg" alt="Pietro Stabile"/>
-                          <h5>Pietro Stabile</h5>
-                          <p>Mu Alpha Theta vice president</p>
-                          <p class="blurb">
-                            Pietro is a senior at IMSA. He typically partakes in activities 
-                            such as photography, sleeping, computer programming, journalism, 
-                            and tomfoolery with his wing-mates. His current favorite math topics 
-                            are Fourier and Taylor series, but this changes often. Pietro staunchly 
-                            believes that mint chocolate chip ice cream does, in fact, taste like 
-                            toothpaste and should not be consumed by anyone.
-                          </p>
-                      </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                      <div class="content-blurb">
-                          <img class="top" src="img/organizers/kevin.jpg" alt="Kevin Zhang"/>
-                          <h5>Kevin Zhang</h5>
-                          <p>JHMC math co-chair</p>
-                          <p class="blurb">
-                            Kevin is a senior at IMSA. His favorite regions of math are number theory and 
-                            anything related to integrals or derivatives. Besides math, Kevin also loves physics, 
-                            programming, and swimming. Recently, he has added pool trick-shots and philosophy to 
-                            this list. Kevin can usually be found either walking in nature, thinking about a problem, 
-                            or trying to spot patterns like the Fibonacci spiral in art.
-                          </p>
-                      </div>
-                  </td> 
                   <td>
                     <div class="content-blurb">
-                        <img class="top" src="img/organizers/aashima.jpg" alt="Aashima Sisodia"/>
-                        <h5>Aashima Sisodia</h5>
-                        <p>JHMC math co-chair</p>
-                        <p class="blurb">
-                          Aashima is a junior at IMSA. Her favorite topic in math is geometric probability. 
-                          When she isn’t doing anything JHMC related, she is drinking a matcha latte or bubble 
-                          tea and listening to a science podcast or some music. She also enjoys debating, 
-                          painting along with Bob Ross, and swimming.
-                        </p>
+                      <img
+                        class="top"
+                        src="img/organizers/yina.jpg"
+                        alt="Yina Wang"
+                      />
+                      <h5>Yina Wang</h5>
+                      <p>JHMC co-chair</p>
+                      <p class="blurb">
+                        Yina is a senior at IMSA. Her favorite topic in
+                        competition mathematics is counting and probability, and
+                        her least favorite is number theory. When not engaged in
+                        MAΘ, Student Council, or Psychology Club, Yina derives
+                        enjoyment from pestering her roommate, Shiqi.
+                      </p>
                     </div>
-                  </td> 
+                  </td>
+                  <td>
+                    <div class="content-blurb">
+                      <img
+                        class="top"
+                        src="img/organizers/rohan.jpg"
+                        alt="Rohan Jain"
+                      />
+                      <h5>Rohan Jain</h5>
+                      <p>JHMC co-chair and web lead</p>
+                      <p class="blurb">
+                        Rohan is a senior at IMSA. He enjoys web development,
+                        math, physics, sleeping, and contemplating his existence
+                        in this meaningless world. His favorite topic in
+                        mathematics is lie algebra because of its applications
+                        to many fields of physics.
+                      </p>
+                    </div>
+                  </td>
                 </tr>
                 <tr>
                   <td>
-                      <div class="content-blurb">
-                          <img class="top" src="img/organizers/arjun.jpg" alt="Arjun Cherukuri"/>
-                          <h5>Arjun Cherukuri</h5>
-                          <p>JHMC representative</p>
-                          <p class="blurb">
-                            Arjun is a sophomore at IMSA who enjoys volleyball,
-                            obsesses over corgis, pursues his passion for medicine,
-                            and grinds out math problems in his free time – calculus
-                            is pretty neat :). Also, Arjun finds chemistry really interesting
-                            as long as there ‘Argon’na be chemistry puns. Finally, Arjun disagrees
-                            with the idea of pineapple on pizza and that should be noted.
-                          </p>
-                      </div>
+                    <div class="content-blurb">
+                      <img
+                        class="top"
+                        src="img/organizers/shiqi.png"
+                        alt="Shiqi Cheng"
+                      />
+                      <h5>Shiqi Cheng</h5>
+                      <p>Mu Alpha Theta president</p>
+                      <p class="blurb">
+                        Shiqi is a senior at IMSA. Outside of Mu Alpha Theta,
+                        she plays the viola, does science research, and
+                        occasionally commits mild acts of mayhem. Shiqi can
+                        usually be found doing math for fun or reading one of
+                        her many books. When not in meetings and stressed about
+                        work, Shiqi often distributes compliments and positive
+                        comments to her peers.
+                      </p>
+                    </div>
                   </td>
                   <td>
-                      <div class="content-blurb">
-                          <img class="top" src="img/organizers/vidyoot.png" alt="Vidyoot Senthil Venkatesh"/>
-                          <h5>Vidyoot Senthil Venkatesh</h5>
-                          <p>JHMC representative</p>
-                          <p class="blurb">
-                            Vidyoot is a junior at IMSA. Outside of JHMC, he is engaged in debate, 
-                            coding, and robotics. He can most often be spotted at his desk coding, 
-                            after devouring a bag of Takis, or in the robotics lab piecing together parts. 
-                            During his pastime, he enjoys playing soccer with friends and running. 
-                          </p>
-                      </div>
+                    <div class="content-blurb">
+                      <img
+                        class="top"
+                        src="img/organizers/pietro.jpg"
+                        alt="Pietro Stabile"
+                      />
+                      <h5>Pietro Stabile</h5>
+                      <p>Mu Alpha Theta vice president</p>
+                      <p class="blurb">
+                        Pietro is a senior at IMSA. He typically partakes in
+                        activities such as photography, sleeping, computer
+                        programming, journalism, and tomfoolery with his
+                        wing-mates. His current favorite math topics are Fourier
+                        and Taylor series, but this changes often. Pietro
+                        staunchly believes that mint chocolate chip ice cream
+                        does, in fact, taste like toothpaste and should not be
+                        consumed by anyone.
+                      </p>
+                    </div>
                   </td>
                 </tr>
-                <!-- <tr>
+                <tr>
+                  <td>
+                    <div class="content-blurb">
+                      <img
+                        class="top"
+                        src="img/organizers/kevin.jpg"
+                        alt="Kevin Zhang"
+                      />
+                      <h5>Kevin Zhang</h5>
+                      <p>JHMC math co-chair</p>
+                      <p class="blurb">
+                        Kevin is a senior at IMSA. His favorite regions of math
+                        are number theory and anything related to integrals or
+                        derivatives. Besides math, Kevin also loves physics,
+                        programming, and swimming. Recently, he has added pool
+                        trick-shots and philosophy to this list. Kevin can
+                        usually be found either walking in nature, thinking
+                        about a problem, or trying to spot patterns like the
+                        Fibonacci spiral in art.
+                      </p>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="content-blurb">
+                      <img
+                        class="top"
+                        src="img/organizers/aashima.jpg"
+                        alt="Aashima Sisodia"
+                      />
+                      <h5>Aashima Sisodia</h5>
+                      <p>JHMC math co-chair</p>
+                      <p class="blurb">
+                        Aashima is a junior at IMSA. Her favorite topic in math
+                        is geometric probability. When she isn’t doing anything
+                        JHMC related, she is drinking a matcha latte or bubble
+                        tea and listening to a science podcast or some music.
+                        She also enjoys debating, painting along with Bob Ross,
+                        and swimming.
+                      </p>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="content-blurb">
+                      <img
+                        class="top"
+                        src="img/organizers/arjun.jpg"
+                        alt="Arjun Cherukuri"
+                      />
+                      <h5>Arjun Cherukuri</h5>
+                      <p>JHMC representative</p>
+                      <p class="blurb">
+                        Arjun is a sophomore at IMSA who enjoys volleyball,
+                        obsesses over corgis, pursues his passion for medicine,
+                        and grinds out math problems in his free time – calculus
+                        is pretty neat :). Also, Arjun finds chemistry really
+                        interesting as long as there ‘Argon’na be chemistry
+                        puns. Finally, Arjun disagrees with the idea of
+                        pineapple on pizza and that should be noted.
+                      </p>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="content-blurb">
+                      <img
+                        class="top"
+                        src="img/organizers/vidyoot.png"
+                        alt="Vidyoot Senthil Venkatesh"
+                      />
+                      <h5>Vidyoot Senthil Venkatesh</h5>
+                      <p>JHMC representative</p>
+                      <p class="blurb">
+                        Vidyoot is a junior at IMSA. Outside of JHMC, he is
+                        engaged in debate, coding, and robotics. He can most
+                        often be spotted at his desk coding, after devouring a
+                        bag of Takis, or in the robotics lab piecing together
+                        parts. During his pastime, he enjoys playing soccer with
+                        friends and running.
+                      </p>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
                   <td>
                       <div class="content-blurb">
                           <img class="top" src="img/organizers/jeff.jpg" alt="Jeff Duan"/>
@@ -194,131 +244,321 @@
                           </p>
                       </div>
                   </td>
-                </tr> -->
-            </table>
-
+                </tr> 
+              </table>-->
+              <div class="container">
+                <div class="row about-people-row" style="margin-bottom: 2rem">
+                  <div class="col">
+                    <div class="card" style="height: 100%">
+                      <img
+                        src="img/organizers/shiqi.png"
+                        class="card-img-top"
+                        alt=""
+                      />
+                      <div class="card-body">
+                        <h5>Shiqi Cheng</h5>
+                        <h6>Mu Alpha Theta president</h6>
+                        <p class="blurb">
+                          Shiqi is a senior at IMSA. Outside of Mu Alpha Theta,
+                          she plays the viola, does science research, and
+                          occasionally commits mild acts of mayhem. Shiqi can
+                          usually be found doing math for fun or reading one of
+                          her many books. When not in meetings and stressed
+                          about work, Shiqi often distributes compliments and
+                          positive comments to her peers.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="card" style="height: 100%">
+                      <img
+                        class="card-img-top"
+                        src="img/organizers/yina.jpg"
+                        alt="Card image cap"
+                      />
+                      <div class="card-body">
+                        <h5>Yina Wang</h5>
+                        <h6>JHMC co-chair</h6>
+                        <p class="blurb">
+                          Yina is a senior at IMSA. Her favorite topic in
+                          competition mathematics is counting and probability,
+                          and her least favorite is number theory. When not
+                          engaged in MAΘ, Student Council, or Psychology Club,
+                          Yina derives enjoyment from pestering her roommate,
+                          Shiqi.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="card" style="height: 100%">
+                      <img
+                        src="img/organizers/rohan.jpg"
+                        class="card-img-top"
+                        alt=""
+                      />
+                      <div class="card-body">
+                        <h5>Rohan Jain</h5>
+                        <h6>JHMC co-chair and web lead</h6>
+                        <p class="blurb">
+                          Rohan is a senior at IMSA. He enjoys web development,
+                          math, physics, sleeping, and contemplating his
+                          existence in this meaningless world. His favorite
+                          topic in mathematics is lie algebra because of its
+                          applications to many fields of physics.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row" style="margin-bottom: 2rem">
+                  <div class="col">
+                    <div class="card" style="height: 100%">
+                      <img
+                        src="img/organizers/kevin.jpg"
+                        class="card-img-top"
+                        alt=""
+                      />
+                      <div class="card-body">
+                        <h5>Kevin Zhang</h5>
+                        <h6>JHMC math co-chair</h6>
+                        <p class="blurb">
+                          Kevin is a senior at IMSA. His favorite regions of
+                          math are number theory and anything related to
+                          integrals or derivatives. Besides math, Kevin also
+                          loves physics, programming, and swimming. Recently, he
+                          has added pool trick-shots and philosophy to this
+                          list. Kevin can usually be found either walking in
+                          nature, thinking about a problem, or trying to spot
+                          patterns like the Fibonacci spiral in art.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="card" style="height: 100%">
+                      <img
+                        class="card-img-top"
+                        src="img/organizers/aashima.jpg"
+                        alt="Card image cap"
+                      />
+                      <div class="card-body">
+                        <h5>Aashima Sisodia</h5>
+                        <h6>JHMC math co-chair</h6>
+                        <p class="blurb">
+                          Aashima is a junior at IMSA. Her favorite topic in
+                          math is geometric probability. When she isn’t doing
+                          anything JHMC related, she is drinking a matcha latte
+                          or bubble tea and listening to a science podcast or
+                          some music. She also enjoys debating, painting along
+                          with Bob Ross, and swimming.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="card" style="height: 100%">
+                      <img
+                        src="img/organizers/vidyoot.png"
+                        class="card-img-top"
+                        alt=""
+                      />
+                      <div class="card-body">
+                        <h5>Vidyoot Senthil Venkatesh</h5>
+                        <h6>JHMC representative</h6>
+                        <p class="blurb">
+                          Vidyoot is a junior at IMSA. Outside of JHMC, he is
+                          engaged in debate, coding, and robotics. He can most
+                          often be spotted at his desk coding, after devouring a
+                          bag of Takis, or in the robotics lab piecing together
+                          parts. During his pastime, he enjoys playing soccer
+                          with friends and running.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row" style="margin-bottom: 2rem">
+                  <div class="col">
+                    <div class="card" style="height: 100%">
+                      <img
+                        src="img/organizers/arjun.jpg"
+                        class="card-img-top"
+                        alt=""
+                      />
+                      <div class="card-body">
+                        <h5>Arjun Cherukuri</h5>
+                        <h6>JHMC representative</h6>
+                        <p class="blurb">
+                          Arjun is a sophomore at IMSA who enjoys volleyball,
+                          obsesses over corgis, pursues his passion for
+                          medicine, and grinds out math problems in his free
+                          time – calculus is pretty neat :). Also, Arjun finds
+                          chemistry really interesting as long as there
+                          ‘Argon’na be chemistry puns. Finally, Arjun disagrees
+                          with the idea of pineapple on pizza and that should be
+                          noted.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="card" style="height: 100%">
+                      <img
+                        class="card-img-top"
+                        src="img/organizers/aashima.jpg"
+                        alt="Card image cap"
+                      />
+                      <div class="card-body">
+                        <h5>[PlaceHolder]</h5>
+                        <h6>JHMC math co-chair</h6>
+                        <p class="blurb">
+                          Aashima is a junior at IMSA. Her favorite topic in
+                          math is geometric probability. When she isn’t doing
+                          anything JHMC related, she is drinking a matcha latte
+                          or bubble tea and listening to a science podcast or
+                          some music. She also enjoys debating, painting along
+                          with Bob Ross, and swimming.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section>
-    <div class="container">
-      <div class="row align-items-center">
-        <!-- <div class="col-lg-6">
+    <section>
+      <div class="container">
+        <div class="row align-items-center">
+          <!-- <div class="col-lg-6">
           <div class="p-5">
             <img class="img-fluid rounded-circle" src="img/02.jpg" alt="Rounded Circle">
           </div>
         </div> -->
 
-        <div class="col-lg">
-          <div class="p-5">
-            <h2 class="display-4">Our Mission</h2>
-            <h5>What needs must be addressed?</h5>
-            <p>Ever since the first IMSA JHMC was held decades ago, our mission
+          <div class="col-lg">
+            <div class="p-5">
+              <h2 class="display-4">Our Mission</h2>
+              <h5>What needs must be addressed?</h5>
+              <p>
+                Ever since the first IMSA JHMC was held decades ago, our mission
                 and core values have remained unchanged. We continue to believe
-                that <strong>middle school is an oft-neglected but critical formative
-                period for STEM-oriented students</strong>, during which a student's
-                positive or negative experiences have an outsize impact on their
-                future educational attainment. This is backed up by results from
-                peer-reviewed studies: for example,
-                <a href="https://www.tandfonline.com/doi/abs/10.1080/00220670309596624">
-                    Wang and Goldschmidt 2003
+                that
+                <strong
+                  >middle school is an oft-neglected but critical formative
+                  period for STEM-oriented students</strong
+                >, during which a student's positive or negative experiences
+                have an outsize impact on their future educational attainment.
+                This is backed up by results from peer-reviewed studies: for
+                example,
+                <a
+                  href="https://www.tandfonline.com/doi/abs/10.1080/00220670309596624"
+                >
+                  Wang and Goldschmidt 2003
                 </a>
                 finds that differences in mathematical opportunities during
-                middle school translates to increasing educational inequity
-                into high school.</p>
-            <p>We believe that creating more opportunities for students to have
+                middle school translates to increasing educational inequity into
+                high school.
+              </p>
+              <p>
+                We believe that creating more opportunities for students to have
                 positive experiences with mathematics will not only increase
                 equity for disadvantaged students but also translate into better
-                academic and career outcomes across the board for all participants.
+                academic and career outcomes across the board for all
+                participants.
                 <strong>This is a deeply personal issue for many of us</strong>:
-                almost all of the contest organizers are where we are today in no
-                small part due to opportunities like MATHCOUNTS and the AMC 8,
-                which gave us an outlet to have fun with STEM.
-            </p>
-            <h5>How do we improve on existing programs?</h5>
-            <p>We believe that an effective mathematics outreach program has two
-                key traits: first, it <strong>makes math fun</strong>, and second, it gives
-                students <strong>the opportunity to discover</strong> deep insights on their
-                own. We believe that this second trait can't be achieved by simply
-                "skimming the surface" of mathematics: while the gems of discovery
-                might not be buried deep, students need to seek them out in extended
-                problem-solving experiences, experiences which contests like the
-                AMC 8 don't provide.
-            </p>
-            <p>Hence, we seek to expand on more conventional contest-math rounds
-                in JHMC by diving deeper with our unique Creative Thinking
-                round, where students solve short sets of themed problems extending
-                beyond the normal middle school curriculum. This lets students discover
-                deeper insights than what other middle school contests provide. We
-                believe that this opportunity, provided during the critical time
-                of middle school, among the relatively few nationwide math contests
-                targeting this demographic, will significantly benefit both the
-                math community and our country at large.
-            </p>
-            <p>
+                almost all of the contest organizers are where we are today in
+                no small part due to opportunities like MATHCOUNTS and the AMC
+                8, which gave us an outlet to have fun with STEM.
+              </p>
+              <h5>How do we improve on existing programs?</h5>
+              <p>
+                We believe that an effective mathematics outreach program has
+                two key traits: first, it <strong>makes math fun</strong>, and
+                second, it gives students
+                <strong>the opportunity to discover</strong> deep insights on
+                their own. We believe that this second trait can't be achieved
+                by simply "skimming the surface" of mathematics: while the gems
+                of discovery might not be buried deep, students need to seek
+                them out in extended problem-solving experiences, experiences
+                which contests like the AMC 8 don't provide.
+              </p>
+              <p>
+                Hence, we seek to expand on more conventional contest-math
+                rounds in JHMC by diving deeper with our unique Creative
+                Thinking round, where students solve short sets of themed
+                problems extending beyond the normal middle school curriculum.
+                This lets students discover deeper insights than what other
+                middle school contests provide. We believe that this
+                opportunity, provided during the critical time of middle school,
+                among the relatively few nationwide math contests targeting this
+                demographic, will significantly benefit both the math community
+                and our country at large.
+              </p>
+              <p>
                 For the foregoing reasons, we have decided on the following for
                 the JHMC mission statement:
-            </p>
-            <blockquote>"The IMSA Junior High Mathematics Competition aims to
-                foster genuine interest in STEM by providing
-                high-quality, intriguing problems across a wide breadth and depth
-                to a diverse community of students at the middle school level."
-            </blockquote>
+              </p>
+              <blockquote>
+                "The IMSA Junior High Mathematics Competition aims to foster
+                genuine interest in STEM by providing high-quality, intriguing
+                problems across a wide breadth and depth to a diverse community
+                of students at the middle school level."
+              </blockquote>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section>
-    <div class="container">
-      <div class="row align-items-center">
-        <div class="col-lg order-lg-1">
-          <div class="p-5">
-            <h2 class="display-4">Our Values</h2>
-            <p>Our core values are the heart of our competition, making it the best
-                it could possibly be.</p>
-            <ul class="value-list">
+    <section>
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg order-lg-1">
+            <div class="p-5">
+              <h2 class="display-4">Our Values</h2>
+              <p>
+                Our core values are the heart of our competition, making it the
+                best it could possibly be.
+              </p>
+              <ul class="value-list">
                 <li>
-                    <strong>Accessibility:</strong> We want this opportunity to be
-                    accessible to students from around the country, giving everyone
-                    an equal chance to succeed. No matter where you're from or where
-                    you're at in your mathematics journey, we want you to feel welcome
-                    at the Junior High Mathematics Competition.
+                  <strong>Accessibility:</strong> We want this opportunity to be
+                  accessible to students from around the country, giving
+                  everyone an equal chance to succeed. No matter where you're
+                  from or where you're at in your mathematics journey, we want
+                  you to feel welcome at the Junior High Mathematics
+                  Competition.
                 </li>
                 <li>
-                    <strong>Community:</strong> We want to both be one integral
-                    part of the larger middle-school mathematics community
-                    and develop our own sense of family around JHMC. We hope to foster
-                    a shared love of mathematics to bring people closer together.
+                  <strong>Community:</strong> We want to both be one integral
+                  part of the larger middle-school mathematics community and
+                  develop our own sense of family around JHMC. We hope to foster
+                  a shared love of mathematics to bring people closer together.
                 </li>
                 <li>
-                    <strong>Quality:</strong> We work hard to ensure that our questions
-                    are suitable for this competition, hitting the sweet spot in terms
-                    of difficulty so that this contest is both enjoyable and enriching
-                    for participants of all levels.
+                  <strong>Quality:</strong> We work hard to ensure that our
+                  questions are suitable for this competition, hitting the sweet
+                  spot in terms of difficulty so that this contest is both
+                  enjoyable and enriching for participants of all levels.
                 </li>
-            </ul>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- TODO: Add IMSA's info here and sample sponsor places -->
+    <!-- TODO: Add IMSA's info here and sample sponsor places -->
 
+    <div id="bottom-spacer"></div>
 
-
-  <div id="bottom-spacer">
-
-  </div>
-
-  <!-- Footer - test partials -->
-  <%- include('../partials/footer') %>
-
-</body>
-
+    <!-- Footer - test partials -->
+    <%- include('../partials/footer') %>
+  </body>
 </html>
