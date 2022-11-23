@@ -33,7 +33,8 @@ const error = (res, text) => {
   console.log("ERROR!");
   res.status(500).render("pages/error.ejs", {
     errorText:
-      text || "There was an unexpected error. Please contact your proctor, who will inform the JHMC team.",
+      text ||
+      "There was an unexpected error. Please contact your proctor, who will inform the JHMC team.",
   });
 };
 
@@ -66,6 +67,10 @@ app.use(express.static(__dirname + "/public"));
 
 app.get("/", (req, res) => {
   res.render("pages/home.ejs");
+});
+
+app.get("/homeworking", (req, res) => {
+  res.render("pages/newhome[working].ejs");
 });
 
 app.get("/partners", (req, res) => {
@@ -116,11 +121,11 @@ app.get("/test/:recordId", async (req, res) => {
       record,
       competition.fields.Code
     );
-    
+
     let available = tests.validateTime(competition, record, false),
       currentQuestion = record.fields["Current Question Index"];
 
-    console.log(available)
+    console.log(available);
 
     if (!testBegun && currentQuestion && currentQuestion != 0) {
       currentQuestion = 0;
@@ -222,19 +227,15 @@ app.post("/test/endpoint/:recordId", async (req, res) => {
 
       // let [other] = await Promise.all([startTimePromise, currentQuestionIndexPromise]);
       if (individualQuestions) {
-        res
-          .status(200)
-          .json({
-            questions: [questions[numberQuestionsCompleted]],
-            closingTime: tests.getEndTime(competition, record).toString(),
-          });
+        res.status(200).json({
+          questions: [questions[numberQuestionsCompleted]],
+          closingTime: tests.getEndTime(competition, record).toString(),
+        });
       } else {
-        res
-          .status(200)
-          .json({
-            questions,
-            closingTime: tests.getEndTime(competition, record).toString(),
-          });
+        res.status(200).json({
+          questions,
+          closingTime: tests.getEndTime(competition, record).toString(),
+        });
       }
     } catch (e) {
       console.log(e);
@@ -267,12 +268,10 @@ app.post("/test/endpoint/:recordId", async (req, res) => {
           });
           res.send("FINISHED");
         } else {
-          res
-            .status(200)
-            .json({
-              questions: [questions[newNumberOfQuestionsCompleted]],
-              closingTime: tests.getEndTime(competition, record).toString(),
-            });
+          res.status(200).json({
+            questions: [questions[newNumberOfQuestionsCompleted]],
+            closingTime: tests.getEndTime(competition, record).toString(),
+          });
         }
       } else {
         newNumberOfQuestionsCompleted = questions.length;
