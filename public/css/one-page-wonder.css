@@ -572,8 +572,17 @@ header.masthead .bg-plus-1 {
   font-size: 1.5em;
 }
 
-.about-people-row {
+.row {
+  flex-wrap: nowrap;
+}
+
+.special-row {
   display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.col {
+  width: fit-content;
 }
