@@ -12,7 +12,7 @@
     ></script>
     <script>
       MathJax = {
-        loader: { load: ["[tex]/ams", "[tex]/nth", "[tex]/textmacros", "[tex]/tikz"] },
+        loader: { load: ["[tex]/ams", "[tex]/textmacros"] },
         tex: {
           inlineMath: [
             ["$", "$"],
@@ -323,7 +323,7 @@
           }
           clearInterval(counterInterval);
           countdown(new Date(obj.closingTime));
-          MathJax.typesetClear(mathjaxNodes);
+          // MathJax.typesetClear(mathjaxNodes);
           MathJax.typesetPromise(mathjaxNodes).then(() => {
               // the new content is has been typeset
               $("#questionDiv").show();
