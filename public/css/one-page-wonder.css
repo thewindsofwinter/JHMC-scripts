@@ -7,6 +7,7 @@
 /* Reminder that IMSA primary color is (25,56,104) */
 body {
   font-family: "Lato";
+  max-width: 100%;
 
   /* Define default colors */
 
@@ -34,6 +35,10 @@ body {
 
   color: var(--ink);
   background-color: var(--paper);
+}
+
+html {
+  max-width: 100%;
 }
 
 blockquote {
@@ -427,6 +432,13 @@ header.masthead .bg-plus-1 {
   border-color: var(--imsa-light-blue) !important;
 }
 
+#header-button-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
 .nav-item a {
   color: var(--pencil-lead);
   transition: color 0.5s;
@@ -525,7 +537,7 @@ header.masthead .bg-plus-1 {
   border-color: var(--imsa-light-blue);
   padding: 12px 20px;
   margin: 5px 0px;
-  color: white;
+  color: white !important;
 }
 
 .btn-blue:hover {
@@ -533,7 +545,7 @@ header.masthead .bg-plus-1 {
   border-color: var(--imsa-light-blue);
   padding: 12px 20px;
   margin: 5px 0px;
-  color: var(--imsa-light-blue);
+  color: var(--imsa-light-blue) !important;
   transition: 0.5s;
 }
 
