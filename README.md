@@ -1,5 +1,5 @@
 # JHMC-scripts
-Backend scripts and website of the 2023 Junior High Math Competition
+Backend scripts and website of the 2024 Junior High Math Competition
 
 ## About
 The Junior High Math Contest hosts over 500 students each year in a day-long math competition.
