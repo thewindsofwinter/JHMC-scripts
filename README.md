@@ -1,10 +1,10 @@
 # JHMC-scripts
-Backend scripts and website of the 2023 Junior High Math Competition
+Backend scripts and website of the 2024 Junior High Math Competition
 
 ## About
-The Junior High Math Contest hosts over 450 students each year in a day-long math competition.
+The Junior High Math Contest hosts over 500 students each year in a day-long math competition.
 
-This code is made for the updated 2023 JHMC Competition, which is online due to the COVID-19 pandemic. To see it live, clone the repo and run `nodemon index.js`. The site was taken down due to costs, but might be back up soon.
+This code is made for the updated 2024 JHMC Competition, which is online due to the COVID-19 pandemic. To see it live, clone the repo and run `nodemon index.js`. 
 
 ## Purpose
 We're open-sourcing the platform that we use for virtual contests because we deeply
