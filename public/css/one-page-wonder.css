@@ -364,6 +364,16 @@ header.masthead .bg-plus-1 {
 }
 @media (min-width: 768px) {
   .logo {
+    height: 3.6rem;
+  }
+}
+@media (min-width: 1200px) {
+  .logo {
+    height: 3.4rem;
+  }
+}
+@media (min-width: 1400px) {
+  .logo {
     height: 4rem;
   }
 }
