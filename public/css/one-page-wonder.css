@@ -158,8 +158,8 @@ h5 {
 }
 
 .navbar-custom {
-  padding-top: 1rem;
-  padding-bottom: 1rem;
+  padding-top: 0.8em;
+  padding-bottom: 0.8rem;
   /* Darkened navbar from 0.7 */
   background-color: var(--new-navbar);
 }
@@ -358,9 +358,14 @@ header.masthead .bg-plus-1 {
 
 .logo {
   display: inline-block;
-  height: 4rem;
+  height: 3rem;
   /* TODO: EVEN WORSE, FIX */
   vertical-align: sub;
+}
+@media (min-width: 768px) {
+  .logo {
+    height: 4rem;
+  }
 }
 
 .spacer {
