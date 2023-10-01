@@ -337,12 +337,6 @@ header.masthead .bg-plus-1 {
   padding-bottom: 2px !important;
 }
 
-.partners {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .partner {
   flex: 1;
   display: flex;
@@ -350,18 +344,13 @@ header.masthead .bg-plus-1 {
   width: fit-content;
   margin: 1rem;
 }
+/*
 
+*/
 .title-partner {
-  justify-content: center;
-  align-items: center;
-  flex: 4;
-  width: fit-content;
-  height: fit-content;
-  /* TODO: make ink later 8?
-    background-color: black; */
-  border-radius: 10px;
-  border: 0.25rem white solid;
 
+    border-radius: 10px;
+    border: 0.25rem white solid;
   /* Avoid looking bad */
   padding-left: 1rem;
   padding-right: 1rem;
@@ -372,10 +361,6 @@ header.masthead .bg-plus-1 {
   height: 4rem;
   /* TODO: EVEN WORSE, FIX */
   vertical-align: sub;
-}
-
-.pad-right-logo {
-  padding-right: 4rem;
 }
 
 .spacer {
@@ -584,9 +569,7 @@ header.masthead .bg-plus-1 {
   font-size: 1.5em;
 }
 
-.row {
-  flex-wrap: nowrap;
-}
+
 
 .special-row {
   display: flex;
