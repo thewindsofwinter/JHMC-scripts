@@ -35,6 +35,7 @@ body {
 
   color: var(--ink);
   background-color: var(--paper);
+  zoom: 0.9;
 }
 
 html {
@@ -158,8 +159,8 @@ h5 {
 }
 
 .navbar-custom {
-  padding-top: 1rem;
-  padding-bottom: 1rem;
+  padding-top: 0.8em;
+  padding-bottom: 0.8rem;
   /* Darkened navbar from 0.7 */
   background-color: var(--new-navbar);
 }
@@ -337,12 +338,6 @@ header.masthead .bg-plus-1 {
   padding-bottom: 2px !important;
 }
 
-.partners {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .partner {
   flex: 1;
   display: flex;
@@ -350,18 +345,13 @@ header.masthead .bg-plus-1 {
   width: fit-content;
   margin: 1rem;
 }
+/*
 
+*/
 .title-partner {
-  justify-content: center;
-  align-items: center;
-  flex: 4;
-  width: fit-content;
-  height: fit-content;
-  /* TODO: make ink later 8?
-    background-color: black; */
-  border-radius: 10px;
-  border: 0.25rem white solid;
 
+    border-radius: 10px;
+    border: 0.25rem white solid;
   /* Avoid looking bad */
   padding-left: 1rem;
   padding-right: 1rem;
@@ -369,13 +359,24 @@ header.masthead .bg-plus-1 {
 
 .logo {
   display: inline-block;
-  height: 4rem;
+  height: 3rem;
   /* TODO: EVEN WORSE, FIX */
   vertical-align: sub;
 }
-
-.pad-right-logo {
-  padding-right: 4rem;
+@media (min-width: 768px) {
+  .logo {
+    height: 3.6rem;
+  }
+}
+@media (min-width: 1200px) {
+  .logo {
+    height: 3.4rem;
+  }
+}
+@media (min-width: 1400px) {
+  .logo {
+    height: 4rem;
+  }
 }
 
 .spacer {
@@ -419,6 +420,7 @@ header.masthead .bg-plus-1 {
   text-transform: uppercase;
   background-color: var(--imsa-blue);
   border-color: var(--imsa-blue);
+  color: white;
   font-size: 1.5rem;
   padding: 0.75rem;
   transition: background-color 0.5s, border-color 0.5s;
@@ -430,6 +432,8 @@ header.masthead .bg-plus-1 {
 .btn-info:hover {
   background-color: var(--imsa-light-blue) !important;
   border-color: var(--imsa-light-blue) !important;
+  color: white !important;
+
 }
 
 #header-button-group {
@@ -440,7 +444,6 @@ header.masthead .bg-plus-1 {
 }
 
 .nav-item a {
-  color: var(--pencil-lead);
   transition: color 0.5s;
 }
 
@@ -554,7 +557,7 @@ header.masthead .bg-plus-1 {
 }
 
 .about-us-row {
-  gap: 1.5rem;
+  gap: 1.5rem, 0rem;
 }
 
 .card {
@@ -584,9 +587,7 @@ header.masthead .bg-plus-1 {
   font-size: 1.5em;
 }
 
-.row {
-  flex-wrap: nowrap;
-}
+
 
 .special-row {
   display: flex;
