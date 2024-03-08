@@ -19,10 +19,11 @@
     "humanize-duration": "^3.28.0",
     "md-to-pdf": "^5.1.0",
     "mdToPdf": "^1.0.4",
-    "nodemon": "^1.14.9",
+    "nodemon": "^1.19.4",
     "path-to-regexp": "^6.2.1",
     "shelljs": "^0.8.4",
     "socket.io": "^4.7.1",
+    "ts-node": "^10.9.2",
     "yes-https": "^3.0.0"
   },
   "scripts": {
