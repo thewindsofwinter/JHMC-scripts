@@ -18,7 +18,7 @@ const schoolAttributes = ['Coach Name', 'Email Address', 'Division'];
 const tableValues = ['Coach Name', 'Coach Email', 'Division'];
 
 // Change once we get actual rosters
-const csvFilePath = './../private-data/2022roster.csv';
+const csvFilePath = '../private-data/2024roster.csv';
 
 (async () => {
     // Start by getting competitions
