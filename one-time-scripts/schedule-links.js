@@ -17,6 +17,7 @@ const generateJoinLinks = async () => {
         const schools = await schoolsTable.read();
 
         let studentLinks;
+        
         let finalMd = ""
         schools.forEach(async school => {
             let schoolName = school.fields["Name"];

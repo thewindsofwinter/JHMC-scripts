@@ -6,20 +6,25 @@ const { apiKey, baseID, sampleTestId } = require('./../secrets.js');
 
 // baseID, apiKey, and tableName can alternatively be set by environment variables
 const testsTable = new AirtablePlus({ tableName: "Tests", apiKey, baseID }),
-    competitionsTable = new AirtablePlus({ tableName: "Competitions", apiKey, baseID }),
-    volunteersTable = new AirtablePlus({ tableName: "Volunteers", apiKey, baseID });
+    competitionsTable = new AirtablePlus({ tableName: "Competitions", apiKey, baseID });
+    //volunteersTable = new AirtablePlus({ tableName: "Volunteers", apiKey, baseID });
 
 (async () => {
+    //console.log(apiKey);
+    
     const tests = await testsTable.read();
+    console.log("Generating Question Order...");
     const competitions = await competitionsTable.read();
-    const volunteers = await volunteersTable.read();
+    console.log("Generating Question Order...");
+    //const volunteers = await volunteersTable.read();
 
-    let graders = volunteers.filter(volunteer => volunteer.fields.Role == "Grader");
+    //let graders = volunteers.filter(volunteer => volunteer.fields.Role == "Grader");
 
     // NOTE: this assumes no tests are added and no competitions are changed while this is running
-
+    console.log("Generating Question Order...");
     tests.forEach((test, testIndex) => {
-        // console.log(test);
+        console.log(competitions);
+
         const competitionId = test.fields.Competition[0];
         const comp = competitions.find(c => c.id == competitionId);
 
@@ -41,16 +46,16 @@ const testsTable = new AirtablePlus({ tableName: "Tests", apiKey, baseID }),
         }
 
 
-        let testGrader = [graders[testIndex % graders.length].id];
+        // let testGrader = [graders[testIndex % graders.length].id];
 
-        if (!test.fields["Start Time"]) {
-            testsTable.update(test.id, { "Question Order": questionOrder, "Grader": testGrader});
-        }
+        // if (!test.fields["Start Time"]) {
+        //     testsTable.update(test.id, { "Question Order": questionOrder, "Grader": testGrader});
+        // }
     });
 
     console.log("Question Order Generated!");
     console.log("Updating Airtable Records...");
-})()
+})().catch(console.error);
 
 // Pulled this from StackOverFlow
 function shuffle(array) {

@@ -18,7 +18,7 @@ const schoolAttributes = ['Coach Name', 'Email Address', 'Division'];
 const tableValues = ['Coach Name', 'Coach Email', 'Division'];
 
 // Change once we get actual rosters
-const csvFilePath = '../private-data/2024roster.csv';
+const csvFilePath = './private-data/2024roster.csv';
 
 (async () => {
     // Start by getting competitions
@@ -114,12 +114,13 @@ const csvFilePath = '../private-data/2024roster.csv';
                 if(name.includes('Team') && !name.includes('Creative Thinking')) {
                     if (studentData.hasOwnProperty(entry[name]['Team']) &&
                         entry[name] !== '') {
+                        console.log("TEAMS LOGGING")
                         studentData[entry[name]]['Team'].push(name);
                     }
                     // Hopefully won't be triggered -- nvm, fixed
                     else if (!studentData.hasOwnProperty(entry[name]['Team']) &&
                         entry[name] != '') {
-                        // console.log("SOMETHING WENT WRONG, VERY WRONG");
+                        console.log("SOMETHING WENT WRONG, VERY WRONG");
                         studentData[entry[name]]['Team'] = [name];
                     }
                 }
@@ -142,8 +143,11 @@ const csvFilePath = '../private-data/2024roster.csv';
                     filterByFormula: 'Name = "' + school + '"',
                     maxRecords: 1
                 });
+                
+                console.log(schoolData);
 
                 finalJSON['Name'] = student;
+
                 // I have no idea how this works but i'm not going to touch it
                 finalJSON['School'] = [row[0]['id']];
                 finalJSON['Grade'] = studentData[student]['Grade'];
@@ -195,7 +199,9 @@ const csvFilePath = '../private-data/2024roster.csv';
                         // console.log(row);
 
                         finalJSON['Students'] = [studentRow[0]['id']];
-                        finalJSON['Competition'] = [row[0]['id']];
+
+                        //console.log("PRINTING:" + [row[0]['id']]);
+                        //finalJSON['Competition'] = [row[0]['id']];
 
                         // console.log(finalJSON);
                         await testsTable.create(finalJSON);
@@ -205,7 +211,7 @@ const csvFilePath = '../private-data/2024roster.csv';
                 for(var t in studentData[student]['Team']) {
                     const school = schoolData['Name'];
                     const team = studentData[student]['Team'][t];
-                    // console.log(team);
+                    console.log(team);
                     if(team.includes("7th")) {
                         const row = await competitionsTable.read({
                             filterByFormula: 'Name = "Division ' + schoolData['Division'] + ' 7th Grade Team"',
