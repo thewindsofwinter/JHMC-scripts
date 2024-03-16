@@ -223,8 +223,8 @@ const csvFilePath = './private-data/2024roster.csv';
                         finalJSON['Students'] = [studentRow[0]['id']];
                         finalJSON['Competition'] = [row[0]['id']];
 
-                        // console.log(finalJSON);
-                        // await testsTable.create(finalJSON);
+                        console.log(finalJSON);
+                        await testsTable.create(finalJSON);
                     }
                 }
 

@@ -105,6 +105,7 @@ app.get("/test/:recordId", async (req, res) => {
       testBegun = true;
     }
 
+    console.log(record);
     let studentsPromise = record.fields.Students.map((studentId) =>
         studentsTable.find(studentId)
       ),

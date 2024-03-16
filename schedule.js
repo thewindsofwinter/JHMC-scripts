@@ -37,6 +37,7 @@ module.exports = (app, { eventsTable, studentsTable, schoolsTable, testsTable, a
         const studentId = req.params.studentId;
         try {
             let student = await studentsTable.find(studentId);
+            console.log(student);
             let testIds = student.fields.Tests;
             let school = await schoolsTable.find(student.fields["School"]);
 
