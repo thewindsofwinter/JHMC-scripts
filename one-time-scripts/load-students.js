@@ -1,3 +1,5 @@
+// Reach out to: Vidyoot Senthil '24 (vidyoots@gmail.com) with any questions about this script
+
 const AirtablePlus = require('airtable-plus');
 const CSV = require('csvtojson');
 const lib_fs = require("fs");
@@ -20,6 +22,7 @@ const tableValues = ['Coach Name', 'Coach Email', 'Division'];
 
 // Change once we get actual rosters
 const csvFilePath = './private-data/2024roster.csv';
+
 
 function csvToJson(csv) {
     const lines = csv.split('\n');
@@ -45,7 +48,13 @@ function csvToJson(csv) {
     const competitions = await competitionsTable.read()
 
     //const registration = await CSV().fromFile(csvFilePath);
-    const registration = csvToJson(lib_fs.readFileSync(csvFilePath).toString());
+    
+    //RUN ONCE TO GET THE JSON FILE
+    //const registration = csvToJson(lib_fs.readFileSync(csvFilePath).toString());
+    
+    // DUPLICATE THE JSON FILE AND RUN THE LINE BELOW
+    const registration = JSON.parse(lib_fs.readFileSync("./outfile_registration_duplicate.json").toString());
+    
     lib_fs.writeFileSync("outfile_registration.csv", lib_fs.readFileSync(csvFilePath));
     lib_fs.writeFileSync("outfile_registration.json", JSON.stringify(registration));
 

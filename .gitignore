@@ -131,3 +131,5 @@ secrets.js
 
 # Google HTML confirmations
 *.html
+
+schools-private-rosters/*

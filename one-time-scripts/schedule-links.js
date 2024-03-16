@@ -1,3 +1,5 @@
+// Reach out to: Vidyoot Senthil '24 (vidyoots@gmail.com) with any questions about this script
+
 const express = require('express');
 const app = express();
 const AirtablePlus = require('airtable-plus');

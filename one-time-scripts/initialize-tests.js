@@ -1,5 +1,6 @@
-// Generates question order, assigns each test a grader
+// Reach out to: Vidyoot Senthil '24 (vidyoots@gmail.com) with any questions about this script
 
+// Generates question order
 const AirtablePlus = require('airtable-plus');
 
 const { apiKey, baseID, sampleTestId } = require('./../secrets.js');
@@ -7,11 +8,8 @@ const { apiKey, baseID, sampleTestId } = require('./../secrets.js');
 // baseID, apiKey, and tableName can alternatively be set by environment variables
 const testsTable = new AirtablePlus({ tableName: "Tests", apiKey, baseID }),
 competitionsTable = new AirtablePlus({ tableName: "Competitions", apiKey, baseID });
-    //volunteersTable = new AirtablePlus({ tableName: "Volunteers", apiKey, baseID });
 
 (async () => {
-    //console.log(apiKey);
-    
     const tests = await testsTable.read();
     console.log("Generating Question Order...");
     const competitions = await competitionsTable.read();
@@ -22,8 +20,6 @@ competitionsTable = new AirtablePlus({ tableName: "Competitions", apiKey, baseID
 
     for (let testIndex = 0; testIndex < tests.length; testIndex++) {
         const test = tests[testIndex];
-    //tests.forEach((test, testIndex) => {
-        //console.log(competitions);
 
         const competitionId = test.fields.Competition[0];
         const comp = competitions.find(c => c.id == competitionId);

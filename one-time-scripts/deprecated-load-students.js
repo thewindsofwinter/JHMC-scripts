@@ -1,7 +1,7 @@
 const AirtablePlus = require('airtable-plus');
 const CSV = require('csvtojson');
 
-const { apiKey, baseID, sampleTestId } = require('./../secrets.js');
+const { apiKey, baseID, sampleTestId } = require('../secrets.js');
 
 // baseID, apiKey, and tableName can alternatively be set by environment variables
 const testsTable = new AirtablePlus({ tableName: "Tests", apiKey, baseID }),
