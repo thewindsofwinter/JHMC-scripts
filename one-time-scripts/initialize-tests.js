@@ -1,25 +1,26 @@
-// Generates question order, assigns each test a grader
+// Reach out to: Vidyoot Senthil '24 (vidyoots@gmail.com) with any questions about this script
 
+// Generates question order
 const AirtablePlus = require('airtable-plus');
 
 const { apiKey, baseID, sampleTestId } = require('./../secrets.js');
 
 // baseID, apiKey, and tableName can alternatively be set by environment variables
 const testsTable = new AirtablePlus({ tableName: "Tests", apiKey, baseID }),
-    competitionsTable = new AirtablePlus({ tableName: "Competitions", apiKey, baseID }),
-    volunteersTable = new AirtablePlus({ tableName: "Volunteers", apiKey, baseID });
+competitionsTable = new AirtablePlus({ tableName: "Competitions", apiKey, baseID });
 
 (async () => {
     const tests = await testsTable.read();
+    console.log("Generating Question Order...");
     const competitions = await competitionsTable.read();
-    const volunteers = await volunteersTable.read();
-
-    let graders = volunteers.filter(volunteer => volunteer.fields.Role == "Grader");
+    console.log("Generating Question Order...");
 
     // NOTE: this assumes no tests are added and no competitions are changed while this is running
+    console.log("Generating Question Order...");
 
-    tests.forEach((test, testIndex) => {
-        // console.log(test);
+    for (let testIndex = 0; testIndex < tests.length; testIndex++) {
+        const test = tests[testIndex];
+
         const competitionId = test.fields.Competition[0];
         const comp = competitions.find(c => c.id == competitionId);
 
@@ -40,17 +41,15 @@ const testsTable = new AirtablePlus({ tableName: "Tests", apiKey, baseID }),
             questionOrder = shuffle([...Array(numQuestions).keys()].map(x => ++x)).join(","); // Pretty proud of this line ngl
         }
 
-
-        let testGrader = [graders[testIndex % graders.length].id];
-
         if (!test.fields["Start Time"]) {
-            testsTable.update(test.id, { "Question Order": questionOrder, "Grader": testGrader});
+            await testsTable.update(test.id, { "Question Order": questionOrder });
+            console.log("Updated");
         }
-    });
+    };
 
     console.log("Question Order Generated!");
     console.log("Updating Airtable Records...");
-})()
+})().catch(console.error);
 
 // Pulled this from StackOverFlow
 function shuffle(array) {

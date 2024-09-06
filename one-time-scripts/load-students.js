@@ -1,5 +1,8 @@
+// Reach out to: Vidyoot Senthil '24 (vidyoots@gmail.com) with any questions about this script
+
 const AirtablePlus = require('airtable-plus');
 const CSV = require('csvtojson');
+const lib_fs = require("fs");
 
 const { apiKey, baseID, sampleTestId } = require('./../secrets.js');
 
@@ -18,13 +21,42 @@ const schoolAttributes = ['Coach Name', 'Email Address', 'Division'];
 const tableValues = ['Coach Name', 'Coach Email', 'Division'];
 
 // Change once we get actual rosters
-const csvFilePath = './../private-data/2022roster.csv';
+const csvFilePath = './private-data/2024roster.csv';
+
+
+function csvToJson(csv) {
+    const lines = csv.split('\n');
+    const headers = lines[0].split(',');
+    const jsonArray = [];
+
+    for (let i = 1; i < lines.length; i++) {
+        const values = lines[i].split(',');
+        const obj = {};
+
+        for (let j = 0; j < headers.length; j++) {
+            obj[headers[j].trim()] = values[j].trim();
+        }
+
+        jsonArray.push(obj);
+    }
+
+    return jsonArray;
+}
 
 (async () => {
     // Start by getting competitions
     const competitions = await competitionsTable.read()
 
-    const registration = await CSV().fromFile(csvFilePath);
+    //const registration = await CSV().fromFile(csvFilePath);
+    
+    //RUN ONCE TO GET THE JSON FILE
+    //const registration = csvToJson(lib_fs.readFileSync(csvFilePath).toString());
+    
+    // DUPLICATE THE JSON FILE AND RUN THE LINE BELOW
+    const registration = JSON.parse(lib_fs.readFileSync("./outfile_registration_duplicate.json").toString());
+    
+    lib_fs.writeFileSync("outfile_registration.csv", lib_fs.readFileSync(csvFilePath));
+    lib_fs.writeFileSync("outfile_registration.json", JSON.stringify(registration));
 
     /* Show an example
     var ex = await studentsTable.read();
@@ -112,14 +144,19 @@ const csvFilePath = './../private-data/2022roster.csv';
 
                 // Add team data
                 if(name.includes('Team') && !name.includes('Creative Thinking')) {
-                    if (studentData.hasOwnProperty(entry[name]['Team']) &&
+                    if (studentData.hasOwnProperty(entry[name]) &&
                         entry[name] !== '') {
+                        console.log("TEAMS LOGGING")
+                        if (!Array.isArray(studentData[entry[name]]["Team"])) studentData[entry[name]]["Team"] = [];
                         studentData[entry[name]]['Team'].push(name);
                     }
                     // Hopefully won't be triggered -- nvm, fixed
                     else if (!studentData.hasOwnProperty(entry[name]['Team']) &&
                         entry[name] != '') {
-                        // console.log("SOMETHING WENT WRONG, VERY WRONG");
+                        console.log("SOMETHING WENT WRONG, VERY WRONG");
+                        console.log(studentData);
+                        console.log(entry[name]);
+                        console.log(name);
                         studentData[entry[name]]['Team'] = [name];
                     }
                 }
@@ -142,8 +179,11 @@ const csvFilePath = './../private-data/2022roster.csv';
                     filterByFormula: 'Name = "' + school + '"',
                     maxRecords: 1
                 });
+                
+                //console.log(schoolData);
 
                 finalJSON['Name'] = student;
+
                 // I have no idea how this works but i'm not going to touch it
                 finalJSON['School'] = [row[0]['id']];
                 finalJSON['Grade'] = studentData[student]['Grade'];
@@ -179,6 +219,8 @@ const csvFilePath = './../private-data/2022roster.csv';
 
                     // Deal with team later
                     if(!contestName.includes("Team")) {
+                        //console.log("Handling individual: " + contestName);
+
                         // console.log('Name = "' + contestName + '"');
                         // Do you need the competition ID? This part of the code just
                         // gets you the ID from the competition name
@@ -195,7 +237,17 @@ const csvFilePath = './../private-data/2022roster.csv';
                         // console.log(row);
 
                         finalJSON['Students'] = [studentRow[0]['id']];
-                        finalJSON['Competition'] = [row[0]['id']];
+
+                        //console.log("PRINTING:" + [row[0]['id']]);
+                        
+                        try {
+                            finalJSON['Competition'] = [row[0]['id']];
+                        } catch (e) {
+                            console.log("Handling individual: " + contestName);
+                            console.log(row);
+                            console.log(student);
+                            throw e;
+                        }
 
                         // console.log(finalJSON);
                         await testsTable.create(finalJSON);
@@ -205,7 +257,7 @@ const csvFilePath = './../private-data/2022roster.csv';
                 for(var t in studentData[student]['Team']) {
                     const school = schoolData['Name'];
                     const team = studentData[student]['Team'][t];
-                    // console.log(team);
+                    console.log(team);
                     if(team.includes("7th")) {
                         const row = await competitionsTable.read({
                             filterByFormula: 'Name = "Division ' + schoolData['Division'] + ' 7th Grade Team"',
@@ -282,6 +334,8 @@ const csvFilePath = './../private-data/2022roster.csv';
         catch (e) {
             console.error(e);
         }
+
+        lib_fs.writeFileSync("output_dat_" + entry["School Name"] + ".json", JSON.stringify({ schoolData, teamData, studentData }));
     }
 })()
 

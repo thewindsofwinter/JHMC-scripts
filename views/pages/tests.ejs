@@ -18,13 +18,27 @@
             ["$", "$"],
             ["\\(", "\\)"],
           ],
-          packages: { "[+]": ["ams", "textmacros"] },
+          packages: { "[+]": ["ams", "nth", "textmacros", "tikz"] },
         },
         svg: {
           fontCache: "global",
         },
       };
     </script>
+
+    <!-- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+    <script>
+      $(document).ready(function () { // this need jquery
+        renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "$", right: "$", display: false },
+            { left: "\\[", right: "\\]", display: true }
+          ]
+        });
+      });
+      </script> -->
+
     <style>
       .text-nowrap {
         overflow: hidden;
@@ -80,8 +94,7 @@
               available. <% } %> Calculators are allowed.
             </p>
             <p>
-              If you encounter any technical difficulties, private message your
-              proctor on Zoom who will contact the JHMC team.
+              If you encounter any technical difficulties, please email <a href="mailto:vsenthilvenkatesh@imsa.edu">vsenthilvenkatesh@imsa.edu</a>. Please include your name, team name, and test name.
             </p>
             <div id="infoDiv" style="display: none">
               <hr />
@@ -310,7 +323,7 @@
           }
           clearInterval(counterInterval);
           countdown(new Date(obj.closingTime));
-          MathJax.typesetClear(mathjaxNodes);
+          // MathJax.typesetClear(mathjaxNodes);
           MathJax.typesetPromise(mathjaxNodes).then(() => {
               // the new content is has been typeset
               $("#questionDiv").show();

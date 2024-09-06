@@ -1,3 +1,5 @@
+// Reach out to: Vidyoot Senthil '24 (vidyoots@gmail.com) with any questions about this script
+
 const express = require('express');
 const app = express();
 const AirtablePlus = require('airtable-plus');
@@ -17,24 +19,29 @@ const generateJoinLinks = async () => {
         const schools = await schoolsTable.read();
 
         let studentLinks;
+
         let finalMd = ""
         schools.forEach(async school => {
             let schoolName = school.fields["Name"];
             let studentNames = school.fields["Student Names"];
             let studentLinks = school.fields["Student Links"];
             let students = [];
-            studentNames.forEach((studentName, i) => {
-                students.push({
-                    name: studentName,
-                    link: studentLinks[i]
+           
+            try {
+                studentNames.forEach((studentName, i) => {
+                    students.push({
+                        name: studentName,
+                        link: studentLinks[i]
+                    });
                 });
-            });
+            }
+            catch(e) { console.log(e); }
 
             let studentLinkTexts = students.map(s => s.name + ": "+`[${s.link}](${s.link})`).join(" \\\n");
             let schoolMd = `# ${schoolName}\n## Coached By ${school.fields["Coach Name"]}\n### Division ${school.fields["Division"]}\n${studentLinkTexts}\n<div style="page-break-after: always;"></div>\n\n`;
             console.log(schoolMd);
             // console.log(studentLinks);
-            await mdToPdf({ content: schoolMd }, { dest: `../private-data/schedule-links/${schoolName}.pdf` });
+            await mdToPdf({ content: schoolMd }, { dest: `./private-data/schedule-links/${schoolName}.pdf` });
 
             finalMd += schoolMd;
         });

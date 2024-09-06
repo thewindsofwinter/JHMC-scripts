@@ -1,0 +1,181 @@
+@font-face {
+  font-family: Great Vibes;
+  src: url(../fonts/Great_Vibes/GreatVibes-Regular.ttf);
+}
+
+@font-face {
+  font-family: Tangerine Regular;
+  src: url(../fonts/Tangerine/Tangerine-Regular.ttf);
+}
+
+@import url("https://use.typekit.net/pqf8rpe.css");
+
+.main_container_wrapper {
+  width: 100%;
+  height: 100% !important;
+  display: flex;
+  justify-content: space-between;
+  text-align: left;
+  overflow-x: hidden;
+  margin-top: 70px;
+  overflow-y: hidden;
+}
+
+.blueText {
+  font-weight: 800;
+  font-size: 5.859375vw; /** 75px **/
+  margin-bottom: 0.5rem;
+  font-family: "Ubuntu", sans-serif;
+  background: linear-gradient(to right, #007fff, #0059b2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.person_description h1 {
+  font-weight: 800;
+  font-size: 5.859375vw; /** 75px **/
+  margin-bottom: 0.25rem;
+}
+
+.person_description h4 {
+  line-height: 2;
+  font-size: 20px;
+  font-weight: 600;
+  padding-top: 0.5rem;
+}
+
+.person1 {
+  height: 527px;
+  background-color: #f3f6f9;
+  transition: max-height 0.3s;
+  position: relative;
+  overflow: hidden;
+  padding: 30px;
+  margin-left: 20px;
+  border-bottom-left-radius: 10px;
+}
+
+.person_description {
+  min-width: 400px;
+  padding-left: 3rem;
+  padding-top: 1.5rem;
+  padding-right: 2rem;
+  height: calc(100vh - 120px);
+  flex-direction: row;
+  margin: auto;
+  flex-basis: 58.33%;
+  flex-grow: 0;
+  max-width: 58.33%;
+  text-align: left;
+  line-height: 1.75;
+}
+
+.learn_more_btn {
+  margin: 0;
+  font-family: inherit;
+  color: #3e5060;
+  margin-bottom: 30px;
+  outline: 0;
+  max-width: 500px;
+  user-select: none;
+  text-transform: initial;
+  border-radius: 10px;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+    box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+    border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+    color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  box-shadow: none;
+  color: #fff;
+  padding: 0.875rem 1rem;
+  font-size: 1rem;
+  line-height: 1.3125;
+  letter-spacing: 0;
+  font-weight: 700;
+  word-spacing: 1.5px;
+  margin-top: 1.35rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  border: 0;
+  background-color: var(--imsa-light-blue) !important;
+}
+
+.arrow_right {
+  display: inherit;
+  margin-left: 8px;
+  margin-right: -4px;
+}
+
+.aboutMeDescription {
+  padding-top: 0.27rem;
+  max-width: 90%;
+}
+
+/** Media Queries **/
+@media (min-width: 900px) {
+  .person1 {
+    max-height: 700px;
+    width: auto;
+  }
+
+  .main_container_wrapper {
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 930px) {
+  .person_description {
+    text-align: center;
+    margin: 0 auto;
+    width: 100%;
+    height: 100%;
+  }
+
+  .person_description > p {
+    margin: 0 auto;
+  }
+
+  .learn_more_btn {
+    margin: 30px auto 30px;
+  }
+
+  .person1 {
+    display: none;
+  }
+
+  .person_description h1 {
+    font-size: 65px !important;
+  }
+
+  .blueText {
+    font-size: 65px;
+  }
+}
+
+.learn_more_btn:hover {
+}
+
+@media (max-width: 430px) {
+  .person_description {
+    padding: 1.5rem 1rem 1rem 1rem;
+    margin: 0 auto;
+    text-align: center;
+    height: 100%;
+    width: 100%;
+    min-width: 100%;
+    max-width: none;
+  }
+}
+
+/** Scroll Bar **/
+::-webkit-scrollbar {
+  width: 0px;
+}
+
+.two-buttons {
+  font-family: "Lato" !important;
+  font-weight: 400;
+  display: flex;
+  align-content: center;
+  gap: 1rem;
+}

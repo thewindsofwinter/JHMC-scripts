@@ -40,6 +40,7 @@ const getOrderedQuestions = async (record, competitionCode, competitionId) => {
 
     let unordered = await getQuestions(competitionCode);
     let questionOrderText = record.fields["Question Order"];
+    console.log(record);
     if (questionOrderText == undefined || questionOrderText === null) {
         throw "There are no questions, or the question order is not set."
     }
@@ -83,9 +84,12 @@ const validateTime = (competition, record, allowExtra=false) => {
     // console.log(currentTime)
 
     let currentTime = new Date();
-    if (openTime > currentTime) {
+    console.log("Current: " + currentTime + " " + currentTime.valueOf());
+    console.log("Open: " + openTime + " " + openTime.valueOf());
+    console.log("Close Time: " + closeTime + " " + closeTime.valueOf());
+    if (openTime.valueOf() > currentTime.valueOf()) {
         return "Test not open yet"
-    } else if (closeTime < currentTime) {
+    } else if (closeTime.valueOf() < currentTime.valueOf()) {
         return "Test closed"
     } else if (startTime && (expireTime < currentTime)) {
         return "Time limit reached"
